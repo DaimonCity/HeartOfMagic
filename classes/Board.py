@@ -3,15 +3,16 @@ from pygame import Color
 from RoomBoard import RoomBoard
 class Board:
     # создание поля
-    def __init__(self, width, height):
-        self.player_speed = 1
+    def __init__(self, width=5, height=5, left=20, top=50, cell_size=200, BabyBoard=0, parent=0):
         self.width = width
         self.height = height
         self.color = 0
-        self.left = 20
-        self.top = 50
-        self.cell_size = 200
-        self.board = [[RoomBoard(self) for i in range(height)] for _ in range(width)]
+        self.left = left
+        self.top = top
+        self.parent = parent
+        self.cell_size = cell_size
+        self.BabyBoard = BabyBoard
+        self.board = [[BabyBoard for i in range(height)] for _ in range(width)]
 
     # настройка внешнего вида
     def set_view(self, left, top, cell_size):
@@ -19,12 +20,30 @@ class Board:
         self.top = top
         self.cell_size = cell_size
 
-    def render(self, screen):
+    def render_tile(self, screen, x, y):
+        if self.board[x][y] == 1:
+            r = self.cell_size
+        else:
+            r = 1
+        if self.color == 0:
+            color = Color('white')
+        else:
+            color = Color('green')
+        pygame.draw.rect(screen, color, (x * self.cell_size + self.true_left, y * self.cell_size + self.true_top, self.cell_size, self.cell_size), r)
+
+    def render(self, screen, parent_x=0, parent_y=0):
+        if self.parent != 0:
+            self.true_left = self.left + parent_x * self.parent.cell_size
+            self.true_top = self.top + parent_y * self.parent.cell_size
         for y in range(self.height):
             for x in range(self.width):
-                self.board[x][y].render(screen,x , y, self)
+                if self.BabyBoard != 0:
+                    self.board[x][y].render(screen, x , y, self)
+                else:
+                    self.render_tile(screen, x, y)
+
     def get_cell(self, mouse_pos):
-        pos = ((mouse_pos[0] - self.left) // self.cell_size, (mouse_pos[1] - self.top) // self.cell_size)
+        pos = ((mouse_pos[0] - self.true_left) // self.cell_size, (mouse_pos[1] - self.true_top) // self.cell_size)
         if (0 <= pos[0] <= self.width - 1) and (0 <= pos[1] <= self.height - 1):
             return pos
         return (0, 0)
@@ -36,5 +55,4 @@ class Board:
             self.board[cell[0]][cell[1]].get_click(mouse_pos)
 
     def on_click(self, cell):
-        self.board[cell[0]][cell[1]].color = abs(self.board[cell[0]][cell[1]].color - 1)
-
+        pass

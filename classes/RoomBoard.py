@@ -44,4 +44,3 @@ class RoomBoard:
 
     def on_click(self, cell):
         self.board[cell[0]][cell[1]] = abs(self.board[cell[0]][cell[1]] - 1)
-        print(cell)
