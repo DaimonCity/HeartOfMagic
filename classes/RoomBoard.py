@@ -1,5 +1,7 @@
 import pygame
 from pygame import Color
+
+
 class RoomBoard:
     def __init__(self, parent):
         self.player_speed = 1
@@ -30,7 +32,11 @@ class RoomBoard:
 
                 self.true_left = self.left + parent_x * parent.cell_size
                 self.true_top = self.top + parent_y * parent.cell_size
-                pygame.draw.rect(screen, color, (x * self.cell_size + self.true_left, y * self.cell_size + self.true_top, self.cell_size, self.cell_size), r)
+                pygame.draw.rect(screen, color, (
+                    x * self.cell_size + self.true_left, y * self.cell_size + self.true_top, self.cell_size,
+                    self.cell_size),
+                                 r)
+
     def get_cell(self, mouse_pos):
         pos = ((mouse_pos[0] - self.true_left) // self.cell_size, (mouse_pos[1] - self.true_top) // self.cell_size)
         if (0 <= pos[0] <= self.width - 1) and (0 <= pos[1] <= self.height - 1):

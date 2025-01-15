@@ -1,5 +1,6 @@
 import pygame
 from classes.Board import Board
+
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
