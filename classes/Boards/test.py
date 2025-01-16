@@ -1,5 +1,5 @@
 import pygame
-from classes.Board import Board
+from classes.Boards.Board import Board
 
 if __name__ == '__main__':
     pygame.init()
