@@ -1,14 +1,14 @@
 import pygame
+from copy import copy
 from classes.Tiles.TileClass import Tile
 class Board():
-    def __init__(self, map, tiles_dict, parent=0, child=0, crope=1, left=0, top= 0, cell_size=200):
+    def __init__(self, map, tiles_dict, parent=0, child=0, left=0, top= 0, cell_size=200):
         self.map = map
         self.width = len(map[0])
         self.height = len(map)
         self.tiles_dict = tiles_dict
         self.parent = parent
         self.child = child
-        self.crope = crope
         self.sprite_group = pygame.sprite.Group()
         if parent != 0:
             self.left = parent.left
@@ -24,13 +24,15 @@ class Board():
             self.board = [[self.tiles_dict[map[h][w]] for w in range(self.width)] for h in range(self.height)]
             for row in self.board:
                 for sprite in row:
-                    self.sprite_group.add(sprite)
+                    self.sprite_group.add(sprite) #черт один и тот же экземпляр сохраняется из за передачи по ссылке на него
     def render(self, screen, parent_x=0, parent_y=0, parent=0):
         for y in range(self.height):
             for x in range(self.width):
                 self.board[y][x].render(screen, x, y, self)
-
         self.sprite_group.draw(screen)
+        for i in self.sprite_group:
+            print(i)
+        # print(self.sprite_group.sprites())
     # def get_cell(self, mouse_pos):
     #     pos = ((mouse_pos[0] - self.left) // self.cell_size, (mouse_pos[1] - self.top) // self.cell_size)
     #     if (0 <= pos[0] <= self.width - 1) and (0 <= pos[1] <= self.height - 1):
