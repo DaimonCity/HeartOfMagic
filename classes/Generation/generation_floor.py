@@ -2,8 +2,9 @@ import pygame
 import random
 from pprint import pprint
 
-SEED = "9 1 2 0 3 9 2 1 0 9 4 1 2"
+# SEED = "9 1 2 0 3 9 2 1 0 9 4 1 2"
 
+# Пусто поле
 EMPTY_MAP = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -20,15 +21,20 @@ EMPTY_MAP = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
              [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+# Объекты на карте
 objects = {0: "floor",
            1: "wall",
            2: "door"}
+
+# Мои тесты
 pprint(EMPTY_MAP)
 print()
 EMPTY_MAP[0][1] = 1
 pprint(EMPTY_MAP)
 
 
+# Класс для создания (генерации) карты
 class Map:
     def __init__(self, list_map):
         self.map = list_map
@@ -43,5 +49,6 @@ class Map:
         return self.map
 
 
+# Тесты класса
 game = Map(EMPTY_MAP)
 pprint(game.make_board())
