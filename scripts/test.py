@@ -9,9 +9,7 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode(size)
 
     tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile()}
-    map_txt = '''#===#
-#...#
-#===#'''
+    map_txt = open('data\\map.txt', 'r').read()
     _map = [list(i) for i in map_txt.split('\n')]
     board = Board(screen=screen, map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=50)
     running = True
