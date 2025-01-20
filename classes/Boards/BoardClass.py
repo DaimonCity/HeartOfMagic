@@ -39,7 +39,8 @@ class Board:
                     
                     row.append(copy(self.tiles_dict[map[h][w]])
                     
-                    Возможно, оно поможет'''
+                    Возможно, оно поможет 
+                    P.S. Возможно, что ф-ция copy() в данном случае мешает работе'''
                 self.board.append(row)
             print(self.board[0][0] == self.board[0][1])
             for row in self.board:
