@@ -6,9 +6,10 @@ class Tile(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, group)
         self.sprite = Tile.sprite
         self.image = load_image(self.sprite)
-        self.image = pygame.Surface((50, 50))
+        self.image = pygame.Surface(self.image.get_size())
         self.rect = self.image.get_rect()
     def render(self, screen, x, y, board):
-        self.rect.x, self.rect.y = x * board.cell_size + board.left, y * board.cell_size + board.top
-
+        #self.rect.x, self.rect.y = x * board.cell_size + board.left, y * board.cell_size + board.top
+        self.rect.update(x * board.cell_size + board.left, y * board.cell_size + board.top, board.cell_size, board.cell_size)
+        pygame.draw.rect(screen, (255, 255 * (y % 2), 255 * (x % 2)), self.rect, x + y + 1)
 
