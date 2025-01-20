@@ -28,18 +28,19 @@ class Board():
             for h in range(self.height):
                 row = []
                 for w in range(self.width):
-                    tile = self.tiles_dict[map[h][w]]
+                    tile = copy(self.tiles_dict[map[h][w]])
                     row.append(copy(tile))
                 self.board.append(row)
             print(self.board[0][0] == self.board[0][1])
             for row in self.board:
-                for sprite in row:
-                    self.sprite_group.add(sprite)
+                self.sprite_group.add(row)
     def render(self, screen, parent_x=0, parent_y=0, parent=0):
         for y in range(self.height):
             for x in range(self.width):
                 self.board[y][x].render(screen, x, y, self)
         self.sprite_group.draw(screen)
+
+
         # print(self.sprite_group.sprites())
     # def get_cell(self, mouse_pos):
     #     pos = ((mouse_pos[0] - self.left) // self.cell_size, (mouse_pos[1] - self.top) // self.cell_size)
