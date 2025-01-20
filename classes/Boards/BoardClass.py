@@ -29,8 +29,17 @@ class Board:
             for h in range(self.height):
                 row = []
                 for w in range(self.width):
+                    # JVM: Здесь ты в переменную добавляешь копию одного из Tile
                     tile = copy(self.tiles_dict[map[h][w]])
+                    # JVM: А потом добавляешь переменную tile в список
                     row.append(copy(tile))
+
+                    # Но пайтон, возможно, меняет результат функции при изменении переменной tile
+                    '''Поэтому лучше сделать типа:
+                    
+                    row.append(copy(self.tiles_dict[map[h][w]])
+                    
+                    Возможно, оно поможет'''
                 self.board.append(row)
             print(self.board[0][0] == self.board[0][1])
             for row in self.board:
