@@ -31,7 +31,7 @@ class Board():
                     tile = self.tiles_dict[map[h][w]]
                     row.append(copy(tile))
                 self.board.append(row)
-            # print(self.board[0][0] == self.board[0][1])
+            print(self.board[0][0] == self.board[0][1])
             for row in self.board:
                 for sprite in row:
                     self.sprite_group.add(sprite)
