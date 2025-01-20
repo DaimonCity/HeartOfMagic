@@ -1,6 +1,8 @@
 import pygame
 from pygame import Color
-from Boards.RoomBoard import RoomBoard
+from classes.Boards.RoomBoard import RoomBoard
+
+
 class Board:
     # создание поля
     def __init__(self, width, height):
@@ -22,7 +24,8 @@ class Board:
     def render(self, screen):
         for y in range(self.height):
             for x in range(self.width):
-                self.board[x][y].render(screen,x , y, self)
+                self.board[x][y].render(screen, x, y, self)
+
     def get_cell(self, mouse_pos):
         pos = ((mouse_pos[0] - self.left) // self.cell_size, (mouse_pos[1] - self.top) // self.cell_size)
         if (0 <= pos[0] <= self.width - 1) and (0 <= pos[1] <= self.height - 1):
@@ -37,4 +40,3 @@ class Board:
 
     def on_click(self, cell):
         self.board[cell[0]][cell[1]].color = abs(self.board[cell[0]][cell[1]].color - 1)
-

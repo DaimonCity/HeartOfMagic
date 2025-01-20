@@ -4,8 +4,9 @@ from copy import *
 from pprint import pprint
 from classes.Tiles.TileClass import Tile
 
-class Board():
-    def __init__(self, map, tiles_dict, parent=0, child=0, left=0, top= 0, cell_size=50):
+
+class Board:
+    def __init__(self, map, tiles_dict, parent=0, child=0, left=0, top=0, cell_size=50):
         self.map = map
         self.size = self.width, self.height = len(map[0]), len(map)
         self.tiles_dict = tiles_dict
@@ -34,12 +35,12 @@ class Board():
             print(self.board[0][0] == self.board[0][1])
             for row in self.board:
                 self.sprite_group.add(row)
+
     def render(self, screen, parent_x=0, parent_y=0, parent=0):
         for y in range(self.height):
             for x in range(self.width):
                 self.board[y][x].render(screen, x, y, self)
         self.sprite_group.draw(screen)
-
 
         # print(self.sprite_group.sprites())
     # def get_cell(self, mouse_pos):

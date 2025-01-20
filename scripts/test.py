@@ -2,7 +2,6 @@ import pygame
 from classes.Tiles.TileClass import Tile
 from classes.Boards.BoardClass import Board
 
-
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
@@ -15,8 +14,8 @@ if __name__ == '__main__':
     map_txt = '''#####
 #####
 #####'''
-    map = [list(i) for i in map_txt.split('\n')]
-    board = Board(map=map, tiles_dict=tiles_dict, left= 10, top= 20, cell_size=50)
+    _map = [list(i) for i in map_txt.split('\n')]
+    board = Board(map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=50)
     running = True
     while running:
         for event in pygame.event.get():
