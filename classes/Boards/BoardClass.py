@@ -2,7 +2,7 @@ import copy
 import pygame
 from copy import *
 from pprint import pprint
-from classes.Tiles.TileClass import Tile
+from classes.Tiles.TileClasses import Tile
 
 
 class Board:

@@ -1,6 +1,5 @@
 import pygame
-from classes.Tiles.TileClass import Tile
-from classes.Tiles.WallTileClass import WallTile
+from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import Board
 
 if __name__ == '__main__':
@@ -9,12 +8,9 @@ if __name__ == '__main__':
     size = width, height = 1024, 800
     screen = pygame.display.set_mode(size)
 
-    all_sprites = pygame.sprite.Group()
-    base_tile = Tile()
-    wall_tile = WallTile()
-    tiles_dict = {'#': base_tile, '=': wall_tile}
+    tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile()}
     map_txt = '''#===#
-#####
+#...#
 #===#'''
     _map = [list(i) for i in map_txt.split('\n')]
     board = Board(screen=screen, map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=50)
