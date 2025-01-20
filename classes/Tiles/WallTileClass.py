@@ -2,10 +2,10 @@ import pygame
 from scripts.image_scripts import *
 
 
-class Tile(pygame.sprite.Sprite):
+class WallTile(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = load_image('test_image.jpg')
+        self.image = load_image('wall.png')
         self.rect = self.image.get_rect(center=(0, 0))
 
     def render(self, x, y, board):
