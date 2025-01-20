@@ -43,6 +43,32 @@ def random_cord(start_zero, fin_zero):
     return rand_cord
 
 
+# def make_seed(_len=6):
+#     _seed = []
+#     cnt = 0
+#     while cnt != _len // 2:
+#         start_seed = []
+#         for _ in range(2):
+#             _num1 = random_cord(4, 11)
+#             start_seed.append(_num1)
+#
+#         for elem in start_seed:
+#             _seed.append(elem)
+#
+#         for elem in start_seed:
+#             if random.random():
+#                 if elem - 3 > 4:
+#                     _num = random_cord(0, elem - 3)
+#                 else:
+#                     _num = random_cord(elem + 4, 16)
+#             else:
+#                 _num = random_cord(elem + 4, 16)
+#             _seed.append(_num)
+#         cnt += 1
+#
+#     return _seed[:-1]
+
+
 class Map:
     def __init__(self, list_map):
         self.map = list_map
@@ -55,8 +81,8 @@ class Map:
                     self.map[y][x] = 1
         return self.map
 
-    def draw_line(self, init_x, init_y, direction, count=0):
-        if direction == 0:
+    def draw_line(self, init_x, init_y, direct, count=0):
+        if direct == 0:
             for x in range(init_x, 14 + 1):
                 self.map[init_y][x] = 1
         else:
@@ -75,14 +101,18 @@ class Map:
     def choice_cords(self):
         pass
 
-    def __str__(self):
+    def get_map(self):
         return self.map
 
 
 # Тесты класса
-game = Map(EMPTY_MAP)
-pprint(game.make_board())
-print()
-
-rand = random_cord(3, 11)
-pprint(game.draw_line(0, rand, 1))
+# game = Map(EMPTY_MAP)
+# pprint(game.make_board())
+# print()
+# seed = make_seed(3)
+# direction = 0
+#
+# for num in seed:
+#     game.draw_line(0, int(num), direction)
+#     direction = 1 if direction == 0 else 0
+# pprint(game.get_map())
