@@ -36,37 +36,18 @@ objects = {0: "floor",
 
 
 # Класс для создания (генерации) карты
-def random_cord(start_zero, fin_zero):
-    rand_cord = random.randint(start_zero, fin_zero)
-    while rand_cord < 4 or rand_cord > 11:
-        rand_cord = random.randint(start_zero, fin_zero)
-    return rand_cord
 
 
-# def make_seed(_len=6):
-#     _seed = []
-#     cnt = 0
-#     while cnt != _len // 2:
-#         start_seed = []
-#         for _ in range(2):
-#             _num1 = random_cord(4, 11)
-#             start_seed.append(_num1)
-#
-#         for elem in start_seed:
-#             _seed.append(elem)
-#
-#         for elem in start_seed:
-#             if random.random():
-#                 if elem - 3 > 4:
-#                     _num = random_cord(0, elem - 3)
-#                 else:
-#                     _num = random_cord(elem + 4, 16)
-#             else:
-#                 _num = random_cord(elem + 4, 16)
-#             _seed.append(_num)
-#         cnt += 1
-#
-#     return _seed[:-1]
+def choice_cords(pos_x1, pos_y1, pos_x2, _direct):
+    x1, y, x2 = pos_x1 + 3, pos_y1, pos_x2 - 3
+    if x1 == x2:
+        return x1, y
+    if x1 > x2:
+        return False
+    rand_x = random.randint(x1, x2)
+    if _direct:
+        return y, rand_x
+    return rand_x, y - 1
 
 
 class Map:
@@ -81,38 +62,34 @@ class Map:
                     self.map[y][x] = 1
         return self.map
 
-    def draw_line(self, init_x, init_y, direct, count=0):
-        if direct == 0:
-            for x in range(init_x, 14 + 1):
-                self.map[init_y][x] = 1
+    def draw_line(self, consts, direct=True):
+        if consts is False:
+            return
+        const_x, const_y = consts
+        x = const_x
+        y = const_y
+        if direct:
+            while self.map[const_y][x] != 1:
+                self.map[const_y][x] = 1
+                x += 1
+            self.draw_line(choice_cords(const_x, const_y, x, not direct), not direct)
         else:
-            for x in range(init_x, 14 + 1):
-                self.map[x][init_y] = 1
-        # while count != 2:
-        #     count += 1
-        #     direction = 1 if direction == 0 else 0
-        #     if random.random():
-        #         cord = random_cord(init_x + 4, 11)
-        #     else:
-        #         cord = random_cord(init_x - 4, 4)
-        #     self.draw_line(0, cord, direction, count)
-        return self.map
+            while self.map[y][const_x] != 1:
+                self.map[y][const_x] = 1
+                y -= 1
+            self.draw_line(choice_cords(const_y, const_x, x, not direct), not direct)
 
-    def choice_cords(self):
-        pass
+
 
     def get_map(self):
         return self.map
 
 
 # Тесты класса
-# game = Map(EMPTY_MAP)
-# pprint(game.make_board())
-# print()
-# seed = make_seed(3)
-# direction = 0
-#
-# for num in seed:
-#     game.draw_line(0, int(num), direction)
-#     direction = 1 if direction == 0 else 0
-# pprint(game.get_map())
+game = Map(EMPTY_MAP)
+pprint(game.make_board())
+print()
+seed = '9594'
+direction = True
+game.draw_line((1, 11))
+pprint(game.get_map())
