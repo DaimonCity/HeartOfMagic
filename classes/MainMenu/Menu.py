@@ -68,6 +68,9 @@ while True:
             for i, button_rect in enumerate(button_rects):
                 if button_rect.collidepoint(event.pos):
                     print(f"{button_texts[i]} нажата!")
+                    if button_texts[i] == "Выйти":
+                        pygame.quit()
+                        sys.exit()
 
     for i, button_rect in enumerate(button_rects):
         hover = button_rect.collidepoint(pygame.mouse.get_pos())
