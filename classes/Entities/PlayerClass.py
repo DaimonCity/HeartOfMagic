@@ -1,17 +1,26 @@
+import pygame.transform
+from classes.Entities.FreeplaceClass import Freeplace
 from classes.Entities.EntityClass import Entity
 from  scripts.image_scripts import load_image
 class Hero(Entity):
-    def __init__(self):
+    def __init__(self, screen):
         super().__init__()
         self.image = load_image('entity.png')
-    def move(self, vec, left, top, screen):
-        x_move_t = screen.get_width() // 3 - vec[0] * self.speed < self.rect.x < screen.get_width() // 3 * 2 - vec[0] * self.speed
-        y_move_t = screen.get_height() // 3 - vec[1] * self.speed < self.rect.y < screen.get_height() // 3 * 2 - vec[1] * self.speed
-        if  x_move_t or y_move_t :
-            if x_move_t:
-                self.rect.x = self.rect.x + vec[0] * self.speed
-            if y_move_t:
-                self.rect.y = self.rect.y + vec[1] * self.speed
-            return left, top
+        self.image = pygame.transform.scale(self.image, (64, 64))
+        self.cons_rect.size = (64, 64)
+        print(self.rect.center)
+        self.rect.center = (screen.get_width(), screen.get_height() / 2)
+    def move(self, vec, left, top, screen, coliders=0):
+        freplace = Freeplace(screen, vec, self)
+        pygame.draw.rect(screen, (255, 255, 255), freplace.rect)
+        x_move_t = freplace.rect.x < self.rect.x < freplace.rect.x + freplace.rect.width
+        y_move_t = freplace.rect.y < self.rect.y < freplace.rect.y + freplace.rect.height
+        if x_move_t:
+            self.rect.x = self.rect.x + vec[0] * self.speed
         else:
-            return left - vec[0] * self.speed, top - vec[1] * self.speed
+            left -= vec[0] * self.speed
+        if y_move_t:
+            self.rect.y = self.rect.y + vec[1] * self.speed
+        else:
+            top -= vec[1] * self.speed
+        return left, top

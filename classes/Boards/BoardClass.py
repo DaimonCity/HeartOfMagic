@@ -32,10 +32,10 @@ class Board:
                 self.board[y][x].render(x, y, self)
                 screen.blit(self.board[y][x].image, self.board[y][x].rect)
         self.sprite_group.draw(screen)
-    def update(self, left=None, top=None, zoom=None):
+    def update(self, left=None, top=None, zoom=0):
         if not(left == top == None):
-            self.left, self.top = left, top
-        if zoom != None:
+            self.left, self.top = left - (self.cell_size * self.width), top - (self.cell_size * self.height)
+        if zoom != 0:
             self.cell_size = self.cons_cell_size * zoom
 
 

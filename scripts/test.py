@@ -7,7 +7,7 @@ if __name__ == '__main__':
     FPS = 30
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
-    size = width, height = 1024, 800
+    size = width, height = 800, 800
     screen = pygame.display.set_mode(size)
     screen.get_width()
     clock = pygame.time.Clock()
@@ -17,14 +17,14 @@ if __name__ == '__main__':
     tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile()}
     map_txt = open('data\\map.txt', 'r').read()
     _map = [list(i) for i in map_txt.split('\n')]
-    board = Board(screen=screen, map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=50)
+    board = Board(screen=screen, map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
     zoom = 1
     keys = dict()
     keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x)
     for i in keyboard:
         keys[i] = 0
     running = True
-    player = Hero()
+    player = Hero(screen)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -36,8 +36,7 @@ if __name__ == '__main__':
                 if event.key in keyboard:
                     keys[event.key] = False
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
-            left, top = player.move(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])) * zoom,
-                                     (int(keys[pygame.K_s]) - int(keys[pygame.K_w])) * zoom), left=left, top=top, screen=screen)
+            left, top = player.move(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])) * zoom, (int(keys[pygame.K_s]) - int(keys[pygame.K_w])) * zoom), left=left, top=top, screen=screen)
 
         if keys[pygame.K_c]:
             zoom += 0.1
