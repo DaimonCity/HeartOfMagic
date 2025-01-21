@@ -19,9 +19,6 @@ if __name__ == '__main__':
     _map = [list(i) for i in map_txt.split('\n')]
     board = Board(screen=screen, map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=50)
     zoom = 1
-    true_left = left / zoom
-    true_top = top / zoom
-
     keys = dict()
     keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x)
     for i in keyboard:
@@ -47,11 +44,6 @@ if __name__ == '__main__':
         if keys[pygame.K_x]:
             if zoom - 0.1 > 0.1:
                 zoom -= 0.1
-                true_left += screen.get_width()
-        true_left = left / zoom
-        true_top = top / zoom
-        left = true_left * zoom
-        top = true_left * zoom
         board.render(screen)
         player.render(screen)
         board.update(left, top, zoom)
