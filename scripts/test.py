@@ -9,15 +9,22 @@ if __name__ == '__main__':
     pygame.display.set_caption('HeartOfMagic')
     size = width, height = 1024, 800
     screen = pygame.display.set_mode(size)
+    screen.get_width()
     clock = pygame.time.Clock()
+    top = 0
+    left = 0
 
     tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile()}
     map_txt = open('data\\map.txt', 'r').read()
     _map = [list(i) for i in map_txt.split('\n')]
     board = Board(screen=screen, map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=50)
+    zoom = 1
+    true_left = left / zoom
+    true_top = top / zoom
 
     keys = dict()
-    for i in pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d:
+    keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x)
+    for i in keyboard:
         keys[i] = 0
     running = True
     player = Hero()
@@ -26,16 +33,29 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
-                if event.key in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d):
+                if event.key in keyboard:
                     keys[event.key] = True
             if event.type == pygame.KEYUP:
-                if event.key in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d):
+                if event.key in keyboard:
                     keys[event.key] = False
-        if any(list(keys.values())):
-            player.move((int(keys[pygame.K_d]) - int(keys[pygame.K_a]),
-                         int(keys[pygame.K_s]) - int(keys[pygame.K_w])))
+        if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
+            left, top = player.move(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])) * zoom,
+                                     (int(keys[pygame.K_s]) - int(keys[pygame.K_w])) * zoom), left=left, top=top, screen=screen)
+
+        if keys[pygame.K_c]:
+            zoom += 0.1
+        if keys[pygame.K_x]:
+            if zoom - 0.1 > 0.1:
+                zoom -= 0.1
+                true_left += screen.get_width()
+        true_left = left / zoom
+        true_top = top / zoom
+        left = true_left * zoom
+        top = true_left * zoom
         board.render(screen)
         player.render(screen)
+        board.update(left, top, zoom)
+        player.update(zoom=zoom)
         pygame.display.update()
         pygame.display.flip()
         clock.tick(FPS)

@@ -21,6 +21,7 @@ class Board:
             self.left = left
             self.top = top
             self.cell_size = cell_size
+        self.cons_cell_size = self.cell_size
         if child != 0:
             self.board = [[child for w in range(self.width)] for h in range(self.height)]
         else:
@@ -31,5 +32,10 @@ class Board:
                 self.board[y][x].render(x, y, self)
                 screen.blit(self.board[y][x].image, self.board[y][x].rect)
         self.sprite_group.draw(screen)
+    def update(self, left=None, top=None, zoom=None):
+        if not(left == top == None):
+            self.left, self.top = left, top
+        if zoom != None:
+            self.cell_size = self.cons_cell_size * zoom
 
 
