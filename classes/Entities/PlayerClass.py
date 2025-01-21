@@ -12,7 +12,7 @@ class Hero(Entity):
         self.rect.center = (screen.get_width(), screen.get_height() / 2)
     def move(self, vec, left, top, screen, coliders=0):
         freplace = Freeplace(screen, vec, self)
-        pygame.draw.rect(screen, (255, 255, 255), freplace.rect)
+        # pygame.draw.rect(screen, (255, 255, 255), freplace.rect) # отображение поля свободного перемещения
         x_move_t = freplace.rect.x < self.rect.x < freplace.rect.x + freplace.rect.width
         y_move_t = freplace.rect.y < self.rect.y < freplace.rect.y + freplace.rect.height
         if x_move_t:

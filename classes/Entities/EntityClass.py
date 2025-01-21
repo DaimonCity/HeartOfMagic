@@ -8,7 +8,7 @@ class Entity(pygame.sprite.Sprite):
         self.cons_image = self.image
         self.rect = self.image.get_rect(center=(0, 0))
         self.cons_rect = copy(self.rect)
-        self.speed = 5
+        self.speed = 10
     def move(self, vec):
         self.rect.move(self.rect.x + vec[0] * self.speed, self.rect.y + vec[1] * self.speed)
         self.rect.x, self.rect.y = self.rect.x + vec[0] * self.speed, self.rect.y + vec[1] * self.speed

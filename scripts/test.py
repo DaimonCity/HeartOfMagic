@@ -2,7 +2,6 @@ import pygame, pprint
 from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import Board
 from classes.Entities.PlayerClass import Hero
-pprint.pprint([[0] * 10] * 10)
 if __name__ == '__main__':
     FPS = 30
     pygame.init()
