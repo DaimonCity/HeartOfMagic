@@ -38,16 +38,16 @@ objects = {0: "floor",
 # Класс для создания (генерации) карты
 
 
-def choice_cords(pos_x1, pos_y1, pos_x2, _direct):
-    x1, y, x2 = pos_x1 + 3, pos_y1, pos_x2 - 3
-    if x1 == x2:
-        return x1, y
-    if x1 > x2:
+def choice_cord(xy1, xy2):
+    if xy1 > xy2:
+        xy1, xy2 = xy2, xy1
+    xy1, xy2 = xy1 + 4, xy2 - 4
+    if xy1 == xy2:
+        return xy1
+
+    if xy1 > xy2:
         return False
-    rand_x = random.randint(x1, x2)
-    if _direct:
-        return y, rand_x
-    return rand_x, y - 1
+    return random.randint(xy1, xy2)
 
 
 class Map:
@@ -62,24 +62,38 @@ class Map:
                     self.map[y][x] = 1
         return self.map
 
-    def draw_line(self, consts, direct=True):
+    def draw_line(self, consts, axis, direct):
         if consts is False:
             return
-        const_x, const_y = consts
-        x = const_x
-        y = const_y
-        if direct:
-            while self.map[const_y][x] != 1:
-                self.map[const_y][x] = 1
-                x += 1
-            self.draw_line(choice_cords(const_x, const_y, x, not direct), not direct)
-        else:
-            while self.map[y][const_x] != 1:
-                self.map[y][const_x] = 1
-                y -= 1
-            self.draw_line(choice_cords(const_y, const_x, x, not direct), not direct)
-
-
+        start_x, start_y = consts
+        x = start_x
+        y = start_y
+        if axis == 'x':
+            while self.map[y][x] != 1:
+                self.map[y][x] = 1
+                if direct == 'right':
+                    x += 1
+                else:
+                    x -= 1
+            x0 = choice_cord(start_x, x)
+            if x0 is False:
+                return
+            self.draw_line((x0, y - 1), 'y', 'top')
+            x0 = choice_cord(start_x, x)
+            self.draw_line((x0, y + 1), 'y', 'bottom')
+        else:  # axis == 'y'
+            while self.map[y][x] != 1:
+                self.map[y][x] = 1
+                if direct == 'top':
+                    y -= 1
+                else:
+                    y += 1
+            y0 = choice_cord(start_y, y)
+            if y0 is False:
+                return
+            self.draw_line((x + 1, y0), 'x', 'right')
+            y0 = choice_cord(start_y, y)
+            self.draw_line((x - 1, y0), 'x', 'left')
 
     def get_map(self):
         return self.map
@@ -91,5 +105,6 @@ pprint(game.make_board())
 print()
 seed = '9594'
 direction = True
-game.draw_line((1, 11))
+y = choice_cord(1, len(game.map) - 1)
+game.draw_line((1, y), 'x', 'right')
 pprint(game.get_map())
