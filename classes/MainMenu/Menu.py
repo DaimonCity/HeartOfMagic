@@ -22,7 +22,7 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-window_size = (1600, 900)
+window_size = (1280, 720)
 screen = pygame.display.set_mode(window_size)
 pygame.display.set_caption('Pygame Кликабельная кнопка')
 
@@ -45,12 +45,12 @@ def draw_button(button_rect, text, hover):
     screen.blit(button_surface, button_rect.topleft)
 
 
-#Рсположение и размеры кнопок
+#Изменение положения и размеров кнопок
 button_rects = [
-    pygame.Rect(625, 400, 400, 60),
-    pygame.Rect(625, 300, 400, 60),
-    pygame.Rect(625, 500, 400, 60),
-    pygame.Rect(1345, 800, 200, 60)
+    pygame.Rect(440, 280, 400, 60),
+    pygame.Rect(440, 200, 400, 60),
+    pygame.Rect(440, 360, 400, 60),
+    pygame.Rect(1040, 640, 200, 60)
 ]
 
 button_texts = ["Продолжить", "Новая игра", "Настройки", "Выйти"]
