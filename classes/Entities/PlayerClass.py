@@ -7,20 +7,15 @@ class Hero(Entity):
         super().__init__()
         self.image = load_image('entity.png')
         self.image = pygame.transform.scale(self.image, (64, 64))
+        self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
         self.cons_rect.size = (64, 64)
-        print(self.rect.center)
-        self.rect.center = (screen.get_width(), screen.get_height() / 2)
     def move(self, vec, left, top, screen, coliders=0):
         freplace = Freeplace(screen, vec, self)
-        # pygame.draw.rect(screen, (255, 255, 255), freplace.rect) # отображение поля свободного перемещения
-        x_move_t = freplace.rect.x < self.rect.x < freplace.rect.x + freplace.rect.width
-        y_move_t = freplace.rect.y < self.rect.y < freplace.rect.y + freplace.rect.height
-        if x_move_t:
-            self.rect.x = self.rect.x + vec[0] * self.speed
-        else:
-            left -= vec[0] * self.speed
-        if y_move_t:
-            self.rect.y = self.rect.y + vec[1] * self.speed
-        else:
-            top -= vec[1] * self.speed
+        cof_x = min(self.rect.x - freplace.rect.x, freplace.rect.x + freplace.rect.width - self.rect.x) / freplace.rect.width * 2
+        cof_y = min(self.rect.y - freplace.rect.y, freplace.rect.y + freplace.rect.height - self.rect.y) / freplace.rect.height * 2
+        print(cof_y)
+        self.rect.x = self.rect.x + vec[0] * self.speed * cof_x
+        left -= vec[0] * self.speed * (1 - cof_x)
+        self.rect.y = self.rect.y + vec[1] * self.speed * cof_y
+        top -= vec[1] * self.speed * (1 - cof_y)
         return left, top

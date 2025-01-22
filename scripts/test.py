@@ -6,7 +6,7 @@ if __name__ == '__main__':
     FPS = 30
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
-    size = width, height = 800, 800
+    size = width, height = 1024, 780
     screen = pygame.display.set_mode(size)
     screen.get_width()
     clock = pygame.time.Clock()
