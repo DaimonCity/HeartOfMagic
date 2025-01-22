@@ -44,10 +44,11 @@ if __name__ == '__main__':
                 zoom -= 0.1
         board.render(screen)
         player.render(screen)
-        board.update(left, top, zoom)
+        board.update(screen, left, top, zoom)
         player.update(zoom=zoom)
         pygame.display.update()
         pygame.display.flip()
         clock.tick(FPS)
         screen.fill((0, 0, 0))
     pygame.display.flip()
+

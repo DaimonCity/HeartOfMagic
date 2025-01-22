@@ -21,8 +21,7 @@ class Board:
             self.left = left
             self.top = top
             self.cell_size = cell_size
-
-        self.cons_cell_size = self.cell_size
+        self.con_cell_size = self.cell_size
         if child != 0:
             self.board = [[child for w in range(self.width)] for h in range(self.height)]
         else:
@@ -33,10 +32,11 @@ class Board:
                 self.board[y][x].render(x, y, self)
                 screen.blit(self.board[y][x].image, self.board[y][x].rect)
         self.sprite_group.draw(screen)
-    def update(self, left=None, top=None, zoom=0):
+    def update(self, screen, left=None, top=None, zoom=0):
+        if zoom != 0:
+            self.cell_size = self.con_cell_size * zoom
         if not(left == top == None):
             self.left, self.top = left, top
-        if zoom != 0:
-            self.cell_size = self.cons_cell_size * zoom
 
-
+    # def do_center(self, cell_size, width, height, left, top):
+    #     (self.cons_cell_size * self.width / 2 + self.left, self.cell_size * self.height / 2 + self.top)
