@@ -30,11 +30,11 @@ class Board:
         pos = ((mouse_pos[0] - self.left) // self.cell_size, (mouse_pos[1] - self.top) // self.cell_size)
         if (0 <= pos[0] <= self.width - 1) and (0 <= pos[1] <= self.height - 1):
             return pos
-        return (0, 0)
+        return 0, 0
 
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
-        if (cell != None) and (cell[0] >= 0) and (cell[1] >= 0):
+        if (cell is not None) and (cell[0] >= 0) and (cell[1] >= 0):
             self.on_click(cell)
             self.board[cell[0]][cell[1]].get_click(mouse_pos)
 
