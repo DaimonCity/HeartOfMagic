@@ -6,7 +6,7 @@ if __name__ == '__main__':
     FPS = 60
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((800, 800))
     size = width, height = screen.get_size()
 
     screen.get_width()
@@ -28,6 +28,7 @@ if __name__ == '__main__':
         keys[i] = 0
     running = True
     player = Hero(screen)
+    spell_group = pygame.sprite.Group()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -37,10 +38,14 @@ if __name__ == '__main__':
                     keys[event.key] = True
                 if  event.key == pygame.K_F11:
                     if pygame.display.is_fullscreen():
-                        screen = pygame.display.set_mode((width // 1.5, height // 1.5))
+                        screen = pygame.display.set_mode((width, height))
                     else:
                         screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
                     size = screen.get_size()
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                player.cast(spell_group)
 
             if event.type == pygame.KEYUP:
                 if event.key in keyboard:
@@ -56,6 +61,9 @@ if __name__ == '__main__':
         board.render(screen)
         player.render(screen)
         board.update(screen, left, top)
+        spell_group.update()
+        spell_group.draw(screen)
+
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
         screen.blit(*scr)

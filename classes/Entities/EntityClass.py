@@ -2,9 +2,9 @@ import pygame
 from scripts.image_scripts import load_image
 from  copy import copy
 class Entity(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, image='entity.png'):
         pygame.sprite.Sprite.__init__(self)
-        self.image = load_image('entity.png')
+        self.image = load_image(image)
         self.cons_image = self.image
         self.rect = self.image.get_rect(center=(0, 0))
         self.cons_rect = copy(self.rect)

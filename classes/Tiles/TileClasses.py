@@ -3,9 +3,9 @@ from scripts.image_scripts import *
 
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, image='empty.png', colorkey=None):
         pygame.sprite.Sprite.__init__(self)
-        self.image = load_image('empty.png')
+        self.image = load_image(image, colorkey)
         self.cons_image = self.image
         self.rect = self.image.get_rect(center=(0, 0))
 
@@ -16,19 +16,13 @@ class Tile(pygame.sprite.Sprite):
 
 class WallTile(Tile):
     def __init__(self):
-        super().__init__()
-        self.image = load_image('wall.png')
-        self.cons_image = self.image
+        super().__init__('wall.png')
 
 class FloorTile(Tile):
     def __init__(self):
-        super().__init__()
-        self.image = load_image('floor.png')
-        self.cons_image = self.image
-
+        super().__init__('floor.png')
 class WoidTile(Tile):
     def __init__(self):
-        super().__init__()
-        self.image = load_image('woid.jpg', (255, 255, 255))
-        self.cons_image = self.image
+        super().__init__('woid.jpg', -1)
+
 

@@ -1,7 +1,8 @@
-import pygame.transform
+import pygame
 from classes.Entities.FreeplaceClass import Freeplace
 from classes.Entities.EntityClass import Entity
 from  scripts.image_scripts import load_image
+from classes.Entities.SpellClass import *
 class Hero(Entity):
     def __init__(self, screen):
         super().__init__()
@@ -11,6 +12,7 @@ class Hero(Entity):
         self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
         self.cons_rect.size = (64, 64)
         self.speed = 7
+        self.screen = screen
     def move(self, vec, left, top, screen, coliders=0):
         freplace = Freeplace(screen, vec, self)
         cof_x = min(self.rect.x - freplace.rect.x, freplace.rect.x + freplace.rect.width - self.rect.x) / freplace.rect.width * 2
@@ -20,3 +22,9 @@ class Hero(Entity):
         left -= vec[0] * self.speed * (1 - cof_x)
         top -= vec[1] * self.speed * (1 - cof_y)
         return left, top
+
+    def cast(self, spell_group):
+        a = Spell()
+        spell_group.add(a)
+        a.cast(self)
+
