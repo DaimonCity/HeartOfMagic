@@ -14,7 +14,7 @@ class Entity(pygame.sprite.Sprite):
         self.rect.x, self.rect.y = self.rect.x + vec[0] * self.speed, self.rect.y + vec[1] * self.speed
     def render(self, screen):
         screen.blit(self.image, self.rect)
-    def update(self, zoom):
-        self.rect.size = (self.cons_rect.width * zoom, self.cons_rect.height * zoom)
-        # self.rect.center = (self.rect.center[0] + zoom, self.rect.center[1] + zoom)
-        self.image = pygame.transform.scale(self.cons_image, self.rect.size)
+    # def update(self, zoom):
+    #     self.rect.size = (self.cons_rect.width * zoom, self.cons_rect.height * zoom)
+    #     # self.rect.center = (self.rect.center[0] + zoom, self.rect.center[1] + zoom)
+    #     self.image = pygame.transform.scale(self.cons_image, self.rect.size)

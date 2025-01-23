@@ -6,7 +6,7 @@ if __name__ == '__main__':
     FPS = 30
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
-    size = width, height = 1024, 780
+    size = width, height = 1200, 780
     screen = pygame.display.set_mode(size)
     screen.get_width()
     clock = pygame.time.Clock()
@@ -35,17 +35,23 @@ if __name__ == '__main__':
                 if event.key in keyboard:
                     keys[event.key] = False
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
-            left, top = player.move(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])) * zoom, (int(keys[pygame.K_s]) - int(keys[pygame.K_w])) * zoom), left=left, top=top, screen=screen)
+            left, top = player.move(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w]))), left=left, top=top, screen=screen)
 
         if keys[pygame.K_c]:
             zoom += 0.1
         if keys[pygame.K_x]:
-            if zoom - 0.1 > 0.1:
+            if  zoom - 0.1 > 0.1:
                 zoom -= 0.1
         board.render(screen)
         player.render(screen)
-        board.update(screen, left, top, zoom)
-        player.update(zoom=zoom)
+        board.update(screen, left, top)
+        # player.update(zoom=1)
+        # screen.blit(pygame.transform.scale(pygame.display.get_surface(), (100, 100)), size)
+        scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
+        screen.fill((0, 0, 0))
+        screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
+
+        screen.blit(*scr)
         pygame.display.update()
         pygame.display.flip()
         clock.tick(FPS)
