@@ -46,6 +46,9 @@ def choice_cord(xy1, xy2):
         return xy1
 
     if xy1 > xy2:
+        #     xy1, xy2 = xy2, xy1
+        # print("res=", xy1, xy2, "check=", (0 > xy1 and xy2 > 15 or 0 > xy2 and xy1 > 15))
+        # if not((0 > xy1 and xy2 > 15) or (0 > xy2 and xy1 > 15)):
         return False
     return random.randint(xy1, xy2)
 
@@ -95,6 +98,24 @@ class Map:
             y0 = choice_cord(start_y, y)
             self.draw_line((x - 1, y0), 'x', 'left')
 
+    # def put_in_doors(self):
+    #     for cord_y in range(1, 15):
+    #         for cord_x in range(1, 15):
+    #             if self.map[cord_y][cord_x] == 1:
+    #                 if ((self.map[cord_y - 1][cord_x] == 1 or self.map[cord_y + 1][cord_x] == 1)
+    #                         and self.map[cord_y][cord_x + 1] != 1):
+    #                     continue
+    #                 else:
+    #                     x0 = cord_x
+    #                     x1 = len(self.map[cord_y]) - 2
+    #                     for one in range(1, 15):
+    #                         if self.map[cord_y][cord_x] == 1:
+    #                             if self.map[cord_y - 1][cord_x] == 1 or self.map[cord_y + 1][cord_x] == 1:
+    #                                 x1 = one - 1
+    #
+    #                     self.map[cord_y][random.randint(x0, x1 - 1)] = 2
+    #                     break
+
     def get_map(self):
         return self.map
 
@@ -105,6 +126,8 @@ pprint(game.make_board())
 print()
 seed = '9594'
 direction = True
-y = choice_cord(1, len(game.map) - 1)
-game.draw_line((1, y), 'x', 'right')
+_y = choice_cord(1, len(game.map) - 1)
+game.draw_line((1, _y), 'x', 'right')
+pprint(game.get_map())
+game.put_in_doors()
 pprint(game.get_map())
