@@ -25,7 +25,7 @@ class Board:
         if child != 0:
             self.board = [[child for w in range(self.width)] for h in range(self.height)]
         else:
-            self.board = [[copy(self.tiles_dict[map[h][w]]) for w in range(self.width)] for h in range(self.height)]
+            self.board = [[copy(self.tiles_dict[map[h][w]] if map[h][w] in self.tiles_dict else Tile()) for w in range(self.width)] for h in range(self.height)]
     def render(self, screen, parent_x=0, parent_y=0, parent=0):
         for y in range(self.height):
             for x in range(self.width):

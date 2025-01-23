@@ -10,6 +10,7 @@ class Hero(Entity):
         self.image = pygame.transform.scale(self.image, (64, 64))
         self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
         self.cons_rect.size = (64, 64)
+        self.speed = 7
     def move(self, vec, left, top, screen, coliders=0):
         freplace = Freeplace(screen, vec, self)
         cof_x = min(self.rect.x - freplace.rect.x, freplace.rect.x + freplace.rect.width - self.rect.x) / freplace.rect.width * 2

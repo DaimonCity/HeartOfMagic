@@ -3,20 +3,24 @@ from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import Board
 from classes.Entities.PlayerClass import Hero
 if __name__ == '__main__':
-    FPS = 30
+    FPS = 60
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
-    size = width, height = 1200, 780
-    screen = pygame.display.set_mode(size)
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    size = width, height = screen.get_size()
+
     screen.get_width()
     clock = pygame.time.Clock()
     top = 0
     left = 0
 
-    tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile()}
+    tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile(), ' ': WoidTile()}
     map_txt = open('data\\map.txt', 'r').read()
-    _map = [list(i) for i in map_txt.split('\n')]
-    board = Board(screen=screen, map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
+    map = [list(i) for i in map_txt.split('\n')]
+    for row in map:
+        if len(row) < max([len(i) for i in map]):
+            row += [' '] * (max([len(i) for i in map]) - len(row))
+    board = Board(screen=screen, map=map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
     zoom = 1
     keys = dict()
     keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x)
@@ -31,6 +35,13 @@ if __name__ == '__main__':
             if event.type == pygame.KEYDOWN:
                 if event.key in keyboard:
                     keys[event.key] = True
+                if  event.key == pygame.K_F11:
+                    if pygame.display.is_fullscreen():
+                        screen = pygame.display.set_mode((width // 1.5, height // 1.5))
+                    else:
+                        screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
+                    size = screen.get_size()
+
             if event.type == pygame.KEYUP:
                 if event.key in keyboard:
                     keys[event.key] = False
@@ -45,12 +56,8 @@ if __name__ == '__main__':
         board.render(screen)
         player.render(screen)
         board.update(screen, left, top)
-        # player.update(zoom=1)
-        # screen.blit(pygame.transform.scale(pygame.display.get_surface(), (100, 100)), size)
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
-        screen.fill((0, 0, 0))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
-
         screen.blit(*scr)
         pygame.display.update()
         pygame.display.flip()
