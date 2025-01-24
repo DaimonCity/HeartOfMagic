@@ -10,16 +10,23 @@ class Tile(pygame.sprite.Sprite):
 
     def render(self, x, y, board):
         self.image = pygame.transform.scale(self.image, (board.cell_size, board.cell_size))
-        self.rect.update(x * board.cell_size + board.left, y * board.cell_size + board.top, board.cell_size, board.cell_size)
+        self.rect.update(x * board.cell_size + board.left, y * board.cell_size + board.top, board.cell_size,
+                         board.cell_size)
 
 
 class WallTile(Tile):
     def __init__(self):
         super().__init__()
-        self.image = load_image('wall.png')
+        self.image = load_image('Wall repete.png')
+
 
 class FloorTile(Tile):
     def __init__(self):
         super().__init__()
         self.image = load_image('floor.png')
 
+
+class DoorTile(Tile):
+    def __init__(self):
+        super().__init__()
+        self.image = load_image('Door.png')
