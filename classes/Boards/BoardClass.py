@@ -21,7 +21,6 @@ class Board:
             self.left = left
             self.top = top
             self.cell_size = cell_size
-        self.con_cell_size = self.cell_size
         if child != 0:
             self.board = [[child for w in range(self.width)] for h in range(self.height)]
         else:
@@ -35,6 +34,3 @@ class Board:
     def update(self, screen, left=None, top=None):
         if not(left == top == None):
             self.left, self.top = left, top
-
-    # def do_center(self, cell_size, width, height, left, top):
-    #     (self.cons_cell_size * self.width / 2 + self.left, self.cell_size * self.height / 2 + self.top)
