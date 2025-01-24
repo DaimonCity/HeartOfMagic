@@ -98,36 +98,36 @@ class Map:
             y0 = choice_cord(start_y, y)
             self.draw_line((x - 1, y0), 'x', 'left')
 
-    # def put_in_doors(self):
-    #     for cord_y in range(1, 15):
-    #         for cord_x in range(1, 15):
-    #             if self.map[cord_y][cord_x] == 1:
-    #                 if ((self.map[cord_y - 1][cord_x] == 1 or self.map[cord_y + 1][cord_x] == 1)
-    #                         and self.map[cord_y][cord_x + 1] != 1):
-    #                     continue
-    #                 else:
-    #                     x0 = cord_x
-    #                     x1 = len(self.map[cord_y]) - 2
-    #                     for one in range(1, 15):
-    #                         if self.map[cord_y][cord_x] == 1:
-    #                             if self.map[cord_y - 1][cord_x] == 1 or self.map[cord_y + 1][cord_x] == 1:
-    #                                 x1 = one - 1
-    #
-    #                     self.map[cord_y][random.randint(x0, x1 - 1)] = 2
-    #                     break
+    def put_in_doors(self):
+        for cord_y in range(1, 15):
+            for cord_x in range(1, 15):
+                if self.map[cord_y][cord_x] == 1:
+                    if ((self.map[cord_y - 1][cord_x] == 1 or self.map[cord_y + 1][cord_x] == 1)
+                            and self.map[cord_y][cord_x + 1] != 1):
+                        continue
+                    else:
+                        x0 = cord_x
+                        x1 = len(self.map[cord_y]) - 2
+                        for one in range(1, 15):
+                            if self.map[cord_y][cord_x] == 1:
+                                if self.map[cord_y - 1][cord_x] == 1 or self.map[cord_y + 1][cord_x] == 1:
+                                    x1 = one - 1
+
+                        self.map[cord_y][random.randint(x0, x1 - 1)] = 2
+                        break
 
     def get_map(self):
         return self.map
 
 
 # Тесты класса
-game = Map(EMPTY_MAP)
-pprint(game.make_board())
-print()
-seed = '9594'
-direction = True
-_y = choice_cord(1, len(game.map) - 1)
-game.draw_line((1, _y), 'x', 'right')
-pprint(game.get_map())
-game.put_in_doors()
-pprint(game.get_map())
+# game = Map(EMPTY_MAP)
+# pprint(game.make_board())
+# print()
+# seed = '9594'
+# direction = True
+# _y = choice_cord(1, len(game.map) - 1)
+# game.draw_line((1, _y), 'x', 'right')
+# pprint(game.get_map())
+# game.put_in_doors()
+# pprint(game.get_map())
