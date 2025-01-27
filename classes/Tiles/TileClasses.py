@@ -102,3 +102,9 @@ class TLeftWallForRoomTile(Tile):
     def __init__(self):
         super().__init__()
         self.image = load_image('T-LeftWallForRoom.png')
+
+
+class SideDoorTile(Tile):
+    def __init__(self):
+        super().__init__()
+        self.image = load_image('SideDoor.png')

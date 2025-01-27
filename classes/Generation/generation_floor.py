@@ -1,4 +1,3 @@
-import pygame
 import random
 from pprint import pprint
 
@@ -78,18 +77,41 @@ class Map:
                     x += 1
                 else:
                     x -= 1
-            self.set_next_object(y, x, 'x')
+                print("cords:", x, y)
+
             x0 = choice_cord(start_x, x)
-            if x0 is False:
+            print("point:", x0)
+            x1 = choice_cord(x0, x)
+            print("point:", x1)
+
+            #  ##########################################################
+            cords = self.cords_for_door(direct, y, start_x, x0, axis, x)
+            #  ###########################################################
+
+            if cords is None or cords is False:
                 return
+            self.set_door(cords, axis)
+
             self.map[y][x0] = 9
             self.draw_line((x0, y - 1), 'y', 'top')
-            x1 = choice_cord(start_x, x)
+
+            #  ##########################################################
+            cords = self.cords_for_door(direct, y, start_x, x1, axis, x)
+            #  ###########################################################
+
+            if cords is None or cords is False:
+                return
+            self.set_door(cords, axis)
+
             if x1 == x0:
                 self.map[y][x0] = 12
             else:
                 self.map[y][x1] = 13
+
+            self.set_next_object(y, x, axis, direct)
+
             self.draw_line((x1, y + 1), 'y', 'bottom')
+
         else:  # axis == 'y'
             while self.map[y][x] == 0:
                 self.map[y][x] = 8
@@ -97,66 +119,122 @@ class Map:
                     y -= 1
                 else:
                     y += 1
-            self.set_next_object(y, x, 'y', direct)
+                print("cords:", x, y)
+
             y0 = choice_cord(start_y, y)
-            if y0 is False:
-                return
-            self.draw_line((x + 1, y0), 'x', 'right')
+            print("point:", y0)
             y1 = choice_cord(start_y, y)
-            self.draw_line((x - 1, y1), 'x', 'left')
+            print("point:", y1)
+
+            cords = self.cords_for_door(direct, x, start_y, y0, axis, y)
+            if cords is None or cords is False:
+                self.set_next_object(y, x, 'y', direct)
+                return
+            self.set_door(cords, axis)
+
+            self.map[y0][x] = 14
+            self.draw_line((x + 1, y0), 'x', 'right')
+
+            cords = self.cords_for_door(direct, x, start_y, y1, axis, y)
+            if cords is None or cords is False:
+                self.set_next_object(y, x, 'y', direct)
+                return
+
             if y1 == y0:
-                self.map[y0][x] = 12
+                self.map[y1][x] = 12
             else:
-                self.map[y0][x] = 14
                 self.map[y1][x] = 16
 
-    def put_in_doors(self):
-        for cord_y in range(1, 15):
-            for cord_x in range(1, 15):
-                if self.map[cord_y][cord_x] == 1:
-                    if ((self.map[cord_y - 1][cord_x] == 1 or self.map[cord_y + 1][cord_x] == 1)
-                            and self.map[cord_y][cord_x + 1] != 1):
-                        continue
-                    else:
-                        x0 = cord_x
-                        x1 = len(self.map[cord_y]) - 2
-                        for one in range(1, 15):
-                            if self.map[cord_y][cord_x] == 1:
-                                if self.map[cord_y - 1][cord_x] == 1 or self.map[cord_y + 1][cord_x] == 1:
-                                    x1 = one - 1
+            self.set_next_object(y, x, 'y', direct)
 
-                        self.map[cord_y][random.randint(x0, x1 - 1)] = 2
-                        break
+            self.set_door(cords, axis)
+            self.draw_line((x - 1, y1), 'x', 'left')
 
     def set_next_object(self, cord_y, cord_x, axis, direct=''):
+        _object = self.map[cord_y][cord_x]
         if axis == 'x':
-            _object = self.map[cord_y][cord_x]
-            if _object == 11:
-                self.map[cord_y][cord_x] = 15
-            # if _object == 8:
-            #     self.map[cord_y][cord_x] = 14
+
+            if direct == 'right':
+                if _object == 11:
+                    self.map[cord_y][cord_x] = 15
+                elif _object == 8 and cord_y != 15:
+                    self.map[cord_y][cord_x] = 16
+
+            elif direct == 'left':
+                if _object == 8:
+                    self.map[cord_y][cord_x] = 14
+                elif _object == 8 and cord_y != 0:
+                    self.map[cord_y][cord_x] = 14
+
         else:  # axis == 'y'
-            _object = self.map[cord_y][cord_x]
-            if _object == 1 and direct == 'bottom':
-                self.map[cord_y][cord_x] = 9
-            elif _object == 1:
-                self.map[cord_y][cord_x] = 13
-            elif _object == 13:
-                self.map[cord_y][cord_x] = 12
+
+            if direct == 'top':
+                if _object == 1:
+                    self.map[cord_y][cord_x] = 13
+                elif _object == 2:
+                    self.map[cord_y][cord_x] = 13
+                elif _object == 13:
+                    self.map[cord_y][cord_x] = 12
+                elif _object == 9:
+                    self.map[cord_y][cord_x] = 1
+
+            elif direct == 'bottom':
+                if _object == 1:
+                    self.map[cord_y][cord_x] = 9
+                elif _object == 13:
+                    self.map[cord_y][cord_x] = 12
+                elif _object == 2:
+                    self.map[cord_y][cord_x] = 9
 
     def set_one_sprite(self, _x, _y, num):
         self.map[_y][_x] = num
 
+    def set_door(self, cords, axis):
+        list_1 = cords
+        print("All cords:", cords)
+
+        for cord in cords:
+            if self.map[cord[0]][cord[1]] != 1 or self.map[cord[0]][cord[1]] != 8:
+                list_1.remove(cord)
+
+        print("Available cords: ", list_1)
+        door = random.choice(list_1)
+        print("Chosen door: ", door)
+        if axis == 'x':
+            self.map[door[0]][door[1]] = 2
+        else:  # axis == 'y'
+            self.map[door[0]][door[1]] = 17
+
+    def cords_for_door(self, direct, const, start_point, finish_point, axis, last_point):
+        if finish_point is False:
+            if direct == "top":
+                cords = [(cord_y, const) for cord_y in range(last_point, start_point)]
+            elif direct == 'left':
+                cords = [(const, cord_x) for cord_x in range(last_point, start_point)]
+
+            elif direct == 'right':
+                cords = [(const, cord_x) for cord_x in range(start_point, last_point)]
+            else:  # direct == "bottom"
+                cords = [(cord_y, const) for cord_y in range(start_point, last_point)]
+            self.set_door(cords, axis)
+            return
+
+        elif direct == "top":
+            cords = [(cord_y, const) for cord_y in range(finish_point, start_point)]
+        elif direct == 'left':
+            cords = [(const, cord_x) for cord_x in range(finish_point, start_point)]
+        elif direct == 'right':
+            cords = [(const, cord_x) for cord_x in range(start_point, finish_point)]
+        else:  # direct == "bottom"
+            cords = [(cord_y, const) for cord_y in range(start_point, finish_point)]
+        return cords
+
     def get_map(self):
         return self.map
 
-# Тесты класса
+# # Тесты класса
 # game = Map(EMPTY_MAP)
 # print()
-# seed = '9594'
-# direction = True
 # _y = choice_cord(1, len(game.map) - 1)
 # game.draw_line((1, _y), 'x', 'right')
-# pprint(game.get_map())
-# game.put_in_doors()
 # pprint(game.get_map())

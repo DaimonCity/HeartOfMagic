@@ -12,11 +12,10 @@ if __name__ == '__main__':
     _y = choice_cord(1, len(floor.map) - 1)
     floor.set_one_sprite(0, _y, 14)
     floor.draw_line((1, _y), 'x', 'right')
-    floor.put_in_doors()
     tiles_dict = {0: FloorTile(), 1: WallTile(), 2: DoorTile(), 3: UpperLeftCornerTile(), 4: UpperLeftCornerTile(),
                   5: DownerLeftCornerTile(), 6: UpperRightCornerTile(), 7: DownerRightCornerTile(),
                   8: LeftWallTile(), 9: TToUpTile(), 11: RightWallTile(), 12: TToAllTile(), 13: TToDownTile(),
-                  14: TLeftWallTile(), 15: TRightWallTile(), 16: TLeftWallForRoomTile()}
+                  14: TLeftWallTile(), 15: TRightWallTile(), 16: TLeftWallForRoomTile(), 17: SideDoorTile()}
 
     _map = floor.get_map()
     pprint(_map)
