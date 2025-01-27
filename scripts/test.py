@@ -44,15 +44,14 @@ if __name__ == '__main__':
                     size = screen.get_size()
                 if event.key == pygame.K_ESCAPE:
                     running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                player.cast((left, top), spell_group, vec=event.pos)
-
             if event.type == pygame.KEYUP:
                 if event.key in keyboard:
                     keys[event.key] = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                player.cast((left, top), spell_group=spell_group, vec=event.pos)
+
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
             left, top = player.move(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w]))), left=left, top=top, screen=screen)
-
         if keys[pygame.K_c]:
             zoom += 0.1
         if keys[pygame.K_x]:

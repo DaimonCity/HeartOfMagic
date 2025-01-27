@@ -30,8 +30,7 @@ class Hero(Entity):
         return left, top
 
     def cast(self, map_move, spell_group, vec):
-        spell_line = [Spell, Spell]
-        for spell in spell_line:
-            spell = spell()
-            spell_group.add(spell)
-            spell.cast(map_move, summoner=self, vec=vec)
+        spell_line = [Spell, Spell2, Spell2, Spell]
+        spell = spell_line[0]()
+        spell_group.add(spell)
+        spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=spell_line[1:])
