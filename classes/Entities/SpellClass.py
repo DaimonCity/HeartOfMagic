@@ -12,23 +12,20 @@ class Spell(Entity):
     def __init__(self, image='test_image.jpg'):
         super().__init__(image)
         self.image = pygame.transform.scale(self.image, (20, 20))
-        self.existence = False
-        self.center = (0, 0)
-
-    def update(self, center=None, vec=None, map_move=(0,0)):
+        self.rect = self.image.get_rect(center=(0, 0))
+    def update(self, center=None, vec=(0, 0), map_move=(0, 0)):
         if center != None:
-            self.rect.center = center
+            self.center = center[0] - map_move[0], center[1] - map_move[1]
         if vec != None:
-            self.rect.center = self.rect.center[0] + vec[0] * 100, self.rect.center[1] + vec[1] * 100
-        self.rect.center
+            self.center = self.center[0] + vec[0], self.center[1] + vec[1]
+        self.rect.center = self.center[0] + map_move[0], self.center[1] + map_move[1]
 
 
-    def cast(self, summoner, vec):
-        self.summoner = summoner
-        self.update(center=summoner.rect.center)
+    def cast(self,map_move, summoner, vec):
+        self.update(center=summoner.rect.center, map_move=map_move)
         self.fire(vec, summoner)
     def fire(self, vec, summoner):
-        vec = vec[0] - self.summoner.rect.center[0], vec[1] - self.summoner.rect.center[1]
+        vec = vec[0] - summoner.rect.center[0], vec[1] - summoner.rect.center[1]
         vec = vec[0] / max(map(abs,vec)) , vec[1] / max(map(abs,vec))
         self.update(vec=vec)
 

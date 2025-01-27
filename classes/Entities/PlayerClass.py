@@ -7,13 +7,14 @@ class Hero(Entity):
     def __init__(self, screen):
         super().__init__()
         self.image = load_image('player.png')
-        self.image = pygame.transform.scale(self.image, (64, 64))
+        self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
         self.speed = 7
-        self.rect.height
-    def update(self, center=None):
+    def update(self, center=None, rect=None):
         if center != None:
             self.rect.center = center
+        if rect != None:
+            self.rect.update(rect)
     def move(self, vec, left, top, screen, coliders=0):
         freplace = Freeplace(screen, vec, self)
         cof_x, cof_y = 1, 1
@@ -28,10 +29,9 @@ class Hero(Entity):
         top -= vec[1] * self.speed * (1 - cof_y)
         return left, top
 
-    def cast(self, spell_group, vec):
+    def cast(self, map_move, spell_group, vec):
         spell_line = [Spell, Spell]
         for spell in spell_line:
             spell = spell()
             spell_group.add(spell)
-            spell.cast(summoner=self, vec=vec)
-
+            spell.cast(map_move, summoner=self, vec=vec)

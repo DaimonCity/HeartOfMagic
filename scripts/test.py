@@ -45,7 +45,7 @@ if __name__ == '__main__':
                 if event.key == pygame.K_ESCAPE:
                     running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                player.cast(spell_group, vec=event.pos)
+                player.cast((left, top), spell_group, vec=event.pos)
 
             if event.type == pygame.KEYUP:
                 if event.key in keyboard:
@@ -63,7 +63,6 @@ if __name__ == '__main__':
         board.update(screen, left, top)
         spell_group.update(map_move=(left, top))
         spell_group.draw(screen)
-        pygame.draw.rect(screen, (255, 255, 255), player.rect, 1)
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
