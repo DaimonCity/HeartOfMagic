@@ -21,6 +21,7 @@ if __name__ == '__main__':
         if len(row) < max([len(i) for i in map]):
             row += [' '] * (max([len(i) for i in map]) - len(row))
     board = Board(screen=screen, map=map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
+    # board = Board(screen=screen, map=['1'], tiles_dict={'1': board_}, left=10, top=20, cell_size=64)
     zoom = 1
     keys = dict()
     keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x)

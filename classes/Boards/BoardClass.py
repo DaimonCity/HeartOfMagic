@@ -6,12 +6,11 @@ from classes.Tiles.TileClasses import Tile
 
 
 class Board:
-    def __init__(self, screen, map, tiles_dict, parent=0, child=0, left=0, top=0, cell_size=50):
+    def __init__(self, screen, map, tiles_dict, parent=0, left=0, top=0, cell_size=50):
         self.map = map
         self.size = self.width, self.height = len(map[0]), len(map)
         self.tiles_dict = tiles_dict
         self.parent = parent
-        self.child = child
         self.sprite_group = pygame.sprite.Group()
         if parent != 0:
             self.left = parent.left
@@ -21,10 +20,7 @@ class Board:
             self.left = left
             self.top = top
             self.cell_size = cell_size
-        if child != 0:
-            self.board = [[child for w in range(self.width)] for h in range(self.height)]
-        else:
-            self.board = [[copy(self.tiles_dict[map[h][w]] if map[h][w] in self.tiles_dict else Tile()) for w in range(self.width)] for h in range(self.height)]
+        self.board = [[copy(self.tiles_dict[map[h][w]] if map[h][w] in self.tiles_dict else Tile()) for w in range(self.width)] for h in range(self.height)]
     def render(self, screen, parent_x=0, parent_y=0, parent=0):
         for y in range(self.height):
             for x in range(self.width):
