@@ -90,7 +90,7 @@ class Map:
 
             if cords is None or cords is False:
                 return
-            self.set_door(cords, axis)
+            self.set_door(cords[1:], axis)
 
             self.map[y][x0] = 9
             self.draw_line((x0, y - 1), 'y', 'top')
@@ -101,7 +101,7 @@ class Map:
 
             if cords is None or cords is False:
                 return
-            self.set_door(cords, axis)
+            self.set_door(cords[1:], axis)
 
             if x1 == x0:
                 self.map[y][x0] = 12
@@ -130,7 +130,7 @@ class Map:
             if cords is None or cords is False:
                 self.set_next_object(y, x, 'y', direct)
                 return
-            self.set_door(cords, axis)
+            self.set_door(cords[1:], axis)
 
             self.map[y0][x] = 14
             self.draw_line((x + 1, y0), 'x', 'right')
@@ -147,7 +147,7 @@ class Map:
 
             self.set_next_object(y, x, 'y', direct)
 
-            self.set_door(cords, axis)
+            self.set_door(cords[1:], axis)
             self.draw_line((x - 1, y1), 'x', 'left')
 
     def set_next_object(self, cord_y, cord_x, axis, direct=''):
