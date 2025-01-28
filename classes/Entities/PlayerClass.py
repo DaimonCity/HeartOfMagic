@@ -11,9 +11,9 @@ class Hero(Entity):
         self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
         self.speed = 7
     def update(self, center=None, rect=None):
-        if center != None:
+        if center is not None:
             self.rect.center = center
-        if rect != None:
+        if rect is not None:
             self.rect.update(rect)
     def move(self, vec, left, top, screen, coliders=0):
         freplace = Freeplace(screen, vec, self)
@@ -30,7 +30,7 @@ class Hero(Entity):
         return left, top
 
     def cast(self, map_move, spell_group, vec):
-        spell_line = [Spell, Spell2, Spell2, Spell]
+        spell_line = [Spell, Spell2, Spell2, Spell, Spell3, Spell5]
         spell = spell_line[0]()
         spell_group.add(spell)
         spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=spell_line[1:])
