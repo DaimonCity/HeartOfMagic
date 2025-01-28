@@ -2,11 +2,13 @@ import pygame, pprint
 from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import Board
 from classes.Entities.PlayerClass import Hero
+from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
+
 if __name__ == '__main__':
     FPS = 60
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((1024,1024)) # , pygame.FULLSCREEN
     size = width, height = screen.get_size()
 
     screen.get_width()
@@ -14,13 +16,29 @@ if __name__ == '__main__':
     top = 0
     left = 0
 
-    tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile(), ' ': WoidTile()}
-    map_txt = open('data\\map.txt', 'r').read()
-    map = [list(i) for i in map_txt.split('\n')]
-    for row in map:
-        if len(row) < max([len(i) for i in map]):
-            row += [' '] * (max([len(i) for i in map]) - len(row))
-    board = Board(screen=screen, map=map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
+    floor = Map(EMPTY_MAP)
+    _y = choice_cord(1, len(floor.map) - 1)
+    floor.set_one_sprite(0, _y, 14)
+    floor.draw_line((1, _y), 'x', 'right')
+    tiles_dict = {0: FloorTile(), 1: WallTile(), 2: DoorTile(), 3: UpperLeftCornerTile(), 4: UpperLeftCornerTile(),
+                  5: DownerLeftCornerTile(), 6: UpperRightCornerTile(), 7: DownerRightCornerTile(),
+                  8: LeftWallTile(), 9: TToUpTile(), 11: RightWallTile(), 12: TToAllTile(), 13: TToDownTile(),
+                  14: TLeftWallTile(), 15: TRightWallTile(), 16: TLeftWallForRoomTile(), 17: SideDoorTile()}
+
+    _map = floor.get_map()
+
+
+    # tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile(), ' ': WoidTile()}
+    # map_txt = open('data\\map.txt', 'r').read()
+    # map = [list(i) for i in map_txt.split('\n')]
+    #
+    #
+    # for row in map:
+    #     if len(row) < max([len(i) for i in map]):
+    #         row += [' '] * (max([len(i) for i in map]) - len(row))
+
+
+    board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
     zoom = 1
     keys = dict()
     keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x)
@@ -57,9 +75,9 @@ if __name__ == '__main__':
         if keys[pygame.K_x]:
             if  zoom - 0.1 > 0.1:
                 zoom -= 0.1
-        board.render(screen)
+        board.render()
         player.render(screen)
-        board.update(screen, left, top)
+        board.update(left, top)
         spell_group.update(map_move=(left, top))
         spell_group.draw(screen)
 
