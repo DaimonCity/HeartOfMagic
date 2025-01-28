@@ -57,13 +57,6 @@ class Map:
         self.map = list_map
         self.w, self.h = self.size = len(list_map[0]), len(list_map)
 
-    def make_board(self):
-        for y in range(self.h):
-            for x in range(self.w):
-                if x == 0 or y == 0 or x == self.w - 1 or y == self.h - 1:
-                    self.map[y][x] = 1
-        return self.map
-
     def draw_line(self, consts, axis, direct):
         if consts is False:
             return
@@ -88,27 +81,25 @@ class Map:
             cords = self.cords_for_door(direct, y, start_x, x0, axis, x)
             #  ###########################################################
 
+            self.set_next_object(y, x, axis, direct)
             if cords is None or cords is False:
                 return
-            self.set_door(cords[1:], axis)
-
             self.map[y][x0] = 9
+            self.set_door(cords[1:], axis)
             self.draw_line((x0, y - 1), 'y', 'top')
 
             #  ##########################################################
-            cords = self.cords_for_door(direct, y, start_x, x1, axis, x)
+            cords1 = self.cords_for_door(direct, y, start_x, x1, axis, x)
             #  ###########################################################
 
-            if cords is None or cords is False:
+            if cords1 is None or cords1 is False:
                 return
-            self.set_door(cords[1:], axis)
+            self.set_door(cords1[1:], axis)
 
             if x1 == x0:
                 self.map[y][x0] = 12
             else:
                 self.map[y][x1] = 13
-
-            self.set_next_object(y, x, axis, direct)
 
             self.draw_line((x1, y + 1), 'y', 'bottom')
 
@@ -127,27 +118,27 @@ class Map:
             print("point:", y1)
 
             cords = self.cords_for_door(direct, x, start_y, y0, axis, y)
+
             if cords is None or cords is False:
                 self.set_next_object(y, x, 'y', direct)
                 return
             self.set_door(cords[1:], axis)
 
-            self.map[y0][x] = 14
             self.draw_line((x + 1, y0), 'x', 'right')
 
-            cords = self.cords_for_door(direct, x, start_y, y1, axis, y)
-            if cords is None or cords is False:
+            cords1 = self.cords_for_door(direct, x, start_y, y1, axis, y)
+            self.set_next_object(y, x, 'y', direct)
+            if cords1 is None or cords1 is False:
                 self.set_next_object(y, x, 'y', direct)
                 return
+            self.set_door(cords1[1:], axis)
 
             if y1 == y0:
                 self.map[y1][x] = 12
             else:
                 self.map[y1][x] = 16
-
-            self.set_next_object(y, x, 'y', direct)
-
-            self.set_door(cords[1:], axis)
+                if y0 != 0:
+                    self.map[y0][x] = 14
             self.draw_line((x - 1, y1), 'x', 'left')
 
     def set_next_object(self, cord_y, cord_x, axis, direct=''):
@@ -197,11 +188,14 @@ class Map:
             if self.map[cord[0]][cord[1]] != 1 or self.map[cord[0]][cord[1]] != 8:
                 list_1.remove(cord)
 
+        if not list_1:
+            return
         print("Available cords: ", list_1)
         door = random.choice(list_1)
         print("Chosen door: ", door)
         if axis == 'x':
-            self.map[door[0]][door[1]] = 2
+            if self.map[door[0] - 1][door[1]] == 0 and self.map[door[0] + 1][door[1]] == 0:
+                self.map[door[0]][door[1]] = 2
         else:  # axis == 'y'
             self.map[door[0]][door[1]] = 17
 
