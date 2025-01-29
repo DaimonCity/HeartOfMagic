@@ -15,7 +15,7 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     top = 0
     left = 0
-
+    vec = (0, 0)
     floor = Map(EMPTY_MAP)
     _y = choice_cord(1, len(floor.map) - 1)
     floor.set_one_sprite(0, _y, 14)
@@ -66,7 +66,10 @@ if __name__ == '__main__':
                 if event.key in keyboard:
                     keys[event.key] = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                player.cast((left, top), spell_group=spell_group, vec=event.pos)
+                vec = ((event.pos[0] * zoom + event.pos[0] * (1 - zoom)) + (player.rect.center[0] - screen.get_rect().center[0]) * (1 - zoom),
+                       (event.pos[1] * zoom + event.pos[1] * (1 - zoom)) + (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
+                print(vec)
+                player.cast((left, top), spell_group=spell_group, vec=vec)
 
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
             left, top = player.move(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w]))), left=left, top=top, screen=screen)
