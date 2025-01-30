@@ -2,6 +2,7 @@ import pygame, pprint
 from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import Board
 from classes.Entities.PlayerClass import Hero
+from classes.Entities.EnemyClass import Enemy
 from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
 
 if __name__ == '__main__':
@@ -47,6 +48,7 @@ if __name__ == '__main__':
     running = True
     player = Hero(screen)
     spell_group = pygame.sprite.Group()
+    A = Enemy()
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -68,11 +70,10 @@ if __name__ == '__main__':
             if event.type == pygame.MOUSEBUTTONDOWN:
                 vec = ((event.pos[0] * zoom + event.pos[0] * (1 - zoom)) + (player.rect.center[0] - screen.get_rect().center[0]) * (1 - zoom),
                        (event.pos[1] * zoom + event.pos[1] * (1 - zoom)) + (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
-                print(vec)
                 player.cast((left, top), spell_group=spell_group, vec=vec)
 
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
-            left, top = player.move(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w]))), left=left, top=top, screen=screen)
+            left, top = player.move(normolize_vec(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w])))), left=left, top=top, screen=screen)
         if keys[pygame.K_c]:
             zoom += 0.1
         if keys[pygame.K_x]:
@@ -83,6 +84,8 @@ if __name__ == '__main__':
         board.update(left, top)
         spell_group.update(map_move=(left, top))
         spell_group.draw(screen)
+        A.update(map_move=(left, top))
+        A.render(screen)
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
