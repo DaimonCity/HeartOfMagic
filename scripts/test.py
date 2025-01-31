@@ -69,7 +69,6 @@ if __name__ == '__main__':
                 player.cast((left, top), spell_group=spell_group, vec=event.pos)
 
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
-            wizard.update()
             left, top = player.to_move(
                 ((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w]))),
                 left=left, top=top, screen=screen)
@@ -82,6 +81,7 @@ if __name__ == '__main__':
 
         board.render()
         board.update(left, top)
+        wizard.update(any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]))
         player.image = wizard.image
         player.render(screen)
         spell_group.update(map_move=(left, top))

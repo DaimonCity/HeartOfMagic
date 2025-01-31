@@ -19,12 +19,12 @@ class AnimatedSprite(pygame.sprite.Sprite):
                 self.frames.append(sheet.subsurface(pygame.Rect(
                     frame_location, self.rect.size)))
 
-    def update(self):
-        self.cur_frame = (self.cur_frame + 1) % len(self.frames)
-        self.image = self.frames[self.cur_frame]
-
-    def start_pos(self):
-        self.cur_frame = 0
+    def update(self, state):
+        if state is True:
+            self.cur_frame = (self.cur_frame + 1) % len(self.frames)
+            self.image = self.frames[self.cur_frame]
+        else:
+            self.image = self.frames[0]
 
 
 all_sprites = pygame.sprite.Group()
