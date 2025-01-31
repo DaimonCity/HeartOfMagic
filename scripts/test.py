@@ -16,7 +16,7 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     top = 0
     left = 0
-    vec = (0, 0)
+    zoom = 1
     floor = Map(EMPTY_MAP)
     _y = choice_cord(1, len(floor.map) - 1)
     floor.set_one_sprite(0, _y, 14)
@@ -39,28 +39,36 @@ if __name__ == '__main__':
     #         row += [' '] * (max([len(i) for i in map]) - len(row))
 
 
-    board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
-    zoom = 1
+
     keys = dict()
-    keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x)
+    keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x, pygame.MOUSEBUTTONDOWN)
     for i in keyboard:
         keys[i] = 0
-    running = True
+
+    board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
     player = Hero(screen)
+    cooldown_time = time()
+
     spell_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
     enemy_group.add([Closer() for i in range(10)])
+
+    running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                keys[pygame.MOUSEBUTTONDOWN] = True
+            if event.type == pygame.MOUSEBUTTONUP:
+                keys[pygame.MOUSEBUTTONDOWN] = False
+            if event.type == pygame.MOUSEMOTION:
+                mouse_pos = event.pos
+
             if event.type == pygame.KEYUP:
                 if event.key in keyboard:
                     keys[event.key] = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                vec = ((event.pos[0] * zoom + event.pos[0] * (1 - zoom)) + (player.rect.center[0] - screen.get_rect().center[0]) * (1 - zoom),
-                       (event.pos[1] * zoom + event.pos[1] * (1 - zoom)) + (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
-                player.cast((left, top), spell_group=spell_group, vec=vec)
             if event.type == pygame.KEYDOWN:
                 if event.key in keyboard:
                     keys[event.key] = True
@@ -76,6 +84,14 @@ if __name__ == '__main__':
 
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
             left, top = player.move(normolize_vec(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w])))), left=left, top=top, screen=screen)
+        if keys[pygame.MOUSEBUTTONDOWN]:
+            if time() - cooldown_time >= player.cooldown:
+                vec = ((mouse_pos[0] * zoom + mouse_pos[0] * (1 - zoom)) +
+                       (player.rect.center[0] - screen.get_rect().center[0]) * (1 - zoom),
+                       (mouse_pos[1] * zoom + mouse_pos[1] * (1 - zoom)) +
+                       (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
+                player.cast((left, top), spell_group=spell_group, vec=vec)
+                cooldown_time = time()
         if keys[pygame.K_c]:
             zoom += 0.05
         if keys[pygame.K_x]:

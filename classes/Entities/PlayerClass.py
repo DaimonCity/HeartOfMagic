@@ -9,6 +9,7 @@ class Hero(Entity):
         self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
         self.speed = 7
+        self.cooldown = 0.5
     def update(self, center=None, rect=None):
         if center is not None:
             self.rect.center = center

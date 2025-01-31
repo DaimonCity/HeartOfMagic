@@ -8,9 +8,9 @@ class Enemy(Entity):
     def __init__(self, image='entity.png'):
         super().__init__(image='entity.png')
         self.point = (100, 100)
-        self.speed = 7
+        self.speed = 4
         self.speed_const = self.speed
-        self.sleep = 0.5
+        self.sleep = 0.1
         self.sleep_timer = time()
         self.center = self.rect.center
         self.logica = lambda :(randint(0, 500), randint(0, 500))
