@@ -16,12 +16,12 @@ if __name__ == '__main__':
     clock = pygame.time.Clock()
     top = 0
     left = 0
-    zoom = 1
+    zoom = 3
     floor = Map(EMPTY_MAP)
     _y = choice_cord(1, len(floor.map) - 1)
     floor.set_one_sprite(0, _y, 14)
     floor.draw_line((1, _y), 'x', 'right')
-    tiles_dict = {0: FloorTile(), 1: WallTile(), 2: DoorTile(), 3: UpperLeftCornerTile(), 4: UpperLeftCornerTile(),
+    tiles_dict = {0: Void(), 1: WallTile(), 2: DoorTile(), 3: UpperLeftCornerTile(), 4: UpperLeftCornerTile(),
                   5: DownerLeftCornerTile(), 6: UpperRightCornerTile(), 7: DownerRightCornerTile(),
                   8: LeftWallTile(), 9: TToUpTile(), 11: RightWallTile(), 12: TToAllTile(), 13: TToDownTile(),
                   14: TLeftWallTile(), 15: TRightWallTile(), 16: TLeftWallForRoomTile(), 17: SideDoorTile()}
@@ -38,8 +38,7 @@ if __name__ == '__main__':
     #     if len(row) < max([len(i) for i in map]):
     #         row += [' '] * (max([len(i) for i in map]) - len(row))
 
-
-
+    b_mose_pos = screen.get_rect().center
     keys = dict()
     keyboard =(pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x, pygame.MOUSEBUTTONDOWN)
     for i in keyboard:
@@ -52,8 +51,8 @@ if __name__ == '__main__':
     spell_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
     enemy_speel_group = pygame.sprite.Group()
-    enemy_group.add([Ranger(spell_group=enemy_speel_group) for i in range(3)])
-    enemy_group.add([Closer(spell_group=enemy_speel_group) for i in range(3)])
+    # enemy_group.add([Ranger(spell_group=enemy_speel_group) for i in range(3)])
+    # enemy_group.add([Closer(spell_group=enemy_speel_group) for i in range(3)])
     running = True
     while running:
         for event in pygame.event.get():
@@ -84,7 +83,7 @@ if __name__ == '__main__':
 
 
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
-            left, top = player.move(normolize_vec(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w])))), left=left, top=top, screen=screen)
+            left, top = player.move(normolize_vec(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w])))), left=left, top=top, screen=screen, mose_pos=mouse_pos)
         if keys[pygame.MOUSEBUTTONDOWN]:
             if time() - cooldown_time >= player.cooldown:
                 vec = ((mouse_pos[0] * zoom + mouse_pos[0] * (1 - zoom)) +
@@ -93,6 +92,10 @@ if __name__ == '__main__':
                        (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
                 player.cast((left, top), spell_group=spell_group, vec=vec)
                 cooldown_time = time()
+        left += (b_mose_pos[0] - mouse_pos[0]) / 5
+        top += (b_mose_pos[1] - mouse_pos[1]) / 5
+        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 5, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 5))
+        b_mose_pos = mouse_pos
         if keys[pygame.K_c]:
             zoom += 0.05
         if keys[pygame.K_x]:
@@ -100,13 +103,13 @@ if __name__ == '__main__':
                 zoom -= 0.05
         board.render()
         player.render(screen)
-        board.update(left, top)
         spell_group.update(map_move=(left, top))
         spell_group.draw(screen)
         enemy_group.update(map_move=(left, top), player=player)
         enemy_group.draw(screen)
         enemy_speel_group.update(map_move=(left, top))
         enemy_speel_group.draw(screen)
+        board.update(left, top)
 
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))

@@ -1,3 +1,5 @@
+import pygame
+
 from scripts.image_scripts import *
 
 
@@ -107,3 +109,8 @@ class SideDoorTile(Tile):
     def __init__(self):
         super().__init__()
         self.image = load_image('SideDoor.png')
+
+class Void(Tile):
+    def __init__(self):
+        super().__init__()
+        self.image =

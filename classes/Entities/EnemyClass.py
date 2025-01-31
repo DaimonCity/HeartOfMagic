@@ -16,7 +16,7 @@ class Enemy(Entity):
         self.logica = lambda :(randint(0, 1000), randint(0, 1000))
         self.spell_group = spell_group
         self.cooldown_time = time()
-        self.cooldown_logica = lambda :randint(0, 25) / 10
+        self.cooldown_logica = lambda :randint(10, 30) / 10
         self.cooldown = self.cooldown_logica()
         self.point = self.rect.center
     def update(self, map_move):
@@ -35,8 +35,8 @@ class Enemy(Entity):
 
 class Closer(Enemy):
     def __init__(self, spell_group):
-        super().__init__(spell_group=spell_group, image='test_image.jpg')
-        self.image = pygame.transform.scale(self.image, (32, 32))
+        super().__init__(spell_group=spell_group, image='Door.png')
+        self.image = pygame.transform.scale(self.image, (8, 8))
         self.rect = self.image.get_rect(center=(0, 0))
     def update(self, map_move, player):
         self.logica = lambda :(randint(*sorted([self.rect.center[0] - int(map_move[0]), player.rect.center[0] - int(map_move[0])])),

@@ -1,8 +1,12 @@
+import pygame.sprite
+
 from scripts.image_scripts import *
 from time import time
 
+
 class Entity(pygame.sprite.Sprite):
     def __init__(self, image='entity.png'):
+        super().__init__()
         pygame.sprite.Sprite.__init__(self)
         self.image = load_image(image)
         self.rect = self.image.get_rect(center=(0, 0))
@@ -17,14 +21,17 @@ class Entity(pygame.sprite.Sprite):
             spell = self.spell_line[0]()
             self.groups()[0].add(spell)
             spell.cast(map_move=map_move, summoner=self, vec=self.vec, spell_line=self.spell_line[1:])
+
     def leave_rule(self, map_move):
         pass
 
-    def move(self, map_move, center=None):
+    def move(self, map_move, center=None, funx=0, funy=0):
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
-        self.center = (self.center[0] + self.vec[0] * self.speed,
-                       self.center[1] + self.vec[1] * self.speed)
+            self.vec = (self.vec[0] + self.summoner.vec[0] * self.summoner.speed,
+                        self.vec[1] * self.summoner.speed + self.summoner.vec[1])
+        self.center = (self.center[0] + self.vec[0] * self.speed + funx,
+                       self.center[1] + self.vec[1] * self.speed + funy)
         self.rect.center = (self.center[0] + map_move[0],
                             self.center[1] + map_move[1])
 
@@ -33,6 +40,7 @@ class Entity(pygame.sprite.Sprite):
         self.move(map_move, center)
 
     def cast(self, map_move, summoner, vec, spell_line):
+        self.summoner = summoner
         self.spell_line = spell_line
         self.update(center=summoner.rect.center, map_move=map_move)
         self.fire(vec, summoner)
