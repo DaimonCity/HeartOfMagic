@@ -2,7 +2,7 @@ import pygame, pprint
 from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import Board
 from classes.Entities.PlayerClass import Hero
-from classes.Entities.EnemyClass import Enemy
+from classes.Entities.EnemyClass import *
 from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
 
 if __name__ == '__main__':
@@ -48,7 +48,8 @@ if __name__ == '__main__':
     running = True
     player = Hero(screen)
     spell_group = pygame.sprite.Group()
-    A = Enemy()
+    enemy_group = pygame.sprite.Group()
+    enemy_group.add([Closer() for i in range(10)])
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -85,8 +86,8 @@ if __name__ == '__main__':
         board.update(left, top)
         spell_group.update(map_move=(left, top))
         spell_group.draw(screen)
-        A.update(map_move=(left, top))
-        A.render(screen)
+        enemy_group.update(map_move=(left, top), player=player)
+        enemy_group.draw(screen)
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))

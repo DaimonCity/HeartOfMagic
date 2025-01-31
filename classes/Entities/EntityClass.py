@@ -1,5 +1,5 @@
 from scripts.image_scripts import *
-
+from time import time
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, image='entity.png'):
@@ -8,6 +8,7 @@ class Entity(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(0, 0))
         self.speed = 0
         self.vec = (0, 0)
+
     def render(self, screen):
         screen.blit(self.image, self.rect)
 
