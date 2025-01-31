@@ -51,8 +51,9 @@ if __name__ == '__main__':
 
     spell_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
-    enemy_group.add([Closer() for i in range(10)])
-
+    enemy_speel_group = pygame.sprite.Group()
+    enemy_group.add([Ranger(spell_group=enemy_speel_group) for i in range(3)])
+    enemy_group.add([Closer(spell_group=enemy_speel_group) for i in range(3)])
     running = True
     while running:
         for event in pygame.event.get():
@@ -104,6 +105,9 @@ if __name__ == '__main__':
         spell_group.draw(screen)
         enemy_group.update(map_move=(left, top), player=player)
         enemy_group.draw(screen)
+        enemy_speel_group.update(map_move=(left, top))
+        enemy_speel_group.draw(screen)
+
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
