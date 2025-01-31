@@ -1,7 +1,6 @@
-import pygame
 from scripts.image_scripts import *
-from  copy import copy
-from time import time
+
+
 class Entity(pygame.sprite.Sprite):
     def __init__(self, image='entity.png'):
         pygame.sprite.Sprite.__init__(self)

@@ -1,4 +1,3 @@
-import pygame
 from scripts.image_scripts import *
 
 

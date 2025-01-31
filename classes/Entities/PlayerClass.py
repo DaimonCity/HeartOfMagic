@@ -1,8 +1,7 @@
-import pygame
 from classes.Entities.FreeplaceClass import Freeplace
-from classes.Entities.EntityClass import Entity
-from  scripts.image_scripts import load_image
 from classes.Entities.SpellClass import *
+
+
 class Hero(Entity):
     def __init__(self, screen):
         super().__init__()
@@ -30,7 +29,7 @@ class Hero(Entity):
         return left, top
 
     def cast(self, map_move, spell_group, vec):
-        spell_line = [Sin, Bolt, Bolt, Bolt, Sin]
+        spell_line = [Bolt, Bolt, Bolt, Bolt, Sin]
         spell = spell_line[0]()
         spell_group.add(spell)
         spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=spell_line[1:])

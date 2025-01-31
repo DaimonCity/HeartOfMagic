@@ -1,5 +1,6 @@
 from classes.Entities.EntityClass import Entity
-import pygame
+
+
 class Freeplace(Entity):
     def __init__(self, screen, vec, player):
         super().__init__()

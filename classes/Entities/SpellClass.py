@@ -1,5 +1,4 @@
 import random
-
 import pygame.draw
 from time import time
 from classes.Entities.EntityClass import Entity

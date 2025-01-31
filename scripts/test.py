@@ -53,17 +53,6 @@ if __name__ == '__main__':
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-            if event.type == pygame.KEYDOWN:
-                if event.key in keyboard:
-                    keys[event.key] = True
-                if  event.key == pygame.K_F11:
-                    if pygame.display.is_fullscreen():
-                        screen = pygame.display.set_mode((width, height))
-                    else:
-                        screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
-                    size = screen.get_size()
-                if event.key == pygame.K_ESCAPE:
-                    running = False
             if event.type == pygame.KEYUP:
                 if event.key in keyboard:
                     keys[event.key] = False
@@ -71,14 +60,26 @@ if __name__ == '__main__':
                 vec = ((event.pos[0] * zoom + event.pos[0] * (1 - zoom)) + (player.rect.center[0] - screen.get_rect().center[0]) * (1 - zoom),
                        (event.pos[1] * zoom + event.pos[1] * (1 - zoom)) + (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
                 player.cast((left, top), spell_group=spell_group, vec=vec)
+            if event.type == pygame.KEYDOWN:
+                if event.key in keyboard:
+                    keys[event.key] = True
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+                if  event.key == pygame.K_F11:
+                    if pygame.display.is_fullscreen():
+                        screen = pygame.display.set_mode((width, height))
+                    else:
+                        screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
+                    size = screen.get_size()
+
 
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
             left, top = player.move(normolize_vec(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w])))), left=left, top=top, screen=screen)
         if keys[pygame.K_c]:
-            zoom += 0.1
+            zoom += 0.05
         if keys[pygame.K_x]:
             if  zoom - 0.1 > 0.1:
-                zoom -= 0.1
+                zoom -= 0.05
         board.render()
         player.render(screen)
         board.update(left, top)

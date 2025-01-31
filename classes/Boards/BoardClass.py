@@ -1,8 +1,6 @@
 import copy
 import pygame
 from copy import *
-from pprint import pprint
-from classes.Tiles.TileClasses import Tile
 
 
 class Board:
@@ -33,6 +31,7 @@ class Board:
                 self.board[y][x].render(x, y, self)
                 self.screen.blit(self.board[y][x].image, self.board[y][x].rect)
         self.sprite_group.draw(self.screen)
+
     def update(self, left=None, top=None):
         if not (None in [left, top]):
             self.left, self.top = left, top
