@@ -1,6 +1,8 @@
 import pygame
 from scripts.image_scripts import load_image
-from  copy import copy
+from copy import copy
+
+
 class Entity(pygame.sprite.Sprite):
     def __init__(self, image='entity.png'):
         pygame.sprite.Sprite.__init__(self)
@@ -10,6 +12,7 @@ class Entity(pygame.sprite.Sprite):
     def move(self, vec):
         self.rect.move(self.rect.x + vec[0] * self.speed, self.rect.y + vec[1] * self.speed)
         self.rect.x, self.rect.y = self.rect.x + vec[0] * self.speed, self.rect.y + vec[1] * self.speed
+
     def render(self, screen):
         screen.blit(self.image, self.rect)
     # def update(self, zoom):

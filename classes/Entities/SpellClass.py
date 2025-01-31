@@ -33,7 +33,7 @@ class Spell(Entity):
                 spell.cast(map_move=map_move, summoner=self, vec=self.vec, spell_line=self.spell_line[1:])
             self.kill()
 
-    def move(self, map_move, center):
+    def moving(self, map_move, center):
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
         self.center = self.center[0] + self.vec[0] * self.speed, self.center[1] + self.vec[1] * self.speed
@@ -41,7 +41,7 @@ class Spell(Entity):
 
     def update(self, center=None, map_move=(0, 0)):
         self.leave_rule(map_move)
-        self.move(map_move, center)
+        self.moving(map_move, center)
 
     def cast(self, map_move, summoner, vec, spell_line):
         self.spell_line = spell_line
@@ -69,7 +69,7 @@ class Spell2(Spell):
         super().__init__(image)
         self.speed = 1
 
-    def move(self, map_move, center):
+    def moving(self, map_move, center):
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
         self.center = self.center[0] + self.vec[0] * self.speed, self.center[1] + self.vec[
@@ -82,7 +82,7 @@ class Spell3(Spell):
         super().__init__(image)
         self.speed = 5
 
-    def move(self, map_move, center):
+    def moving(self, map_move, center):
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
         self.center = self.center[0] + self.vec[0] * self.speed + math.sin(time() * 10) * 10 * self.vec[1], self.center[
@@ -95,7 +95,7 @@ class Spell4(Spell):
         super().__init__(image)
         self.speed = 5
 
-    def move(self, map_move, center):
+    def moving(self, map_move, center):
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
         self.center = self.center[0] + self.vec[0] * self.speed + math.sin(time() * 10) * 10 * self.vec[1], self.center[

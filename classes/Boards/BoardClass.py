@@ -33,6 +33,7 @@ class Board:
                 self.board[y][x].render(x, y, self)
                 self.screen.blit(self.board[y][x].image, self.board[y][x].rect)
         self.sprite_group.draw(self.screen)
+
     def update(self, left=None, top=None):
         if not (None in [left, top]):
             self.left, self.top = left, top
