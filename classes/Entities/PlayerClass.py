@@ -9,6 +9,8 @@ class Hero(Entity):
         self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
         self.speed = 7
+        self.spell_line = []
+        self.spell = None
 
     def update(self, center=None, rect=None):
         if center is not None:
@@ -33,7 +35,7 @@ class Hero(Entity):
         return left, top
 
     def cast(self, map_move, spell_group, vec):
-        spell_line = [Spell, Spell2, Spell2, Spell, Spell3, Spell5]
-        spell = spell_line[0]()
-        spell_group.add(spell)
-        spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=spell_line[1:])
+        self.spell_line = [Spell, Spell2, Spell2, Spell, Spell3, Spell5]
+        self.spell = self.spell_line[0]()
+        spell_group.add(self.spell)
+        self.spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=self.spell_line[1:])

@@ -1,4 +1,6 @@
 import pygame
+import math
+from classes.Entities.SpellClass import Spell
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -19,10 +21,11 @@ class AnimatedSprite(pygame.sprite.Sprite):
                 self.frames.append(sheet.subsurface(pygame.Rect(
                     frame_location, self.rect.size)))
 
-    def update(self, state):
+    def update(self, state=None):
         if state is True:
             self.cur_frame = (self.cur_frame + 1) % len(self.frames)
             self.image = self.frames[self.cur_frame]
+            print("spell")
         else:
             self.image = self.frames[0]
 

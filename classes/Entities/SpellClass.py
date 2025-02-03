@@ -14,9 +14,9 @@ def reduce_fraction(n, m):
 
 
 class Spell(Entity):
-    def __init__(self, image='test_image.jpg'):
+    def __init__(self, image='Bolt.png'):
         super().__init__(image)
-        self.image = pygame.transform.scale(self.image, (20, 20))
+        self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(0, 0))
         self.vec = (0, 0)
         self.speed = 4
@@ -39,8 +39,11 @@ class Spell(Entity):
         self.center = self.center[0] + self.vec[0] * self.speed, self.center[1] + self.vec[1] * self.speed
         self.rect.center = self.center[0] + map_move[0], self.center[1] + map_move[1]
 
-    def update(self, center=None, map_move=(0, 0)):
+    def update(self, center=None, map_move=(0, 0), anim=None):
         self.leave_rule(map_move)
+        if anim is not None:
+            self.image = anim
+            print(1)
         self.moving(map_move, center)
 
     def cast(self, map_move, summoner, vec, spell_line):
@@ -59,13 +62,13 @@ class Spell(Entity):
 
 
 class Spell5(Spell):
-    def __init__(self, image='player.png'):
+    def __init__(self, image='Bolt.png'):
         super().__init__(image)
         self.speed = 1
 
 
 class Spell2(Spell):
-    def __init__(self, image='player.png'):
+    def __init__(self, image='Bolt.png'):
         super().__init__(image)
         self.speed = 1
 
@@ -78,7 +81,7 @@ class Spell2(Spell):
 
 
 class Spell3(Spell):
-    def __init__(self, image='player.png'):
+    def __init__(self, image='Bolt.png'):
         super().__init__(image)
         self.speed = 5
 
@@ -91,7 +94,7 @@ class Spell3(Spell):
 
 
 class Spell4(Spell):
-    def __init__(self, image='player.png'):
+    def __init__(self, image='Bolt.png'):
         super().__init__(image)
         self.speed = 5
 

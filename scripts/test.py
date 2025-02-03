@@ -1,6 +1,7 @@
 import pygame, pprint
 
 from classes.Animations.AnimationsClasses import AnimatedSprite
+from classes.Entities.SpellClass import Spell
 from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import Board
 from classes.Entities.PlayerClass import Hero
@@ -13,7 +14,10 @@ if __name__ == '__main__':
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  #
     size = width, height = screen.get_size()
     wizard = AnimatedSprite(load_image("ToDownMag-Sheet.png"), 8, 1, 32 * 8, 32)
+    bolt = AnimatedSprite(load_image("Bolt-Sheet.png"), 9, 1, 32 * 8, 32)
     screen.get_width()
+
+    animation_of_magic = {Spell: bolt}
     clock = pygame.time.Clock()
     top = 0
     left = 0
@@ -26,7 +30,7 @@ if __name__ == '__main__':
                   5: DownerLeftCornerTile(), 6: UpperRightCornerTile(), 7: DownerRightCornerTile(),
                   8: LeftWallTile(), 9: TToUpTile(), 11: RightWallTile(), 12: TToAllTile(), 13: TToDownTile(),
                   14: TLeftWallTile(), 15: TRightWallTile(), 16: TLeftWallForRoomTile(), 17: SideDoorTile()}
-
+    casting = False
     _map = floor.get_map()
 
     # tiles_dict = {'#': Tile(), '=': WallTile(), '.': FloorTile(), ' ': WoidTile()}
@@ -67,7 +71,6 @@ if __name__ == '__main__':
                     keys[event.key] = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 player.cast((left, top), spell_group=spell_group, vec=event.pos)
-
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
             left, top = player.to_move(
                 ((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w]))),
@@ -84,7 +87,12 @@ if __name__ == '__main__':
         wizard.update(any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]))
         player.image = wizard.image
         player.render(screen)
-        spell_group.update(map_move=(left, top))
+
+        print(spell_group)
+        print(player.spell)
+        casting = True if spell_group else False
+        bolt.update(casting)
+        spell_group.update(map_move=(left, top), anim=bolt.image)
         spell_group.draw(screen)
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (
             width / 2 * (1 - zoom), height / 2 * (1 - zoom))
