@@ -18,3 +18,10 @@ def load_image(name, colorkey=None):
     else:
         image = image.convert_alpha()
     return image
+
+
+def normolize_vec(vec):
+    l = (vec[0]**2 + vec[1]**2)**0.5
+    if l != 0:
+        return (vec[0] / l, vec[1] / l)
+    return (0, 0)
