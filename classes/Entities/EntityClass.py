@@ -1,4 +1,6 @@
 import pygame
+
+from classes.Generation.generation_floor import objects
 from scripts.image_scripts import load_image
 from copy import copy
 import pygame.sprite
@@ -32,10 +34,10 @@ class Entity(pygame.sprite.Sprite):
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
             self.vec = (self.vec[0] + self.summoner.vec[0] * self.summoner.speed,
                         self.vec[1] * self.summoner.speed + self.summoner.vec[1])
-        self.center = (self.center[0] + self.vec[0] * self.speed + funx,
-                       self.center[1] + self.vec[1] * self.speed + funy)
-        self.rect.center = (self.center[0] + map_move[0],
-                            self.center[1] + map_move[1])
+            self.center = (self.center[0] + self.vec[0] * self.speed + funx,
+                           self.center[1] + self.vec[1] * self.speed + funy)
+            self.rect.center = (self.center[0] + map_move[0],
+                                self.center[1] + map_move[1])
 
     def update(self, center=None, map_move=(0, 0), anim=None):
         self.leave_rule(map_move)

@@ -54,8 +54,8 @@ if __name__ == '__main__':
     spell_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
     enemy_speel_group = pygame.sprite.Group()
-    # enemy_group.add([Ranger(spell_group=enemy_speel_group) for i in range(3)])
-    # enemy_group.add([Closer(spell_group=enemy_speel_group) for i in range(3)])
+    enemy_group.add([Ranger(spell_group=enemy_speel_group) for i in range(3)])
+    enemy_group.add([Closer(spell_group=enemy_speel_group) for i in range(3)])
     running = True
     while running:
         for event in pygame.event.get():
@@ -143,3 +143,4 @@ if __name__ == '__main__':
         clock.tick(FPS)
         screen.fill((0, 0, 0))
     pygame.display.flip()
+

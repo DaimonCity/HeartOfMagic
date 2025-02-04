@@ -7,7 +7,7 @@ import math
 
 
 class Vacous(Entity):
-    def __init__(self, image='test_image.jpg', logo='test_image.jpg'):
+    def __init__(self, image='test_image.jpg', logo='Empty_slot.png'):
         super().__init__(image)
         self.logo = pygame.transform.scale(load_image(logo), (32 * 3, 32 * 3))
         self.image = pygame.transform.scale(self.image, (16, 16))
