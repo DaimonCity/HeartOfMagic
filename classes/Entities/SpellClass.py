@@ -14,7 +14,7 @@ class Vacous(Entity):
 class Spell(Entity):
     def __init__(self, image='test_image.jpg', logo='test_image.jpg'):
         super().__init__(image)
-        self.logo = logo
+        self.logo = pygame.transform.scale( load_image(logo), (32 * 3, 32 * 3))
         self.image = pygame.transform.scale(self.image, (16, 16))
         self.rect = self.image.get_rect(center=(0, 0))
         self.speed = 4
@@ -27,8 +27,8 @@ class Spell(Entity):
 
 
 class Bolt(Spell):
-    def __init__(self, image='player.png'):
-        super().__init__(image)
+    def __init__(self, image='player.png', logo='Door.png'):
+        super().__init__(image=image, logo=logo)
 
 
 class Unstable(Spell):

@@ -7,6 +7,7 @@ class Hero(Entity):
         self.image = load_image('player.png')
         self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
+        self.spell_line = [Vacous()]
         self.speed = 7
         self.cooldown = 0.5
         self.mose_pose = (0, 0)
@@ -21,8 +22,8 @@ class Hero(Entity):
         return left, top
 
     def cast(self, map_move, spell_group, vec):
-        spell_line = [Vacous, Triple, Unstable, Sin, Vacous, Bolt, Unstable]
-        spell_line = [i for i in spell_line if i != Vacous]
-        spell = spell_line[0]()
+        print(self.spell_line)
+        self.spell_line = [Bolt, Triple, Unstable, Bolt, Sin]
+        spell = self.spell_line[0]()
         spell_group.add(spell)
-        spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=spell_line[1:])
+        spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=self.spell_line[1:])

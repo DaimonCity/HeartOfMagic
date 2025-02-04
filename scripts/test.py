@@ -34,11 +34,14 @@ if __name__ == '__main__':
     for i in keyboard:
         keys[i] = 0
     Wand_UI = UI(screen=screen, any_map=['0000'], tiles_dict={'0': Vacous()}, left=0, top=0, cell_size=32 * 3)
-    Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Vacous()}, left=screen.get_width() - 32 * 3 * 5, top=0, cell_size=32 * 3)
+    Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Bolt()}, left=screen.get_width() - 32 * 3 * 5, top=0, cell_size=32 * 3)
     inventory_chose = None
+    wand_chose = None
 
     board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
     player = Hero(screen)
+
+    player.spell_line = Inventory_UI.board[0]
     cooldown_time = time()
 
     spell_group = pygame.sprite.Group()
@@ -53,10 +56,17 @@ if __name__ == '__main__':
                 running = False
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                inventory_chose = Inventory_UI.get_click(event.pos)
-                inventory_chose = Inventory_UI.get_click(event.pos)
-
-                keys[pygame.MOUSEBUTTONDOWN] = True
+                if (Inventory_UI.get_click(event.pos) is not None) or (Wand_UI.get_click(event.pos) is not None):
+                    inventory_chose = Inventory_UI.get_click(event.pos) if Inventory_UI.get_click(event.pos) is not None else inventory_chose
+                    wand_chose = Wand_UI.get_click(event.pos) if Wand_UI.get_click(event.pos) is not None else wand_chose
+                    if (inventory_chose is not None) and (wand_chose is not None):
+                        Inventory_UI.board[inventory_chose[1]][inventory_chose[0]], Wand_UI.board[wand_chose[1]][wand_chose[0]] = Wand_UI.board[wand_chose[1]][wand_chose[0]], Inventory_UI.board[inventory_chose[1]][inventory_chose[0]]
+                        player.spell_line = Inventory_UI.board[0][0]
+                        spell_group.add(player.spell_line)
+                        inventory_chose = None
+                        wand_chose = None
+                else:
+                    keys[pygame.MOUSEBUTTONDOWN] = True
             if event.type == pygame.MOUSEBUTTONUP:
                 keys[pygame.MOUSEBUTTONDOWN] = False
             if event.type == pygame.MOUSEMOTION:
@@ -111,8 +121,8 @@ if __name__ == '__main__':
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
         screen.blit(*scr)
-        Wand_UI.render()
         Inventory_UI.render()
+        Wand_UI.render()
         pygame.display.update()
         pygame.display.flip()
         clock.tick(FPS)
