@@ -1,4 +1,3 @@
-from classes.Entities.FreeplaceClass import Freeplace
 from classes.Entities.SpellClass import *
 
 

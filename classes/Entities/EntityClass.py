@@ -37,9 +37,11 @@ class Entity(pygame.sprite.Sprite):
         self.rect.center = (self.center[0] + map_move[0],
                             self.center[1] + map_move[1])
 
-    def update(self, center=None, map_move=(0, 0)):
+    def update(self, center=None, map_move=(0, 0), anim=None):
         self.leave_rule(map_move)
         self.move(map_move, center)
+        if anim is not None:
+            self.image = anim
 
     def cast(self, map_move, summoner, vec, spell_line):
         self.summoner = summoner

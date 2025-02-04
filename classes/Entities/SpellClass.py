@@ -41,12 +41,12 @@ class Spell(Entity):
     #     self.moving(map_move, center)
 
 class Bolt(Spell):
-    def __init__(self, image='player.png', logo='Door.png'):
+    def __init__(self, image='Bolt.png', logo='Door.png'):
         super().__init__(image=image, logo=logo)
 
 
 class Unstable(Spell):
-    def __init__(self, image='player.png'):
+    def __init__(self, image='Bolt.png'):
         super().__init__(image)
         self.speed = 2
 
@@ -56,7 +56,7 @@ class Unstable(Spell):
                                        funy=random.randrange(-5, 5))
 
 class Sin(Spell):
-    def __init__(self, image='player.png'):
+    def __init__(self, image='Bolt.png'):
         super().__init__(image)
         self.speed = 5
 
