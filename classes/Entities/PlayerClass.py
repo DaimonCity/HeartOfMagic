@@ -21,7 +21,8 @@ class Hero(Entity):
         return left, top
 
     def cast(self, map_move, spell_group, vec):
-        spell_line = [Bolt, Unstable, Sin, Bolt]
+        spell_line = [Vacous, Triple, Unstable, Sin, Vacous, Bolt, Unstable]
+        spell_line = [i for i in spell_line if i != Vacous]
         spell = spell_line[0]()
         spell_group.add(spell)
         spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=spell_line[1:])

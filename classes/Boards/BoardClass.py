@@ -38,8 +38,28 @@ class Board:
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
         if (cell is not None) and (cell[0] >= 0) and (cell[1] >= 0):
-            self.on_click(cell)
-            self.board[cell[0]][cell[1]].get_click(mouse_pos)
+            return self.on_click(cell)
+            # self.board[cell[0]][cell[1]].get_click(mouse_pos)
 
     def on_click(self, cell):
-        self.board[cell[0]][cell[1]].color = abs(self.board[cell[0]][cell[1]].color - 1)
+        return cell
+
+    def get_cell(self, mouse_pos):
+        pos = ((mouse_pos[0] - self.left) // self.cell_size, (mouse_pos[1] - self.top) // self.cell_size)
+        if 0 <= pos[0] <= self.width - 1 and 0 <= pos[1] <= self.height - 1:
+            return pos
+        return None
+
+
+class UI(Board):
+    def __init__(self, screen, any_map, tiles_dict, parent=0, child=0, left=0, top=0, cell_size=50):
+        super().__init__(screen, any_map, tiles_dict, parent, child, left, top, cell_size)
+        # self.hewaight, self.width = self.height
+
+    def render(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                self.screen.blit(self.board[y][x].logo, (self.board[y][x].rect.x + x * self.cell_size + self.left,
+                                                         self.board[y][x].rect.y + y * self.cell_size + self.top,
+                                                         *self.board[y][x].rect.size))
+        self.sprite_group.draw(self.screen)

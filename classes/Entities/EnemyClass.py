@@ -36,7 +36,7 @@ class Enemy(Entity):
 class Closer(Enemy):
     def __init__(self, spell_group):
         super().__init__(spell_group=spell_group, image='Door.png')
-        self.image = pygame.transform.scale(self.image, (8, 8))
+        self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(0, 0))
     def update(self, map_move, player):
         self.logica = lambda :(randint(*sorted([self.rect.center[0] - int(map_move[0]), player.rect.center[0] - int(map_move[0])])),
