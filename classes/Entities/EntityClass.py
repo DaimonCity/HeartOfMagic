@@ -12,7 +12,7 @@ class Entity(pygame.sprite.Sprite):
     def __init__(self, image='entity.png'):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
-        self.image = load_image(image)
+        self.image = load_image(image, -1)
         self.rect = self.image.get_rect(center=(0, 0))
         self.speed = 0
         self.center = None

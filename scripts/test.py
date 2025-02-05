@@ -73,6 +73,7 @@ if __name__ == '__main__':
                         player.spell_line = [i.__class__ for i in Wand_UI.board[0]]
                         inventory_chose = None
                         wand_chose = None
+
                 else:
                     keys[pygame.MOUSEBUTTONDOWN] = True
             if event.type == pygame.MOUSEBUTTONUP:

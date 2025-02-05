@@ -1,6 +1,7 @@
 import copy
 import pygame
 from copy import *
+from scripts.image_scripts import load_image
 from pprint import pprint
 from classes.Tiles.TileClasses import Tile
 
@@ -61,6 +62,10 @@ class UI(Board):
     def render(self):
         for y in range(self.height):
             for x in range(self.width):
+                self.screen.blit(pygame.transform.scale(load_image('Empty_slot.png'),(32 * 3, 32 * 3)),
+                                (self.board[y][x].rect.x + x * self.cell_size + self.left,
+                                 self.board[y][x].rect.y + y * self.cell_size + self.top,
+                                *self.board[y][x].rect.size))
                 self.screen.blit(self.board[y][x].logo, (self.board[y][x].rect.x + x * self.cell_size + self.left,
                                                          self.board[y][x].rect.y + y * self.cell_size + self.top,
                                                          *self.board[y][x].rect.size))

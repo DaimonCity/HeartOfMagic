@@ -7,15 +7,21 @@ import math
 
 
 class Vacous(Entity):
-    def __init__(self, image='test_image.jpg', logo='Empty_slot.png'):
+    def __init__(self, image='woid.jpg', logo='Empty_slot.png'):
         super().__init__(image)
         self.spell_line = []
+        self.live_time = 0.1
+        self.live_timer = time()
         self.logo = pygame.transform.scale(load_image(logo), (32 * 3, 32 * 3))
         self.image = pygame.transform.scale(self.image, (16, 16))
         self.rect = self.image.get_rect(center=(0, 0))
     def leave_rule(self, map_move):
-        self.summon(map_move=map_move)
-        self.kill()
+        if time() - self.live_timer >= self.live_time:
+            self.summon(map_move=map_move)
+            self.kill()
+    def update(self, center=None, map_move=(0, 0), anim=None):
+        self.leave_rule(map_move)
+        self.move(map_move, center)
 class Spell(Entity):
     def __init__(self, image='Bolt.png', logo='test_image.jpg'):
         super().__init__(image)
