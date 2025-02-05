@@ -10,6 +10,7 @@ from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
 
 if __name__ == '__main__':
     FPS = 60
+    frame = 0
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  #
@@ -60,10 +61,10 @@ if __name__ == '__main__':
     enemy_group.add([Closer(spell_group=enemy_speel_group) for i in range(3)])
     running = True
     while running:
+        frame = frame % 60 + 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if (Inventory_UI.get_click(event.pos) is not None) or (Wand_UI.get_click(event.pos) is not None):
                     inventory_chose = Inventory_UI.get_click(event.pos) if Inventory_UI.get_click(event.pos) is not None else inventory_chose
@@ -107,10 +108,12 @@ if __name__ == '__main__':
                        (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
                 player.cast((left, top), spell_group=spell_group, vec=vec)
                 cooldown_time = time()
-        left += (b_mose_pos[0] - mouse_pos[0]) / 5
-        top += (b_mose_pos[1] - mouse_pos[1]) / 5
-        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 5, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 5))
-        b_mose_pos = mouse_pos
+        if frame % 2 == 0:
+            left += (b_mose_pos[0] - mouse_pos[0]) / 70
+            top += (b_mose_pos[1] - mouse_pos[1]) / 70
+            player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
+            b_mose_pos = (b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
+
         if keys[pygame.K_c]:
             zoom += 0.05
         if keys[pygame.K_x]:
