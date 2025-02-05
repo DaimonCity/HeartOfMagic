@@ -11,7 +11,7 @@ class Hero(Entity):
         self.speed = 7
         self.cooldown = 0.5
         self.mose_pose = (0, 0)
-        self.spell_line = []
+        self.spell_line = [Vacous()]
         self.spell = None
 
     def update(self, center=None, rect=None):
@@ -25,8 +25,7 @@ class Hero(Entity):
         return left, top
 
     def cast(self, map_move, spell_group, vec):
-        print(self.spell_line)
-        self.spell_line = [Bolt, Triple, Unstable, Bolt, Sin]
+        # self.spell_line = [Triple, Unstable, Bolt, Sin]
         spell = self.spell_line[0]()
         spell_group.add(spell)
         spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=self.spell_line[1:])

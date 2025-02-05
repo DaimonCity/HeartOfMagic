@@ -9,13 +9,18 @@ import math
 class Vacous(Entity):
     def __init__(self, image='test_image.jpg', logo='Empty_slot.png'):
         super().__init__(image)
+        self.spell_line = []
         self.logo = pygame.transform.scale(load_image(logo), (32 * 3, 32 * 3))
         self.image = pygame.transform.scale(self.image, (16, 16))
         self.rect = self.image.get_rect(center=(0, 0))
+    def leave_rule(self, map_move):
+        self.summon(map_move=map_move)
+        self.kill()
 class Spell(Entity):
     def __init__(self, image='Bolt.png', logo='test_image.jpg'):
         super().__init__(image)
-        self.logo = pygame.transform.scale( load_image(logo), (32 * 3, 32 * 3))
+        self.spell_line = []
+        self.logo = pygame.transform.scale(load_image(logo), (32 * 3, 32 * 3))
         self.image = pygame.transform.scale(self.image, (16, 16))
         self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(0, 0))
@@ -26,28 +31,14 @@ class Spell(Entity):
         if time() - self.live_timer >= self.live_time:
             self.summon(map_move=map_move)
             self.kill()
-
-    # def moving(self, map_move, center):
-    #     if center is not None:
-    #         self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
-    #     self.center = self.center[0] + self.vec[0] * self.speed, self.center[1] + self.vec[1] * self.speed
-    #     self.rect.center = self.center[0] + map_move[0], self.center[1] + map_move[1]
-    #
-    # def update(self, center=None, map_move=(0, 0), anim=None):
-    #     self.leave_rule(map_move)
-    #     if anim is not None:
-    #         self.image = anim
-    #         print(1)
-    #     self.moving(map_move, center)
-
 class Bolt(Spell):
     def __init__(self, image='Bolt.png', logo='Door.png'):
         super().__init__(image=image, logo=logo)
 
 
 class Unstable(Spell):
-    def __init__(self, image='Bolt.png'):
-        super().__init__(image)
+    def __init__(self, image='Bolt.png', logo='entity.png'):
+        super().__init__(image, logo=logo)
         self.speed = 2
 
 
@@ -56,8 +47,8 @@ class Unstable(Spell):
                                        funy=random.randrange(-5, 5))
 
 class Sin(Spell):
-    def __init__(self, image='Bolt.png'):
-        super().__init__(image)
+    def __init__(self, image='Bolt.png', logo='Floor.png'):
+        super().__init__(image, logo=logo)
         self.speed = 5
 
     def move(self, map_move, center):
@@ -65,8 +56,8 @@ class Sin(Spell):
                                        funy=-math.sin(time() * 10) * 10 * self.vec[0])
 
 class Triple(Spell):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, logo='test_image.jpg'):
+        super().__init__(logo=logo)
         self.live_time = 0.001
     def summon(self, map_move):
         if len(self.spell_line) != 0:

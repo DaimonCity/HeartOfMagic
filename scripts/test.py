@@ -41,13 +41,15 @@ if __name__ == '__main__':
         keys[i] = 0
     Wand_UI = UI(screen=screen, any_map=['0000'], tiles_dict={'0': Vacous()}, left=0, top=0, cell_size=32 * 3)
     Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Bolt()}, left=screen.get_width() - 32 * 3 * 5, top=0, cell_size=32 * 3)
+    print(Inventory_UI.board)
+    Inventory_UI.board = [[Triple(), Bolt(), Unstable(), Sin(), Vacous(), Vacous()]]
     inventory_chose = None
     wand_chose = None
 
     board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
     player = Hero(screen, wizard)
 
-    player.spell_line = Inventory_UI.board[0]
+    player.spell_line = [i.__class__ for i in Wand_UI.board[0]]
     cooldown_time = time()
 
     running = True
@@ -68,8 +70,7 @@ if __name__ == '__main__':
                     wand_chose = Wand_UI.get_click(event.pos) if Wand_UI.get_click(event.pos) is not None else wand_chose
                     if (inventory_chose is not None) and (wand_chose is not None):
                         Inventory_UI.board[inventory_chose[1]][inventory_chose[0]], Wand_UI.board[wand_chose[1]][wand_chose[0]] = Wand_UI.board[wand_chose[1]][wand_chose[0]], Inventory_UI.board[inventory_chose[1]][inventory_chose[0]]
-                        player.spell_line = Inventory_UI.board[0][0]
-                        spell_group.add(player.spell_line)
+                        player.spell_line = [i.__class__ for i in Wand_UI.board[0]]
                         inventory_chose = None
                         wand_chose = None
                 else:
