@@ -108,11 +108,10 @@ if __name__ == '__main__':
                        (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
                 player.cast((left, top), spell_group=spell_group, vec=vec)
                 cooldown_time = time()
-        if frame % 2 == 0:
-            left += (b_mose_pos[0] - mouse_pos[0]) / 70
-            top += (b_mose_pos[1] - mouse_pos[1]) / 70
-            player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
-            b_mose_pos = (b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
+        left += (b_mose_pos[0] - mouse_pos[0]) / 70
+        top += (b_mose_pos[1] - mouse_pos[1]) / 70
+        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
+        b_mose_pos = (b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
 
         if keys[pygame.K_c]:
             zoom += 0.05
