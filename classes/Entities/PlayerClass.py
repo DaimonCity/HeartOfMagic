@@ -6,7 +6,7 @@ class Hero(Entity):
         super().__init__()
         self.image = hero.image
         self.image = pygame.transform.scale(self.image, (32, 32))
-        self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
+        self.rect = self.image.get_rect(center=(screen.get_width() // 2, screen.get_height() // 2))
         self.spell_line = [Vacous()]
         self.speed = 7
         self.cooldown = 0.5

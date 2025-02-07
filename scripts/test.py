@@ -22,34 +22,36 @@ if __name__ == '__main__':
     animation_of_magic = {Spell: bolt}
     clock = pygame.time.Clock()
     floor = Map(EMPTY_MAP)
-    top = 0
-    left = 0
     zoom = 3
     _y = choice_cord(1, len(floor.map) - 1)
     floor.set_one_sprite(0, _y, 14)
     floor.draw_line((1, _y), 'x', 'right')
+    spawn = floor.add_exit()
     tiles_dict = {0: FloorTile(), 1: WallTile(), 2: DoorTile(), 3: UpperLeftCornerTile(), 4: UpperLeftCornerTile(),
                   5: DownerLeftCornerTile(), 6: UpperRightCornerTile(), 7: DownerRightCornerTile(),
                   8: LeftWallTile(), 9: TToUpTile(), 11: RightWallTile(), 12: TToAllTile(), 13: TToDownTile(),
-                  14: TLeftWallTile(), 15: TRightWallTile(), 16: TLeftWallForRoomTile(), 17: SideDoorTile()}
+                  14: TLeftWallTile(), 15: TRightWallTile(), 16: TLeftWallForRoomTile(), 17: SideDoorTile(), 20: Void()}
     casting = False
     _map = floor.get_map()
+
+    top, left = spawn
+
+    # top = -400; left = 450
+    # top = 350; left = -250
 
     b_mose_pos = screen.get_rect().center
     keys = dict()
     keyboard = (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x, pygame.MOUSEBUTTONDOWN)
     for i in keyboard:
         keys[i] = 0
-    Wand_UI = UI(screen=screen, any_map=['0000'], tiles_dict={'0': Vacous()}, left=0, top=0, cell_size=32 * 3)
+    Wand_UI = UI(screen=screen, any_map=['0000'], tiles_dict={'0': Vacous()}, left=10, top=0, cell_size=32 * 3)
     Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Bolt()}, left=screen.get_width() - 32 * 3 * 5, top=0, cell_size=32 * 3)
     print(Inventory_UI.board)
     Inventory_UI.board = [[Triple(), Bolt(), Unstable(), Sin(), Vacous(), Vacous()]]
     inventory_chose = None
     wand_chose = None
 
-    board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, cell_size=64)
-    init_top, init_left = floor.spawn_player_and_exit(board, size)
-    board.left, board.top = init_left, init_top
+    board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
 
     player = Hero(screen, wizard)
 
@@ -62,7 +64,6 @@ if __name__ == '__main__':
     enemy_speel_group = pygame.sprite.Group()
     enemy_group.add([Ranger(spell_group=enemy_speel_group) for i in range(3)])
     enemy_group.add([Closer(spell_group=enemy_speel_group) for i in range(3)])
-    running = True
     while running:
         frame = frame % 60 + 1
         for event in pygame.event.get():
@@ -111,8 +112,11 @@ if __name__ == '__main__':
                        (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
                 player.cast((left, top), spell_group=spell_group, vec=vec)
                 cooldown_time = time()
+
+        board.render()
         left += (b_mose_pos[0] - mouse_pos[0]) / 70
         top += (b_mose_pos[1] - mouse_pos[1]) / 70
+        board.update(left, top)
         player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
         b_mose_pos = (b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
 
@@ -121,14 +125,10 @@ if __name__ == '__main__':
         if keys[pygame.K_x]:
             if  zoom - 0.1 > 0.1:
                 zoom -= 0.05
-        board.render()
-        board.update(left, top)
         wizard.update(any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]))
         player.image = wizard.image
         player.render(screen)
 
-        print(spell_group)
-        print(player.spell)
         casting = True if spell_group else False
         bolt.update(casting)
         spell_group.update(map_move=(left, top), anim=bolt.image)
@@ -137,7 +137,6 @@ if __name__ == '__main__':
         enemy_group.draw(screen)
         enemy_speel_group.update(map_move=(left, top))
         enemy_speel_group.draw(screen)
-        board.update(left, top)
 
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))

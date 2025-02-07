@@ -113,3 +113,4 @@ class SideDoorTile(Tile):
 class Void(Tile):
     def __init__(self):
         super().__init__()
+        self.image = load_image('Woid.png')

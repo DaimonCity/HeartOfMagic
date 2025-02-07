@@ -223,31 +223,27 @@ class Map:
             cords = [(cord_y, const) for cord_y in range(start_point, finish_point)]
         return cords
 
-    # def find_rooms(self):
-    #     cords_of_room = []
-    #     list_1 = []
-    #     for elem in self.map[1:-1]:
-    #         list_1.append(elem[1:-1])
-    #     pprint(list_1)
-
-    def spawn_player_and_exit(self, board, size):
-        w, h = size
-        set_1 = (13, 2), (2, 13)
-        set_2 = (-13, -2), (-2, -13)
-        choices = [set_1, set_2]
-        players_cords, exits_cords = random.choice(choices)
-        if players_cords == set_1[0]:
-            _left = board.cell_size + w // 2
-            _top = board.height * board.cell_size - board.cell_size + h // 2
-        else:
-            _left = board.height * board.cell_size - board.cell_size - w // 2
-            _top = board.cell_size - h // 2
-        self.map[exits_cords[0]][exits_cords[1]] = 21
-        return _top, _left
+    def add_exit(self):
+        top, left = 0, 0
+        choices = [(13, 2), (2, 13), (13, 13), (2, 2)]
+        exits_cords = random.choice(choices)
+        self.map[exits_cords[0]][exits_cords[1]] = 20
+        if exits_cords == (13, 2):
+            top = 350
+            left = -250
+        elif exits_cords == (2, 2):
+            top = -400
+            left = -250
+        elif exits_cords == (2, 13):
+            top = -400
+            left = 450
+        elif exits_cords == (13, 13):
+            top = 350
+            left = 450
+        return top, left
 
     def get_map(self):
         return self.map
-
 
 # Тесты класса
 # game = Map(EMPTY_MAP)
