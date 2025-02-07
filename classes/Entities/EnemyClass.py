@@ -6,12 +6,13 @@ from classes.Entities.SpellClass import *
 
 
 class Enemy(Entity):
-    def __init__(self, spell_group, image='entity.png'):
-        super().__init__(image=image)
+    def __init__(self, spell_group, board, image='entity.png'):
+        super().__init__(board=board, image=image)
         self.speed = 4
         self.speed_const = self.speed
         self.sleep = 0.1
         self.sleep_timer = time()
+        self.rect.center = (100, 100)
         self.center = self.rect.center
         self.logica = lambda :(randint(0, 1000), randint(0, 1000))
         self.spell_group = spell_group
@@ -34,8 +35,8 @@ class Enemy(Entity):
         super().update(map_move=map_move)
 
 class Closer(Enemy):
-    def __init__(self, spell_group):
-        super().__init__(spell_group=spell_group, image='Door.png')
+    def __init__(self, spell_group, board):
+        super().__init__(spell_group=spell_group, image='Door.png', board=board)
         self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(0, 0))
     def update(self, map_move, player):
@@ -44,8 +45,8 @@ class Closer(Enemy):
         super().update(map_move)
 
 class Ranger(Enemy):
-    def __init__(self, spell_group):
-        super().__init__(image='entity.png', spell_group=spell_group)
+    def __init__(self, spell_group, board):
+        super().__init__(image='entity.png', spell_group=spell_group, board=board)
         self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(0, 0))
 

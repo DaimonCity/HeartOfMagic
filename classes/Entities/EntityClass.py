@@ -9,10 +9,11 @@ from time import time
 
 
 class Entity(pygame.sprite.Sprite):
-    def __init__(self, image='entity.png'):
+    def __init__(self, board=0, image='entity.png'):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
         self.image = load_image(image, -1)
+        self.board = board
         self.rect = self.image.get_rect(center=(0, 0))
         self.speed = 0
         self.center = None
@@ -31,15 +32,19 @@ class Entity(pygame.sprite.Sprite):
         pass
 
     def move(self, map_move, center=None, funx=0, funy=0):
+        backup = self.center
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
             self.vec = (self.vec[0] + self.summoner.vec[0] * self.summoner.speed,
                         self.vec[1] * self.summoner.speed + self.summoner.vec[1])
-        if self.center is not  None:
+        if self.center is not None:
             self.center = (self.center[0] + self.vec[0] * self.speed + funx,
                            self.center[1] + self.vec[1] * self.speed + funy)
             self.rect.center = (self.center[0] + map_move[0],
                                 self.center[1] + map_move[1])
+        if self.board != 0:
+            if pygame.sprite.spritecollideany(self, self.board.collide_group):
+                self.center = backup
 
     def update(self, center=None, map_move=(0, 0), anim=None):
         self.leave_rule(map_move)

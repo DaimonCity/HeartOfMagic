@@ -17,7 +17,6 @@ if __name__ == '__main__':
     size = width, height = screen.get_size()
     wizard = AnimatedSprite(load_image("ToDownMag-Sheet.png"), 8, 1, 32 * 8, 32)
     bolt = AnimatedSprite(load_image("Bolt-Sheet.png"), 9, 1, 32 * 8, 32)
-    screen.get_width()
 
     animation_of_magic = {Spell: bolt}
     clock = pygame.time.Clock()
@@ -40,9 +39,8 @@ if __name__ == '__main__':
     keyboard = (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d, pygame.K_c, pygame.K_x, pygame.MOUSEBUTTONDOWN)
     for i in keyboard:
         keys[i] = 0
-    Wand_UI = UI(screen=screen, any_map=['0000'], tiles_dict={'0': Vacous()}, left=0, top=0, cell_size=32 * 3)
+    Wand_UI = UI(screen=screen, any_map=['000000'], tiles_dict={'0': Vacous()}, left=0, top=0, cell_size=32 * 3)
     Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Bolt()}, left=screen.get_width() - 32 * 3 * 5, top=0, cell_size=32 * 3)
-    print(Inventory_UI.board)
     Inventory_UI.board = [[Triple(), Bolt(), Unstable(), Sin(), Vacous(), Vacous()]]
     inventory_chose = None
     wand_chose = None
@@ -51,7 +49,7 @@ if __name__ == '__main__':
     init_top, init_left = floor.spawn_player_and_exit(board, size)
     board.left, board.top = init_left, init_top
 
-    player = Hero(screen, wizard)
+    player = Hero(screen, wizard, board=board)
 
     player.spell_line = [i.__class__ for i in Wand_UI.board[0]]
     cooldown_time = time()
@@ -60,8 +58,10 @@ if __name__ == '__main__':
     spell_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
     enemy_speel_group = pygame.sprite.Group()
-    enemy_group.add([Ranger(spell_group=enemy_speel_group) for i in range(3)])
-    enemy_group.add([Closer(spell_group=enemy_speel_group) for i in range(3)])
+    enemy_group.add([Ranger(spell_group=enemy_speel_group, board=board) for i in range(3)])
+    enemy_group.add([Closer(spell_group=enemy_speel_group, board=board) for i in range(3)])
+
+
     running = True
     while running:
         frame = frame % 60 + 1
@@ -113,7 +113,6 @@ if __name__ == '__main__':
                 cooldown_time = time()
         left += (b_mose_pos[0] - mouse_pos[0]) / 70
         top += (b_mose_pos[1] - mouse_pos[1]) / 70
-        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
         b_mose_pos = (b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
 
         if keys[pygame.K_c]:
@@ -127,17 +126,17 @@ if __name__ == '__main__':
         player.image = wizard.image
         player.render(screen)
 
-        print(spell_group)
-        print(player.spell)
         casting = True if spell_group else False
         bolt.update(casting)
-        spell_group.update(map_move=(left, top), anim=bolt.image)
         spell_group.draw(screen)
-        enemy_group.update(map_move=(left, top), player=player)
         enemy_group.draw(screen)
-        enemy_speel_group.update(map_move=(left, top))
         enemy_speel_group.draw(screen)
+        spell_group.update(map_move=(left, top), anim=bolt.image)
+        enemy_group.update(map_move=(left, top), player=player)
+        enemy_speel_group.update(map_move=(left, top))
         board.update(left, top)
+        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
+
 
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))

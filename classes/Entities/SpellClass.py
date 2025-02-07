@@ -23,8 +23,8 @@ class Vacous(Entity):
         self.leave_rule(map_move)
         self.move(map_move, center)
 class Spell(Entity):
-    def __init__(self, image='Bolt.png', logo='test_image.jpg'):
-        super().__init__(image)
+    def __init__(self, board=0, image='Bolt.png', logo='test_image.jpg'):
+        super().__init__(image=image, board=board)
         self.spell_line = []
         self.logo = pygame.transform.scale(load_image(logo), (32 * 3, 32 * 3))
         self.image = pygame.transform.scale(self.image, (16, 16))
@@ -38,13 +38,13 @@ class Spell(Entity):
             self.summon(map_move=map_move)
             self.kill()
 class Bolt(Spell):
-    def __init__(self, image='Bolt.png', logo='Door.png'):
-        super().__init__(image=image, logo=logo)
+    def __init__(self, board=0, image='Bolt.png', logo='Door.png'):
+        super().__init__(image=image, logo=logo, board=board)
 
 
 class Unstable(Spell):
-    def __init__(self, image='Bolt.png', logo='entity.png'):
-        super().__init__(image, logo=logo)
+    def __init__(self, board=0, image='Bolt.png', logo='entity.png'):
+        super().__init__(image=image, logo=logo, board=board)
         self.speed = 2
 
 
@@ -53,8 +53,8 @@ class Unstable(Spell):
                                        funy=random.randrange(-5, 5))
 
 class Sin(Spell):
-    def __init__(self, image='Bolt.png', logo='Floor.png'):
-        super().__init__(image, logo=logo)
+    def __init__(self, board=0, image='Bolt.png', logo='Floor.png'):
+        super().__init__(image=image, logo=logo, board=board)
         self.speed = 5
 
     def move(self, map_move, center):
@@ -62,8 +62,8 @@ class Sin(Spell):
                                        funy=-math.sin(time() * 10) * 10 * self.vec[0])
 
 class Triple(Spell):
-    def __init__(self, logo='test_image.jpg'):
-        super().__init__(logo=logo)
+    def __init__(self, board=0, logo='test_image.jpg'):
+        super().__init__(logo=logo, board=board)
         self.live_time = 0.001
     def summon(self, map_move):
         if len(self.spell_line) != 0:
