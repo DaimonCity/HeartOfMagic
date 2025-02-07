@@ -223,12 +223,29 @@ class Map:
             cords = [(cord_y, const) for cord_y in range(start_point, finish_point)]
         return cords
 
+    # def find_rooms(self):
+    #     cords_of_room = []
+    #     list_1 = []
+    #     for elem in self.map[1:-1]:
+    #         list_1.append(elem[1:-1])
+    #     pprint(list_1)
+
+    def spawn_player_and_exit(self):
+        set_1 = (13, 2), (2, 13)
+        set_2 = (-13, -2), (-2, -13)
+        choices = [set_1, set_2]
+        players_cords, exits_cords = random.choice(choices)
+        self.map[players_cords[0]][players_cords[1]] = -1
+        self.map[exits_cords[0]][exits_cords[1]] = 21
+
     def get_map(self):
         return self.map
 
-# # Тесты класса
-# game = Map(EMPTY_MAP)
-# print()
-# _y = choice_cord(1, len(game.map) - 1)
-# game.draw_line((1, _y), 'x', 'right')
-# pprint(game.get_map())
+
+# Тесты класса
+game = Map(EMPTY_MAP)
+print()
+_y = choice_cord(1, len(game.map) - 1)
+game.draw_line((1, _y), 'x', 'right')
+pprint(game.get_map())
+pprint(game.spawn_player_and_exit())
