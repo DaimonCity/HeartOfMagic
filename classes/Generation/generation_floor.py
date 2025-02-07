@@ -230,22 +230,29 @@ class Map:
     #         list_1.append(elem[1:-1])
     #     pprint(list_1)
 
-    def spawn_player_and_exit(self):
+    def spawn_player_and_exit(self, board, size):
+        w, h = size
         set_1 = (13, 2), (2, 13)
         set_2 = (-13, -2), (-2, -13)
         choices = [set_1, set_2]
         players_cords, exits_cords = random.choice(choices)
-        self.map[players_cords[0]][players_cords[1]] = -1
+        if players_cords == set_1[0]:
+            _left = board.cell_size + w // 2
+            _top = board.height * board.cell_size - board.cell_size + h // 2
+        else:
+            _left = board.height * board.cell_size - board.cell_size - w // 2
+            _top = board.cell_size - h // 2
         self.map[exits_cords[0]][exits_cords[1]] = 21
+        return _top, _left
 
     def get_map(self):
         return self.map
 
 
 # Тесты класса
-game = Map(EMPTY_MAP)
-print()
-_y = choice_cord(1, len(game.map) - 1)
-game.draw_line((1, _y), 'x', 'right')
-pprint(game.get_map())
-pprint(game.spawn_player_and_exit())
+# game = Map(EMPTY_MAP)
+# print()
+# _y = choice_cord(1, len(game.map) - 1)
+# game.draw_line((1, _y), 'x', 'right')
+# pprint(game.get_map())
+# pprint(game.spawn_player_and_exit())

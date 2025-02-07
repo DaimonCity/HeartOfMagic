@@ -21,10 +21,10 @@ if __name__ == '__main__':
 
     animation_of_magic = {Spell: bolt}
     clock = pygame.time.Clock()
+    floor = Map(EMPTY_MAP)
     top = 0
     left = 0
     zoom = 3
-    floor = Map(EMPTY_MAP)
     _y = choice_cord(1, len(floor.map) - 1)
     floor.set_one_sprite(0, _y, 14)
     floor.draw_line((1, _y), 'x', 'right')
@@ -47,7 +47,10 @@ if __name__ == '__main__':
     inventory_chose = None
     wand_chose = None
 
-    board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, left=10, top=20, cell_size=64)
+    board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, cell_size=64)
+    init_top, init_left = floor.spawn_player_and_exit(board, size)
+    board.left, board.top = init_left, init_top
+
     player = Hero(screen, wizard)
 
     player.spell_line = [i.__class__ for i in Wand_UI.board[0]]

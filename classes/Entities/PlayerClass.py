@@ -19,6 +19,7 @@ class Hero(Entity):
             self.rect.center = center
         if rect is not None:
             self.rect.update(rect)
+
     def move(self, vec, left, top, screen, mose_pos=(0, 0)):
         left -= vec[0] * self.speed
         top -= vec[1] * self.speed
