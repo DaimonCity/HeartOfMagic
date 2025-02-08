@@ -110,7 +110,12 @@ class SideDoorTile(Tile):
         super().__init__()
         self.image = load_image('SideDoor.png')
 
+
 class Void(Tile):
     def __init__(self):
         super().__init__()
         self.image = load_image('Woid.png')
+        exit_group.add(self)
+
+
+exit_group = pygame.sprite.Group()

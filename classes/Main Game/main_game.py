@@ -1,3 +1,5 @@
+import pygame.sprite
+
 from classes.Animations.AnimationsClasses import AnimatedSprite
 from classes.Boards.BoardClass import UI, Board
 from classes.Entities.EnemyClass import Ranger, Closer
@@ -105,6 +107,8 @@ def start_game():
                     else:
                         screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
                     size = screen.get_size()
+        if pygame.sprite.spritecollideany(player, exit_group):
+            return True
 
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
             left, top = player.move(normolize_vec(
@@ -119,10 +123,14 @@ def start_game():
                 player.cast((left, top), spell_group=spell_group, vec=vec)
                 cooldown_time = time()
 
+        casting = True if spell_group else False
         board.render()
         left += (b_mose_pos[0] - mouse_pos[0]) / 70
         top += (b_mose_pos[1] - mouse_pos[1]) / 70
         board.update(left, top)
+        wizard.update(any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]))
+        player.image = wizard.image
+        player.render(screen)
         player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70,
                               player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
         b_mose_pos = (
@@ -133,11 +141,7 @@ def start_game():
         if keys[pygame.K_x]:
             if zoom - 0.1 > 0.1:
                 zoom -= 0.05
-        wizard.update(any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]))
-        player.image = wizard.image
-        player.render(screen)
 
-        casting = True if spell_group else False
         bolt.update(casting)
         spell_group.update(map_move=(left, top), anim=bolt.image)
         spell_group.draw(screen)
@@ -159,4 +163,7 @@ def start_game():
     pygame.display.flip()
 
 
-start_game()
+
+# while start_game() is False:
+#     while start_game() is True:
+#         start_game()
