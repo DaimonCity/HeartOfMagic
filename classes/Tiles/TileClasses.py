@@ -8,9 +8,11 @@ class Tile(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = load_image('test_image.jpg')
         self.rect = self.image.get_rect(center=(0, 0))
+    def update(self, x, y, board):
+        self.render(x, y, board)
 
     def render(self, x, y, board):
-        self.image = pygame.transform.scale(self.image, (board.cell_size, board.cell_size))
+        # self.image = pygame.transform.scale(self.image, (board.cell_size, board.cell_size))
         self.rect.update(x * board.cell_size + board.left, y * board.cell_size + board.top, board.cell_size,
                          board.cell_size)
 

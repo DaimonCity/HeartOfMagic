@@ -1,4 +1,5 @@
 from classes.Entities.SpellClass import *
+from classes.Tiles import *
 
 
 class Hero(Entity):
@@ -21,12 +22,14 @@ class Hero(Entity):
             self.rect.update(rect)
 
     def move(self, vec, left, top, screen, mose_pos=(0, 0)):
-        backup = (left, top)
+        backup = (left, top), self.rect.center
         left -= vec[0] * self.speed
         top -= vec[1] * self.speed
-        print(self.board.collide_group)
-        if pygame.sprite.spritecollideany(self, self.board.collide_group):
-            return backup
+        self.rect.center = (self.rect.center[0] + vec[0] * self.speed, self.rect.center[1] + vec[1] * self.speed)
+        if pygame.sprite.spritecollideany(self, self.board.collide_group) is not None:
+            self.rect.center = backup[1]
+            return backup[0]
+        self.rect.center = backup[1]
         return left, top
 
     def cast(self, map_move, spell_group, vec, board):

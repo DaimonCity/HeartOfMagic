@@ -27,27 +27,30 @@ class Board:
         if child != 0:
             self.board = [[child for _ in range(self.width)] for _ in range(self.height)]
         else:
-            self.board = [[copy(self.tiles_dict[any_map[h][w]]) for w in range(self.width)] for h in range(self.height)]
+            self.board = [[copy(self.tiles_dict[any_map[h][w]]()) for w in range(self.width)] for h in range(self.height)]
+            pprint(self.board)
         self.do_colission()
 
-
     def do_colission(self):
-        for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
-                if self.board[i][j].__class__ is not self.tiles_dict[0].__class__:
+        for i in range(self.height):
+            for j in range(self.width):
+                if self.board[i][j].__class__ is not self.tiles_dict[0]:
                     self.collide_group.add(self.board[i][j])
-                    pprint(self.collide_group.sprites())
 
-
-    def render(self, parent_x=0, parent_y=0, parent=0):
+    def render(self, screen, parent_x=0, parent_y=0, parent=0):
+        self.sprite_group = pygame.sprite.Group()
+        c = 0
         for y in range(self.height):
             for x in range(self.width):
-                self.board[y][x].render(x, y, self)
-                self.screen.blit(self.board[y][x].image, self.board[y][x].rect)
+                c += 1
+                self.board[y][x].update(x, y, self)
+                self.sprite_group.add(self.board[y][x])
+        self.sprite_group.draw(screen)
 
     def update(self, left=None, top=None):
         if not (None in [left, top]):
             self.left, self.top = left, top
+
     def get_click(self, mouse_pos):
         cell = self.get_cell(mouse_pos)
         if (cell is not None) and (cell[0] >= 0) and (cell[1] >= 0):
@@ -67,15 +70,17 @@ class Board:
 class UI(Board):
     def __init__(self, screen, any_map, tiles_dict, parent=0, child=0, left=0, top=0, cell_size=50):
         super().__init__(screen, any_map, tiles_dict, parent, child, left, top, cell_size)
+
     def do_colission(self):
         pass
+
     def render(self):
         for y in range(self.height):
             for x in range(self.width):
-                self.screen.blit(pygame.transform.scale(load_image('Empty_slot.png'),(32 * 3, 32 * 3)),
-                                (self.board[y][x].rect.x + x * self.cell_size + self.left,
-                                 self.board[y][x].rect.y + y * self.cell_size + self.top,
-                                *self.board[y][x].rect.size))
+                self.screen.blit(pygame.transform.scale(load_image('Empty_slot.png'), (32 * 3, 32 * 3)),
+                                 (self.board[y][x].rect.x + x * self.cell_size + self.left,
+                                  self.board[y][x].rect.y + y * self.cell_size + self.top,
+                                  *self.board[y][x].rect.size))
                 self.screen.blit(self.board[y][x].logo, (self.board[y][x].rect.x + x * self.cell_size + self.left,
                                                          self.board[y][x].rect.y + y * self.cell_size + self.top,
                                                          *self.board[y][x].rect.size))
