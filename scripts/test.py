@@ -109,7 +109,7 @@ if __name__ == '__main__':
                        (player.rect.center[0] - screen.get_rect().center[0]) * (1 - zoom),
                        (mouse_pos[1] * zoom + mouse_pos[1] * (1 - zoom)) +
                        (player.rect.center[1] - screen.get_rect().center[1]) * (1 - zoom))
-                player.cast((left, top), spell_group=spell_group, vec=vec)
+                player.cast((left, top), spell_group=spell_group, vec=vec, board=board)
                 cooldown_time = time()
         left += (b_mose_pos[0] - mouse_pos[0]) / 70
         top += (b_mose_pos[1] - mouse_pos[1]) / 70
@@ -131,9 +131,9 @@ if __name__ == '__main__':
         spell_group.draw(screen)
         enemy_group.draw(screen)
         enemy_speel_group.draw(screen)
-        spell_group.update(map_move=(left, top), anim=bolt.image)
-        enemy_group.update(map_move=(left, top), player=player)
-        enemy_speel_group.update(map_move=(left, top))
+        spell_group.update(map_move=(left, top), anim=bolt.image, board=board)
+        enemy_group.update(map_move=(left, top), player=player, board=board)
+        enemy_speel_group.update(map_move=(left, top), board=board)
         board.update(left, top)
         player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
 

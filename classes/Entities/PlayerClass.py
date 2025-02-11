@@ -24,13 +24,13 @@ class Hero(Entity):
         backup = (left, top)
         left -= vec[0] * self.speed
         top -= vec[1] * self.speed
-        if self.board != 0:
-            if pygame.sprite.spritecollideany(self, self.board.collide_group):
-                return backup
+        print(self.board.collide_group)
+        if pygame.sprite.spritecollideany(self, self.board.collide_group):
+            return backup
         return left, top
 
-    def cast(self, map_move, spell_group, vec):
+    def cast(self, map_move, spell_group, vec, board):
         # self.spell_line = [Triple, Unstable, Bolt, Sin]
         spell = self.spell_line[0]()
         spell_group.add(spell)
-        spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=self.spell_line[1:], board=self.board)
+        spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=self.spell_line[1:], board=board)

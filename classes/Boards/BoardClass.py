@@ -36,6 +36,7 @@ class Board:
             for j in range(len(self.board[i])):
                 if self.board[i][j].__class__ is not self.tiles_dict[0].__class__:
                     self.collide_group.add(self.board[i][j])
+                    pprint(self.collide_group.sprites())
 
 
     def render(self, parent_x=0, parent_y=0, parent=0):

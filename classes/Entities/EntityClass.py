@@ -22,16 +22,16 @@ class Entity(pygame.sprite.Sprite):
     def render(self, screen):
         screen.blit(self.image, self.rect)
 
-    def summon(self, map_move):
+    def summon(self, map_move, board):
         if len(self.spell_line) != 0:
             spell = self.spell_line[0]()
             self.groups()[0].add(spell)
-            spell.cast(map_move=map_move, summoner=self, vec=self.vec, spell_line=self.spell_line[1:])
+            spell.cast(map_move=map_move, summoner=self, vec=self.vec, spell_line=self.spell_line[1:], board=board)
 
-    def leave_rule(self, map_move):
+    def leave_rule(self, map_move, board):
         pass
 
-    def move(self, map_move, center=None, funx=0, funy=0):
+    def move(self, map_move, board, center=None, funx=0, funy=0):
         backup = self.center
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
@@ -42,20 +42,19 @@ class Entity(pygame.sprite.Sprite):
                            self.center[1] + self.vec[1] * self.speed + funy)
             self.rect.center = (self.center[0] + map_move[0],
                                 self.center[1] + map_move[1])
-        if self.board != 0:
-            if pygame.sprite.spritecollideany(self, self.board.collide_group):
-                self.center = backup
+        if pygame.sprite.spritecollideany(self, board.collide_group):
+            self.center = backup
 
-    def update(self, center=None, map_move=(0, 0), anim=None):
-        self.leave_rule(map_move)
-        self.move(map_move, center)
+    def update(self, board, center=None, map_move=(0, 0), anim=None):
+        self.leave_rule(map_move, board=board)
+        self.move(map_move=map_move, center=center, board=board)
         if anim is not None:
             self.image = anim
 
-    def cast(self, map_move, summoner, vec, spell_line):
+    def cast(self, map_move, summoner, vec, spell_line, board):
         self.summoner = summoner
         self.spell_line = spell_line
-        self.update(center=summoner.rect.center, map_move=map_move)
+        self.update(center=summoner.rect.center, map_move=map_move, board=board)
         self.fire(vec, summoner)
 
     def fire(self, vec, summoner):
