@@ -54,6 +54,7 @@ button_rects = [
 ]
 
 button_texts = ["Продолжить", "Новая игра", "Настройки", "Выйти"]
+path = os.path.abspath('../../scripts/test.py')
 
 while True:
     clock.tick(60)
@@ -67,6 +68,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             for i, button_rect in enumerate(button_rects):
                 if button_rect.collidepoint(event.pos):
+                    os.system(path)
                     print(f"{button_texts[i]} нажата!")
                     if button_texts[i] == "Выйти":
                         pygame.quit()

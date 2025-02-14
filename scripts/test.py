@@ -6,7 +6,7 @@ from classes.Entities.PlayerClass import Hero
 from classes.Entities.EnemyClass import *
 from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
 
-if __name__ == '__main__':
+if True:
     FPS = 60
     frame = 0
     pygame.init()
