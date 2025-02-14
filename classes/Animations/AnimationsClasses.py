@@ -25,7 +25,6 @@ class AnimatedSprite(pygame.sprite.Sprite):
         if state is True:
             self.cur_frame = (self.cur_frame + 1) % len(self.frames)
             self.image = self.frames[self.cur_frame]
-            print("spell")
         else:
             self.image = self.frames[0]
 
