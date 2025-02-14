@@ -31,12 +31,18 @@ class Enemy(Entity):
             self.sleep_timer = time()
         vec = (self.point[0] - self.rect.center[0] + map_move[0],
                self.point[1] - self.rect.center[1] + map_move[1])
+        colizer = pygame.sprite.spritecollideany(self, self.board.player_spell_group)
+        if colizer is not None:
+            if pygame.sprite.collide_mask(self, colizer) is not None:
+                self.kill()
+                colizer.summon(map_move=map_move, board=board)
+                colizer.kill()
 
         self.vec = normolize_vec((vec))
         super().update(map_move=map_move, board=board)
-    def move(self, map_move, center=None, funx=0, funy=0):
+    def move(self, map_move, board, center=None, funx=0, funy=0):
         backup = self.center
-        super().move(map_move, center, funx, funy)
+        super().move(map_move=map_move, board=board, center=center, funx=funx, funy=funy)
         self.rect.center = (self.center[0] + self.vec[0] * (self.speed * 2) + map_move[0], backup[1] + map_move[1])
         colizer = pygame.sprite.spritecollideany(self, self.board.collide_group)
         if colizer is not None:

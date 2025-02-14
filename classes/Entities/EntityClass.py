@@ -33,7 +33,7 @@ class Entity(pygame.sprite.Sprite):
     def leave_rule(self, map_move, board):
         pass
 
-    def move(self, map_move, center=None, funx=0, funy=0):
+    def move(self, map_move, board, center=None, funx=0, funy=0):
         backup = self.center
         self.rect.center = (self.rect.center[0] + self.vec[0] * self.speed, self.rect.center[1] + self.vec[1] * self.speed)
         if center is not None:
@@ -50,7 +50,7 @@ class Entity(pygame.sprite.Sprite):
 
     def update(self, board, center=None, map_move=(0, 0), anim=None):
         self.leave_rule(map_move, board=board)
-        self.move(map_move=map_move, center=center)
+        self.move(map_move=map_move, center=center, board=board)
         if anim is not None:
             self.image = anim
     def cast(self, map_move, summoner, vec, spell_line, board):

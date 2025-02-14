@@ -21,7 +21,7 @@ class Vacous(Entity):
             self.kill()
     def update(self, board, center=None, map_move=(0, 0), anim=None):
         self.leave_rule(map_move, board=board)
-        self.move(map_move=map_move, center=center)
+        self.move(map_move=map_move, center=center, board=board)
 class Spell(Entity):
     def __init__(self, board, image='Bolt.png', logo='test_image.jpg'):
         super().__init__(image=image, board=board)
@@ -41,6 +41,7 @@ class Spell(Entity):
             self.vec = (-self.vec[0], -self.vec[1])
             self.summon(map_move=map_move, board=board)
             self.kill()
+
 class Bolt(Spell):
     def __init__(self, board, image='Bolt.png', logo='Door.png'):
         super().__init__(image=image, logo=logo, board=board)

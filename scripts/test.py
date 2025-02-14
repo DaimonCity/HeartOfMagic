@@ -127,6 +127,9 @@ if __name__ == '__main__':
         bolt.update(casting)
         board.update(left, top)
         spell_group.draw(screen)
+        board.player_spell_group = spell_group
+        board.enemy_spell_group = enemy_speel_group
+        board.enemy_group = enemy_group
         enemy_group.draw(screen)
         enemy_speel_group.draw(screen)
         spell_group.update(map_move=(left, top), anim=bolt.image, board=board)
