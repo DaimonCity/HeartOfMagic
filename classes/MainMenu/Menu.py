@@ -4,7 +4,7 @@ import os
 
 
 def load_image(name, color_key=None):
-    fullname = os.path.join('data', name)
+    fullname = os.path.join(os.path.abspath('../../scripts/data'), name)
     try:
         image = pygame.image.load(fullname)
     except pygame.error as message:

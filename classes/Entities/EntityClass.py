@@ -83,8 +83,8 @@ class Entity(pygame.sprite.Sprite):
             self.vec = vec
 
 
-class Hb_bar(pygame.sprite.Sprite):
-    def __init__(self, sheet, columns, rows, x, y, player):
+class HpBar(pygame.sprite.Sprite):
+    def __init__(self, sheet, columns, rows, x, y, player, screen):
         super().__init__()
         self.frames = []
         self.cut_sheet(sheet, columns, rows)
@@ -92,6 +92,10 @@ class Hb_bar(pygame.sprite.Sprite):
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(x, y)
         self.player = player
+        self.coords = screen.rect.bottom_left
+        self.height, self.width = screen.height, screen.width
+        self.screen = screen
+        self.hp_bar = pygame.sprite.Group()
 
     def cut_sheet(self, sheet, columns, rows):
         self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
@@ -104,7 +108,19 @@ class Hb_bar(pygame.sprite.Sprite):
 
     def update(self, state=None):
         if state is True:
-            self.cur_frame = self.player.hp
+            self.cur_frame = 202 - self.player.hp
             self.image = self.frames[self.cur_frame]
         else:
             self.image = self.frames[0]
+
+    def render(self):
+        for y in range(self.height):
+            for x in range(self.width):
+                self.screen.blit(pygame.transform.scale(load_image('Empty_slot.png'), (32 * 3, 32 * 3)),
+                                 (self.board[y][x].rect.x + x * self.cell_size + self.left,
+                                  self.board[y][x].rect.y + y * self.cell_size + self.top,
+                                  *self.board[y][x].rect.size))
+                self.screen.blit(self.board[y][x].logo, (self.board[y][x].rect.x + x * self.cell_size + self.left,
+                                                         self.board[y][x].rect.y + y * self.cell_size + self.top,
+                                                         *self.board[y][x].rect.size))
+        self.hp_bar.draw(self.screen)

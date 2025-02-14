@@ -83,8 +83,6 @@ class Triple(Spell):
         if len(self.spell_line) != 0:
             for i in range(3 if len(self.spell_line) >= 3 else len(self.spell_line)):
                 spell = self.spell_line[i](board)
-                if not spell.groups() or len(self.spell_line) == 1:
-                    continue
                 self.groups()[0].add(spell)
                 vec = normolize_vec((self.vec[0] + ((i - 1) / 3), self.vec[1] + ((i - 1) / 3)))
                 spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=self.spell_line[3:], board=board)

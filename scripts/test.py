@@ -1,10 +1,11 @@
 from classes.Animations.AnimationsClasses import AnimatedSprite
-from classes.Entities.EntityClass import Hb_bar
+from classes.Entities.EntityClass import HpBar
 from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import *
 from classes.Entities.PlayerClass import Hero
 from classes.Entities.EnemyClass import *
 from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
+import pygame
 
 if True:
     FPS = 60
@@ -42,7 +43,7 @@ if True:
     Wand_UI = UI(screen=screen, any_map=['000000'], tiles_dict={'0': Vacous}, left=20, top=20, cell_size=32 * 3)
     Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Bolt}, left=screen.get_width() - 32 * 3 * 5,
                       top=20, cell_size=32 * 3)
-    Hp_bar = UI(screen=screen, any_map=['hp'], tiles_dict={'hp': Hb_bar}, left=20, top=screen.get_height() / 2)
+    hp_bar = HpBar()
     Inventory_UI.board = [[Triple(board), Bolt(board), Unstable(board), Sin(board), Vacous(board), Vacous(board)]]
     inventory_chose = None
     wand_chose = None
