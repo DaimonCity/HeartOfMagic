@@ -27,14 +27,16 @@ class Board:
         if child != 0:
             self.board = [[child for _ in range(self.width)] for _ in range(self.height)]
         else:
-            self.board = [[copy(self.tiles_dict[any_map[h][w]]()) for w in range(self.width)] for h in range(self.height)]
-            pprint(self.board)
+            self.full_up()
         self.do_colission()
+
+    def full_up(self):
+        self.board = [[copy(self.tiles_dict[self.map[h][w]]()) for w in range(self.width)] for h in range(self.height)]
 
     def do_colission(self):
         for i in range(self.height):
             for j in range(self.width):
-                if self.board[i][j].__class__ is not self.tiles_dict[0]:
+                if not (self.board[i][j].__class__ in (self.tiles_dict[0], self.tiles_dict[2], self.tiles_dict[17])):
                     self.collide_group.add(self.board[i][j])
 
     def render(self, screen, parent_x=0, parent_y=0, parent=0):
@@ -55,7 +57,6 @@ class Board:
         cell = self.get_cell(mouse_pos)
         if (cell is not None) and (cell[0] >= 0) and (cell[1] >= 0):
             return self.on_click(cell)
-            # self.board[cell[0]][cell[1]].get_click(mouse_pos)
 
     def on_click(self, cell):
         return cell
@@ -73,6 +74,9 @@ class UI(Board):
 
     def do_colission(self):
         pass
+
+    def full_up(self):
+        self.board = [[copy(self.tiles_dict[self.map[h][w]](self)) for w in range(self.width)] for h in range(self.height)]
 
     def render(self):
         for y in range(self.height):

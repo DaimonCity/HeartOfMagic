@@ -8,6 +8,7 @@ class Tile(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = load_image('test_image.jpg')
         self.rect = self.image.get_rect(center=(0, 0))
+        self.mask = pygame.mask.from_surface(self.image)
     def update(self, x, y, board):
         self.render(x, y, board)
 

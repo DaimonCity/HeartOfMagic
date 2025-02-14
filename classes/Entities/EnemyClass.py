@@ -9,6 +9,7 @@ class Enemy(Entity):
     def __init__(self, spell_group, board, image='entity.png'):
         super().__init__(board=board, image=image)
         self.speed = 4
+        self.board = board
         self.speed_const = self.speed
         self.sleep = 0.1
         self.sleep_timer = time()
@@ -58,6 +59,6 @@ class Ranger(Enemy):
         super().update(map_move=map_move, board=board)
     def cast(self, map_move, spell_group, vec, board):
         spell_line = [Bolt]
-        spell = spell_line[0]()
+        spell = spell_line[0](board)
         spell_group.add(spell)
         spell.cast(map_move=map_move, summoner=self, vec=vec, spell_line=spell_line[1:], board=board)
