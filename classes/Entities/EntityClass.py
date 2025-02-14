@@ -50,7 +50,7 @@ class Entity(pygame.sprite.Sprite):
     def move(self, map_move, board, center=None, funx=0, funy=0):
         backup = self.center
         self.rect.center = (
-        self.rect.center[0] + self.vec[0] * self.speed, self.rect.center[1] + self.vec[1] * self.speed)
+            self.rect.center[0] + self.vec[0] * self.speed, self.rect.center[1] + self.vec[1] * self.speed)
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
             self.vec = (self.vec[0] + self.summoner.vec[0] * self.summoner.speed,
@@ -82,6 +82,29 @@ class Entity(pygame.sprite.Sprite):
         else:
             self.vec = vec
 
-class Hb_bar(Entity):
-    def __init__(self, board, image='entity.png'):
+
+class Hb_bar(pygame.sprite.Sprite):
+    def __init__(self, sheet, columns, rows, x, y, player):
         super().__init__()
+        self.frames = []
+        self.cut_sheet(sheet, columns, rows)
+        self.cur_frame = 0
+        self.image = self.frames[self.cur_frame]
+        self.rect = self.rect.move(x, y)
+        self.player = player
+
+    def cut_sheet(self, sheet, columns, rows):
+        self.rect = pygame.Rect(0, 0, sheet.get_width() // columns,
+                                sheet.get_height() // rows)
+        for j in range(rows):
+            for i in range(columns):
+                frame_location = (self.rect.w * i, self.rect.h * j)
+                self.frames.append(sheet.subsurface(pygame.Rect(
+                    frame_location, self.rect.size)))
+
+    def update(self, state=None):
+        if state is True:
+            self.cur_frame = self.player.hp
+            self.image = self.frames[self.cur_frame]
+        else:
+            self.image = self.frames[0]

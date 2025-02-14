@@ -16,7 +16,7 @@ class Hero(Entity):
         self.mose_pose = (0, 0)
         self.damage_couldown_timer = time()
         self.spell = None
-        self.hp = 200
+        self.hp = 202
 
     def update(self, map_move, board, center=None, rect=None):
         if center is not None:
