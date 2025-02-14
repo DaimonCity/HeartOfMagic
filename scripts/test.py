@@ -45,7 +45,8 @@ if __name__ == '__main__':
     for i in keyboard:
         keys[i] = 0
     Wand_UI = UI(screen=screen, any_map=['0000'], tiles_dict={'0': Vacous()}, left=10, top=0, cell_size=32 * 3)
-    Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Bolt()}, left=screen.get_width() - 32 * 3 * 5, top=0, cell_size=32 * 3)
+    Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Bolt()}, left=screen.get_width() - 32 * 3 * 5,
+                      top=0, cell_size=32 * 3)
     print(Inventory_UI.board)
     Inventory_UI.board = [[Triple(), Bolt(), Unstable(), Sin(), Vacous(), Vacous()]]
     inventory_chose = None
@@ -71,10 +72,13 @@ if __name__ == '__main__':
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if (Inventory_UI.get_click(event.pos) is not None) or (Wand_UI.get_click(event.pos) is not None):
-                    inventory_chose = Inventory_UI.get_click(event.pos) if Inventory_UI.get_click(event.pos) is not None else inventory_chose
+                    inventory_chose = Inventory_UI.get_click(event.pos) if Inventory_UI.get_click(
+                        event.pos) is not None else inventory_chose
                     wand_chose = Wand_UI.get_click(event.pos) if Wand_UI.get_click(event.pos) is not None else wand_chose
                     if (inventory_chose is not None) and (wand_chose is not None):
-                        Inventory_UI.board[inventory_chose[1]][inventory_chose[0]], Wand_UI.board[wand_chose[1]][wand_chose[0]] = Wand_UI.board[wand_chose[1]][wand_chose[0]], Inventory_UI.board[inventory_chose[1]][inventory_chose[0]]
+                        Inventory_UI.board[inventory_chose[1]][inventory_chose[0]], Wand_UI.board[wand_chose[1]][
+                            wand_chose[0]] = Wand_UI.board[wand_chose[1]][wand_chose[0]], \
+                        Inventory_UI.board[inventory_chose[1]][inventory_chose[0]]
                         player.spell_line = [i.__class__ for i in Wand_UI.board[0]]
                         inventory_chose = None
                         wand_chose = None
@@ -94,16 +98,17 @@ if __name__ == '__main__':
                     keys[event.key] = True
                 if event.key == pygame.K_ESCAPE:
                     running = False
-                if  event.key == pygame.K_F11:
+                if event.key == pygame.K_F11:
                     if pygame.display.is_fullscreen():
                         screen = pygame.display.set_mode((width, height))
                     else:
                         screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
                     size = screen.get_size()
 
-
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
-            left, top = player.move(normolize_vec(((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w])))), left=left, top=top, screen=screen, mose_pos=mouse_pos)
+            left, top = player.move(normolize_vec(
+                ((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w])))),
+                                    left=left, top=top, screen=screen, mose_pos=mouse_pos)
         if keys[pygame.MOUSEBUTTONDOWN]:
             if time() - cooldown_time >= player.cooldown:
                 vec = ((mouse_pos[0] * zoom + mouse_pos[0] * (1 - zoom)) +
@@ -117,13 +122,15 @@ if __name__ == '__main__':
         left += (b_mose_pos[0] - mouse_pos[0]) / 70
         top += (b_mose_pos[1] - mouse_pos[1]) / 70
         board.update(left, top)
-        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
-        b_mose_pos = (b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
+        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70,
+                              player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
+        b_mose_pos = (
+        b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
 
         if keys[pygame.K_c]:
             zoom += 0.05
         if keys[pygame.K_x]:
-            if  zoom - 0.1 > 0.1:
+            if zoom - 0.1 > 0.1:
                 zoom -= 0.05
         wizard.update(any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]))
         player.image = wizard.image
@@ -138,8 +145,8 @@ if __name__ == '__main__':
         enemy_speel_group.update(map_move=(left, top))
         enemy_speel_group.draw(screen)
 
-
-        scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
+        scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (
+        width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
         screen.blit(*scr)
         Inventory_UI.render()
@@ -149,4 +156,3 @@ if __name__ == '__main__':
         clock.tick(FPS)
         screen.fill((0, 0, 0))
     pygame.display.flip()
-

@@ -2,8 +2,6 @@ import copy
 import pygame
 from copy import *
 from scripts.image_scripts import load_image
-from pprint import pprint
-from classes.Tiles.TileClasses import Tile
 
 
 class Board:
