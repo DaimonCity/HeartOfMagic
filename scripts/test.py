@@ -107,10 +107,10 @@ if __name__ == '__main__':
                 player.cast((left, top), spell_group=spell_group, vec=vec, board=board)
                 cooldown_time = time()
 
-        # left += (b_mose_pos[0] - mouse_pos[0]) / 70
-        # top += (b_mose_pos[1] - mouse_pos[1]) / 70
+        left += (b_mose_pos[0] - mouse_pos[0]) / 70
+        top += (b_mose_pos[1] - mouse_pos[1]) / 70
         b_mose_pos = (b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
-        # player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
+        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
 
         if keys[pygame.K_c]:
             zoom += 0.05
@@ -125,13 +125,13 @@ if __name__ == '__main__':
 
         casting = True if spell_group else False
         bolt.update(casting)
+        board.update(left, top)
         spell_group.draw(screen)
         enemy_group.draw(screen)
         enemy_speel_group.draw(screen)
         spell_group.update(map_move=(left, top), anim=bolt.image, board=board)
         enemy_group.update(map_move=(left, top), player=player, board=board)
         enemy_speel_group.update(map_move=(left, top), board=board)
-        board.update(left, top)
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))

@@ -42,11 +42,8 @@ class Entity(pygame.sprite.Sprite):
                         self.vec[1] * self.summoner.speed + self.summoner.vec[1])
         self.center = (self.center[0] + self.vec[0] * self.speed + funx,
                        self.center[1] + self.vec[1] * self.speed + funy)
-        if pygame.sprite.spritecollideany(self, self.board.collide_group) is not None:
-            self.center = backup
         self.rect.center = (self.center[0] + map_move[0],
                             self.center[1] + map_move[1])
-
 
         # if pygame.sprite.spritecollideany(self, self.board.collide_group) is not None:
         #     self.rect.center = backup
