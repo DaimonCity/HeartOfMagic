@@ -43,7 +43,6 @@ if True:
     Wand_UI = UI(screen=screen, any_map=['000000'], tiles_dict={'0': Vacous}, left=20, top=20, cell_size=32 * 3)
     Inventory_UI = UI(screen=screen, any_map=['00000'], tiles_dict={'0': Bolt}, left=screen.get_width() - 32 * 3 * 5,
                       top=20, cell_size=32 * 3)
-    hp_bar = HpBar()
     Inventory_UI.board = [[Triple(board), Bolt(board), Unstable(board), Sin(board), Vacous(board), Vacous(board)]]
     inventory_chose = None
     wand_chose = None
@@ -55,6 +54,8 @@ if True:
     player.spell_line = [i.__class__ for i in Wand_UI.board[0]]
     cooldown_time = time()
 
+    # screen.blit()
+    hp_bar = HpBar(load_image('HP-Bar.png'), 202, 1, 128 * 202, 32, player, screen, board)
     spell_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
     enemy_speel_group = pygame.sprite.Group()
@@ -71,11 +72,12 @@ if True:
                 if (Inventory_UI.get_click(event.pos) is not None) or (Wand_UI.get_click(event.pos) is not None):
                     inventory_chose = Inventory_UI.get_click(event.pos) if Inventory_UI.get_click(
                         event.pos) is not None else inventory_chose
-                    wand_chose = Wand_UI.get_click(event.pos) if Wand_UI.get_click(event.pos) is not None else wand_chose
+                    wand_chose = Wand_UI.get_click(event.pos) if Wand_UI.get_click(
+                        event.pos) is not None else wand_chose
                     if (inventory_chose is not None) and (wand_chose is not None):
                         Inventory_UI.board[inventory_chose[1]][inventory_chose[0]], Wand_UI.board[wand_chose[1]][
                             wand_chose[0]] = Wand_UI.board[wand_chose[1]][wand_chose[0]], \
-                        Inventory_UI.board[inventory_chose[1]][inventory_chose[0]]
+                            Inventory_UI.board[inventory_chose[1]][inventory_chose[0]]
                         player.spell_line = [i.__class__ for i in Wand_UI.board[0]]
                         inventory_chose = None
                         wand_chose = None
@@ -105,7 +107,7 @@ if True:
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
             left, top = player.move(normolize_vec(
                 ((int(keys[pygame.K_d]) - int(keys[pygame.K_a])), (int(keys[pygame.K_s]) - int(keys[pygame.K_w])))),
-                                    left=left, top=top, screen=screen, mose_pos=mouse_pos)
+                left=left, top=top, screen=screen, mose_pos=mouse_pos)
 
         if keys[pygame.MOUSEBUTTONDOWN]:
             if time() - cooldown_time >= player.cooldown:
@@ -122,7 +124,7 @@ if True:
         left += (b_mose_pos[0] - mouse_pos[0]) / 70
         top += (b_mose_pos[1] - mouse_pos[1]) / 70
         b_mose_pos = (
-        b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
+            b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
         player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70,
                               player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70), map_move=(left, top),
                       board=board)
@@ -150,12 +152,14 @@ if True:
         enemy_speel_group.update(map_move=(left, top), board=board)
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (
-        width / 2 * (1 - zoom), height / 2 * (1 - zoom))
+            width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
         screen.blit(*scr)
         Inventory_UI.render()
         Wand_UI.render()
         pygame.display.update()
+        hp_bar.update()
+        hp_bar.render()
         pygame.display.flip()
         clock.tick(FPS)
         screen.fill((0, 0, 0))

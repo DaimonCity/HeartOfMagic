@@ -4,7 +4,7 @@ import os
 
 
 def load_image(name, color_key=None):
-    fullname = os.path.join(os.path.abspath('../../scripts/data'), name)
+    fullname = os.path.join(os.path.abspath('data'), name)
     try:
         image = pygame.image.load(fullname)
     except pygame.error as message:
@@ -68,8 +68,9 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             for i, button_rect in enumerate(button_rects):
                 if button_rect.collidepoint(event.pos):
-                    os.system(path)
                     print(f"{button_texts[i]} нажата!")
+                    if button_texts[i] == "Новая игра":
+                        os.system(path)
                     if button_texts[i] == "Выйти":
                         pygame.quit()
                         sys.exit()

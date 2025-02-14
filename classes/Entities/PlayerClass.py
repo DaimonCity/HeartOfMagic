@@ -34,14 +34,13 @@ class Hero(Entity):
         left -= vec[0] * self.speed
         top -= vec[1] * self.speed
 
-
         self.rect.center = (self.rect.center[0] + vec[0] * (self.speed * 2), center[1])
         colizer = pygame.sprite.spritecollideany(self, self.board.collide_group)
         if colizer is not None:
             if pygame.sprite.collide_mask(self, colizer) is not None:
                 left = backup[0]
 
-        self.rect.center = (center[0], self.rect.center[1] + vec[1] *  (self.speed * 2))
+        self.rect.center = (center[0], self.rect.center[1] + vec[1] * (self.speed * 2))
         colizer = pygame.sprite.spritecollideany(self, self.board.collide_group)
         if colizer is not None:
             if pygame.sprite.collide_mask(self, colizer) is not None:
