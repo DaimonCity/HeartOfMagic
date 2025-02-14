@@ -24,10 +24,11 @@ class Entity(pygame.sprite.Sprite):
 
     def render(self, screen):
         screen.blit(self.image, self.rect)
+
     def collide_damage(self, colizer, map_move, board, kill=0):
         if colizer is not None:
             if pygame.sprite.collide_mask(self, colizer):
-                if time() - self.damage_couldown_timer >=  0.5:
+                if time() - self.damage_couldown_timer >= 0.5:
                     self.hp -= colizer.damage
                     if colizer.damage != 0:
                         self.damage_couldown_timer = time()
@@ -39,15 +40,17 @@ class Entity(pygame.sprite.Sprite):
     def summon(self, map_move, board):
         if len(self.spell_line) != 0:
             spell = self.spell_line[0](board)
-            self.groups()[0].add(spell)
-            spell.cast(map_move=map_move, summoner=self, vec=self.vec, spell_line=self.spell_line[1:], board=board)
+            if self.groups():
+                self.groups()[0].add(spell)
+                spell.cast(map_move=map_move, summoner=self, vec=self.vec, spell_line=self.spell_line[1:], board=board)
 
     def leave_rule(self, map_move, board):
         pass
 
     def move(self, map_move, board, center=None, funx=0, funy=0):
         backup = self.center
-        self.rect.center = (self.rect.center[0] + self.vec[0] * self.speed, self.rect.center[1] + self.vec[1] * self.speed)
+        self.rect.center = (
+        self.rect.center[0] + self.vec[0] * self.speed, self.rect.center[1] + self.vec[1] * self.speed)
         if center is not None:
             self.center = center[0] - map_move[0] + self.vec[0] * 25, center[1] - map_move[1] + self.vec[1] * 25
             self.vec = (self.vec[0] + self.summoner.vec[0] * self.summoner.speed,
@@ -65,6 +68,7 @@ class Entity(pygame.sprite.Sprite):
         self.move(map_move=map_move, center=center, board=board)
         if anim is not None:
             self.image = anim
+
     def cast(self, map_move, summoner, vec, spell_line, board):
         self.summoner = summoner
         self.spell_line = spell_line
@@ -77,3 +81,7 @@ class Entity(pygame.sprite.Sprite):
             self.vec = normolize_vec(vec)
         else:
             self.vec = vec
+
+class Hb_bar(Entity):
+    def __init__(self, board, image='entity.png'):
+        super().__init__()

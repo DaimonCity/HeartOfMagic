@@ -229,17 +229,17 @@ class Map:
         exits_cords = random.choice(choices)
         self.map[exits_cords[0]][exits_cords[1]] = 20
         if exits_cords == (13, 2):
-            top = 350
-            left = -250
+            top = 2
+            left = 13
         elif exits_cords == (2, 2):
-            top = -400
-            left = -250
+            top = 13
+            left = 13
         elif exits_cords == (2, 13):
-            top = -400
-            left = 450
+            top = 13
+            left = 2
         elif exits_cords == (13, 13):
-            top = 350
-            left = 450
+            top = 2
+            left = 2
         return top, left
 
     def get_map(self):

@@ -5,6 +5,7 @@ import sys
 
 def load_image(name, colorkey=None):
     path_to_data = os.path.abspath('../../scripts/data')
+    path_to_data = os.path.abspath('data')
     fullname = os.path.join(path_to_data, name)
     # если файл не существует, то выходим
     if not os.path.isfile(fullname):
@@ -22,7 +23,7 @@ def load_image(name, colorkey=None):
 
 
 def normolize_vec(vec):
-    l = (vec[0]**2 + vec[1]**2)**0.5
+    l = (vec[0] ** 2 + vec[1] ** 2) ** 0.5
     if l != 0:
         return vec[0] / l, vec[1] / l
     return 0, 0
