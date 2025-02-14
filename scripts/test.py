@@ -107,10 +107,13 @@ if __name__ == '__main__':
                 player.cast((left, top), spell_group=spell_group, vec=vec, board=board)
                 cooldown_time = time()
 
+        board.enemy_group = enemy_group
+        board.enemy_spell_group = enemy_speel_group
+
         left += (b_mose_pos[0] - mouse_pos[0]) / 70
         top += (b_mose_pos[1] - mouse_pos[1]) / 70
         b_mose_pos = (b_mose_pos[0] - (b_mose_pos[0] - mouse_pos[0]) / 5, b_mose_pos[1] - (b_mose_pos[1] - mouse_pos[1]) / 5)
-        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70))
+        player.update(center=(player.rect.center[0] + (b_mose_pos[0] - mouse_pos[0]) / 70, player.rect.center[1] + (b_mose_pos[1] - mouse_pos[1]) / 70), map_move=(left, top), board=board)
 
         if keys[pygame.K_c]:
             zoom += 0.05
@@ -128,8 +131,6 @@ if __name__ == '__main__':
         board.update(left, top)
         spell_group.draw(screen)
         board.player_spell_group = spell_group
-        board.enemy_spell_group = enemy_speel_group
-        board.enemy_group = enemy_group
         enemy_group.draw(screen)
         enemy_speel_group.draw(screen)
         spell_group.update(map_move=(left, top), anim=bolt.image, board=board)
@@ -145,5 +146,8 @@ if __name__ == '__main__':
         pygame.display.flip()
         clock.tick(FPS)
         screen.fill((0, 0, 0))
+
+        if player.hp <= 0:
+            pass
     pygame.display.flip()
 

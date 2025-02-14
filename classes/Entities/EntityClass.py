@@ -13,6 +13,7 @@ class Entity(pygame.sprite.Sprite):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
 
+        self.damage = 0
         self.image = load_image(image, -1)
         self.board = board
         self.rect = self.image.get_rect(center=(0, 0))
@@ -23,6 +24,17 @@ class Entity(pygame.sprite.Sprite):
 
     def render(self, screen):
         screen.blit(self.image, self.rect)
+    def collide_damage(self, colizer, map_move, board, kill=0):
+        if colizer is not None:
+            if pygame.sprite.collide_mask(self, colizer):
+                if time() - self.damage_couldown_timer >=  0.5:
+                    self.hp -= colizer.damage
+                    if colizer.damage != 0:
+                        self.damage_couldown_timer = time()
+                    print(self.hp)
+                    if kill:
+                        colizer.summon(map_move=map_move, board=board)
+                        colizer.kill()
 
     def summon(self, map_move, board):
         if len(self.spell_line) != 0:

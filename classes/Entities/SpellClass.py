@@ -33,6 +33,7 @@ class Spell(Entity):
         self.speed = 4
         self.live_time = 3
         self.live_timer = time()
+        self.damage = 5
     def leave_rule(self, map_move, board):
         if time() - self.live_timer >= self.live_time:
             self.summon(map_move=map_move, board=board)

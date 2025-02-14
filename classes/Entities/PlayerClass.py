@@ -14,13 +14,19 @@ class Hero(Entity):
         self.speed = 7
         self.cooldown = 0.5
         self.mose_pose = (0, 0)
+        self.damage_couldown_timer = time()
         self.spell = None
+        self.hp = 200
 
-    def update(self, center=None, rect=None):
+    def update(self, map_move, board, center=None, rect=None):
         if center is not None:
             self.rect.center = center
         if rect is not None:
             self.rect.update(rect)
+        colizer = pygame.sprite.spritecollideany(self, self.board.enemy_group)
+        self.collide_damage(colizer, map_move=map_move, board=board)
+        colizer = pygame.sprite.spritecollideany(self, self.board.enemy_spell_group)
+        self.collide_damage(colizer=colizer, kill=1, map_move=map_move, board=board)
 
     def move(self, vec, left, top, screen, mose_pos=(0, 0)):
         backup = (left, top)
