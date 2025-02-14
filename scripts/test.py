@@ -48,14 +48,14 @@ if True:
     wand_chose = None
 
     # init_top, init_left = floor.spawn_player_and_exit(board, size)
-    board.left, board.top = 10, 10
+    board.left, board.top = 1, 0
 
     player = Hero(screen, wizard, board=board)
     player.spell_line = [i.__class__ for i in Wand_UI.board[0]]
     cooldown_time = time()
 
     # screen.blit()
-    hp_bar = HpBar(load_image('HP-Bar.png'), 202, 1, 128 * 202, 32, player, screen, board)
+    hp_bar = HpBar(load_image('HP-Bar-Sheet.png'), 202, 1, 256 * 202, 32, player, screen)
     spell_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
     enemy_speel_group = pygame.sprite.Group()
@@ -158,12 +158,12 @@ if True:
         Inventory_UI.render()
         Wand_UI.render()
         pygame.display.update()
-        hp_bar.update()
-        hp_bar.render()
+        dead = False
+        hp_bar.update(dead)
         pygame.display.flip()
         clock.tick(FPS)
         screen.fill((0, 0, 0))
 
-        if player.hp <= 0:
+        if dead is True:
             pass
     pygame.display.flip()

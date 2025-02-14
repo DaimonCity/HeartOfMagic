@@ -45,7 +45,7 @@ def draw_button(button_rect, text, hover):
     screen.blit(button_surface, button_rect.topleft)
 
 
-#Изменение положения и размеров кнопок
+# Изменение положения и размеров кнопок
 button_rects = [
     pygame.Rect(440, 280, 400, 60),
     pygame.Rect(440, 200, 400, 60),

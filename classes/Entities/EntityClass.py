@@ -92,8 +92,7 @@ class HpBar(pygame.sprite.Sprite):
         self.image = self.frames[self.cur_frame]
         self.rect = self.rect.move(x, y)
         self.player = player
-        self.coords = screen.rect.bottom_left
-        self.height, self.width = screen.height, screen.width
+        self.size = self.height, self.width = screen.get_height(), screen.get_width()
         self.screen = screen
         self.hp_bar = pygame.sprite.Group()
 
@@ -106,21 +105,14 @@ class HpBar(pygame.sprite.Sprite):
                 self.frames.append(sheet.subsurface(pygame.Rect(
                     frame_location, self.rect.size)))
 
-    def update(self, state=None):
-        if state is True:
-            self.cur_frame = 202 - self.player.hp
-            self.image = self.frames[self.cur_frame]
-        else:
+    def update(self, state):
+        self.cur_frame = 202 - self.player.hp
+        if self.cur_frame <= 0:
             self.image = self.frames[0]
-
-    def render(self):
-        for y in range(self.height):
-            for x in range(self.width):
-                self.screen.blit(pygame.transform.scale(load_image('Empty_slot.png'), (32 * 3, 32 * 3)),
-                                 (self.board[y][x].rect.x + x * self.cell_size + self.left,
-                                  self.board[y][x].rect.y + y * self.cell_size + self.top,
-                                  *self.board[y][x].rect.size))
-                self.screen.blit(self.board[y][x].logo, (self.board[y][x].rect.x + x * self.cell_size + self.left,
-                                                         self.board[y][x].rect.y + y * self.cell_size + self.top,
-                                                         *self.board[y][x].rect.size))
-        self.hp_bar.draw(self.screen)
+            state = True
+        else:
+            self.image = self.frames[self.cur_frame]
+        self.screen.blit(pygame.transform.scale(self.image, (256 * 3, 32 * 3)),
+                         (self.screen.get_rect().bottomleft[0] + 20, self.screen.get_rect().bottomleft[1] - 3 * 48,
+                             256 * 3,
+                             32 * 3))
