@@ -1,7 +1,4 @@
-from classes.Entities.EntityClass import Entity
 from random import randint
-from scripts.image_scripts import *
-from time import time
 from classes.Entities.SpellClass import *
 
 
@@ -71,8 +68,8 @@ class Closer(Enemy):
 
     def update(self, map_move, player, board):
         self.logica = lambda: (
-        randint(*sorted([self.rect.center[0] - int(map_move[0]), player.rect.center[0] - int(map_move[0])])),
-        randint(*sorted([self.rect.center[1] - int(map_move[1]), player.rect.center[1] - int(map_move[1])])))
+            randint(*sorted([self.rect.center[0] - int(map_move[0]), player.rect.center[0] - int(map_move[0])])),
+            randint(*sorted([self.rect.center[1] - int(map_move[1]), player.rect.center[1] - int(map_move[1])])))
         super().update(map_move=map_move, board=board)
 
 

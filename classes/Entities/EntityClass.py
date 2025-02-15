@@ -1,8 +1,3 @@
-import pygame
-
-from classes.Generation.generation_floor import objects
-from scripts.image_scripts import load_image
-from copy import copy
 import pygame.sprite
 from scripts.image_scripts import *
 from time import time
@@ -13,6 +8,11 @@ class Entity(pygame.sprite.Sprite):
         super().__init__()
         pygame.sprite.Sprite.__init__(self)
 
+        self.spell_line = None
+        self.summoner = None
+        self.damage_cooldown_timer = None
+        self.hp = None
+        self.damage_cooldown_timer = None
         self.damage = 0
         self.image = load_image(image, -1)
         self.board = board
@@ -28,10 +28,10 @@ class Entity(pygame.sprite.Sprite):
     def collide_damage(self, colizer, map_move, board, kill=0):
         if colizer is not None:
             if pygame.sprite.collide_mask(self, colizer):
-                if time() - self.damage_couldown_timer >= 0.5:
+                if time() - self.damage_cooldown_timer >= 0.5:
                     self.hp -= colizer.damage
                     if colizer.damage != 0:
-                        self.damage_couldown_timer = time()
+                        self.damage_cooldown_timer = time()
                     print(self.hp)
                     if kill:
                         colizer.summon(map_move=map_move, board=board)
@@ -59,9 +59,6 @@ class Entity(pygame.sprite.Sprite):
                        self.center[1] + self.vec[1] * self.speed + funy)
         self.rect.center = (self.center[0] + map_move[0],
                             self.center[1] + map_move[1])
-
-        # if pygame.sprite.spritecollideany(self, self.board.collide_group) is not None:
-        #     self.rect.center = backup
 
     def update(self, board, center=None, map_move=(0, 0), anim=None):
         self.leave_rule(map_move, board=board)
@@ -105,14 +102,14 @@ class HpBar(pygame.sprite.Sprite):
                 self.frames.append(sheet.subsurface(pygame.Rect(
                     frame_location, self.rect.size)))
 
-    def update(self, state):
+    def update(self):
         self.cur_frame = 202 - self.player.hp
-        if self.cur_frame <= 0:
-            self.image = self.frames[0]
-            state = True
+        if self.player.hp <= 0:
+            self.image = self.frames[-1]
         else:
             self.image = self.frames[self.cur_frame]
+
         self.screen.blit(pygame.transform.scale(self.image, (256 * 3, 32 * 3)),
                          (self.screen.get_rect().bottomleft[0] + 20, self.screen.get_rect().bottomleft[1] - 3 * 48,
-                             256 * 3,
-                             32 * 3))
+                          256 * 3,
+                          32 * 3))

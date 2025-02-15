@@ -62,10 +62,10 @@ if True:
     hp_bar = HpBar(load_image('HP-Bar-Sheet.png'), 202, 1, 256 * 202, 32, player, screen)
     spell_group = pygame.sprite.Group()
     enemy_group = pygame.sprite.Group()
-    enemy_speel_group = pygame.sprite.Group()
-    enemy_group.add([Ranger(spell_group=enemy_speel_group, board=board) for i in range(3)])
-    enemy_group.add([Closer(spell_group=enemy_speel_group, board=board) for i in range(3)])
-
+    enemy_spell_group = pygame.sprite.Group()
+    enemy_group.add([Ranger(spell_group=enemy_spell_group, board=board) for i in range(3)])
+    enemy_group.add([Closer(spell_group=enemy_spell_group, board=board) for i in range(3)])
+    is_dead = False
     mouse_pos = (0, 0)
     running = True
     while running:
@@ -127,7 +127,7 @@ if True:
             os.system(os.path.abspath('../../scripts/test.py'))
 
         board.enemy_group = enemy_group
-        board.enemy_spell_group = enemy_speel_group
+        board.enemy_spell_group = enemy_spell_group
 
         left += (b_mose_pos[0] - mouse_pos[0]) / 70
         top += (b_mose_pos[1] - mouse_pos[1]) / 70
@@ -154,16 +154,16 @@ if True:
         spell_group.draw(screen)
         board.player_spell_group = spell_group
         enemy_group.draw(screen)
-        enemy_speel_group.draw(screen)
+        enemy_spell_group.draw(screen)
         spell_group.update(map_move=(left, top), anim=bolt.image, board=board)
         enemy_group.update(map_move=(left, top), player=player, board=board)
-        enemy_speel_group.update(map_move=(left, top), board=board)
+        enemy_spell_group.update(map_move=(left, top), board=board)
 
         scr = pygame.transform.scale(pygame.display.get_surface(), (width * zoom, height * zoom)), (
             width / 2 * (1 - zoom), height / 2 * (1 - zoom))
         screen.blit(pygame.transform.scale(load_image('fon.png'), (width, height)), (0, 0))
         screen.blit(*scr)
-        hp_bar.update(dead)
+        hp_bar.update()
         Inventory_UI.render()
         Wand_UI.render()
         pygame.display.update()
@@ -171,6 +171,6 @@ if True:
         clock.tick(FPS)
         screen.fill((0, 0, 0))
 
-        if dead is True:
-            pass
+        if player.hp <= 0:
+            exit()
     pygame.display.flip()

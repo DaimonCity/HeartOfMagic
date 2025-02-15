@@ -57,7 +57,8 @@ class Board:
         if (cell is not None) and (cell[0] >= 0) and (cell[1] >= 0):
             return self.on_click(cell)
 
-    def on_click(self, cell):
+    @staticmethod
+    def on_click(cell):
         return cell
 
     def get_cell(self, mouse_pos):

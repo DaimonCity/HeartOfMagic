@@ -1,6 +1,4 @@
 import pygame
-import math
-from classes.Entities.SpellClass import Spell
 
 
 class AnimatedSprite(pygame.sprite.Sprite):
@@ -33,5 +31,3 @@ all_sprites = pygame.sprite.Group()
 tiles_group = pygame.sprite.Group()
 player_group = pygame.sprite.Group()
 buttons_group = pygame.sprite.Group()
-
-

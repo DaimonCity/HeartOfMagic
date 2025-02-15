@@ -1,7 +1,6 @@
 import pygame.sprite
 
 from classes.Entities.SpellClass import *
-from classes.Tiles import *
 
 
 class Hero(Entity):
@@ -10,11 +9,11 @@ class Hero(Entity):
         self.image = hero.image
         self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(screen.get_width() / 2, screen.get_height() / 2))
-        self.spell_line = [Vacous(board)]
+        self.spell_line = [Vacous]
         self.speed = 7
         self.cooldown = 0.5
         self.mose_pose = (0, 0)
-        self.damage_couldown_timer = time()
+        self.damage_cooldown_timer = time()
         self.spell = None
         self.hp = 202
 
