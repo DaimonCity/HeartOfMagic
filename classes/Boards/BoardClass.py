@@ -34,7 +34,8 @@ class Board:
     def do_colission(self):
         for i in range(self.height):
             for j in range(self.width):
-                if not (self.board[i][j].__class__ in (self.tiles_dict[0], self.tiles_dict[2], self.tiles_dict[17])):
+                if not (self.board[i][j].__class__ in (
+                        self.tiles_dict[20], self.tiles_dict[0], self.tiles_dict[2], self.tiles_dict[17])):
                     self.collide_group.add(self.board[i][j])
 
     def render(self, screen, parent_x=0, parent_y=0, parent=0):
@@ -74,7 +75,8 @@ class UI(Board):
         pass
 
     def full_up(self):
-        self.board = [[copy(self.tiles_dict[self.map[h][w]](self)) for w in range(self.width)] for h in range(self.height)]
+        self.board = [[copy(self.tiles_dict[self.map[h][w]](self)) for w in range(self.width)] for h in
+                      range(self.height)]
 
     def render(self):
         for y in range(self.height):

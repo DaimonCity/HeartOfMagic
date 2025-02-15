@@ -8,6 +8,7 @@ class Tile(pygame.sprite.Sprite):
         self.image = load_image('test_image.jpg')
         self.rect = self.image.get_rect(center=(0, 0))
         self.mask = pygame.mask.from_surface(self.image)
+
     def update(self, x, y, board):
         self.render(x, y, board)
 
@@ -117,6 +118,12 @@ class Void(Tile):
     def __init__(self):
         super().__init__()
         self.image = load_image('Woid.png')
+
+
+class Exit(Tile):
+    def __init__(self):
+        super().__init__()
+        self.image = load_image('Exit.png')
         exit_group.add(self)
 
 

@@ -45,9 +45,6 @@ def choice_cord(xy1, xy2):
         return xy1
 
     if xy1 > xy2:
-        #     xy1, xy2 = xy2, xy1
-        # print("res=", xy1, xy2, "check=", (0 > xy1 and xy2 > 15 or 0 > xy2 and xy1 > 15))
-        # if not((0 > xy1 and xy2 > 15) or (0 > xy2 and xy1 > 15)):
         return False
     return random.randint(xy1, xy2)
 
@@ -70,12 +67,9 @@ class Map:
                     x += 1
                 else:
                     x -= 1
-                print("cords:", x, y)
 
             x0 = choice_cord(start_x, x)
-            print("point:", x0)
             x1 = choice_cord(x0, x)
-            print("point:", x1)
 
             #  ##########################################################
             cords = self.cords_for_door(direct, y, start_x, x0, axis, x)
@@ -110,12 +104,9 @@ class Map:
                     y -= 1
                 else:
                     y += 1
-                print("cords:", x, y)
 
             y0 = choice_cord(start_y, y)
-            print("point:", y0)
             y1 = choice_cord(start_y, y)
-            print("point:", y1)
 
             cords = self.cords_for_door(direct, x, start_y, y0, axis, y)
 
@@ -182,17 +173,13 @@ class Map:
 
     def set_door(self, cords, axis):
         list_1 = cords
-        print("All cords:", cords)
-
         for cord in cords:
             if self.map[cord[0]][cord[1]] != 1 or self.map[cord[0]][cord[1]] != 8:
                 list_1.remove(cord)
 
         if not list_1:
             return
-        print("Available cords: ", list_1)
         door = random.choice(list_1)
-        print("Chosen door: ", door)
         if axis == 'x':
             if self.map[door[0] - 1][door[1]] == 0 and self.map[door[0] + 1][door[1]] == 0:
                 self.map[door[0]][door[1]] = 2
@@ -240,6 +227,8 @@ class Map:
         elif exits_cords == (13, 13):
             top = 2
             left = 2
+        print(exits_cords)
+        print(top, left)
         return top, left
 
     def get_map(self):
