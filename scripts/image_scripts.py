@@ -4,7 +4,7 @@ import sys
 
 
 def load_image(name, colorkey=None):
-    path_to_data = os.path.abspath('../data')
+    path_to_data = os.path.abspath('data')
     fullname = os.path.join(path_to_data, name)
     # если файл не существует, то выходим
     if not os.path.isfile(fullname):

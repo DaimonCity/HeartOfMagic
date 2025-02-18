@@ -4,7 +4,7 @@ from classes.Entities.SpellClass import *
 
 
 class Hero(Entity):
-    def __init__(self, screen, hero, board):
+    def __init__(self, screen, hero, board=None):
         super().__init__(board=board)
         self.image = hero.image
         self.image = pygame.transform.scale(self.image, (32, 32))
