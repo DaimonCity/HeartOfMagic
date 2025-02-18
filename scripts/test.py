@@ -8,9 +8,10 @@ from classes.Entities.PlayerClass import Hero
 from classes.Entities.EnemyClass import *
 from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
 import pygame
+from scripts.Menu import menu
 
 Next_floor = False
-
+menu()
 if True:
     FPS = 60
     frame = 0
