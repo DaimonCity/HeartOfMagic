@@ -9,6 +9,8 @@ from classes.Entities.EnemyClass import *
 from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
 import pygame
 
+Next_floor = False
+
 if True:
     FPS = 60
     frame = 0
@@ -124,7 +126,9 @@ if True:
                 cooldown_time = time()
 
         if pygame.sprite.spritecollideany(player, exit_group):
-            os.system(os.path.abspath('../../scripts/test.py'))
+            Next_floor = True
+            running = False
+            break
 
         board.enemy_group = enemy_group
         board.enemy_spell_group = enemy_spell_group
@@ -174,3 +178,6 @@ if True:
         if player.hp <= 0:
             exit()
     pygame.display.flip()
+    if Next_floor is True:
+        pygame.quit()
+        os.system(os.path.abspath('../../scripts/test.py'))
