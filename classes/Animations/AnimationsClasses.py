@@ -1,6 +1,6 @@
 import pygame
 
-
+import random
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, sheet, columns, rows, x, y):
         super().__init__(all_sprites)

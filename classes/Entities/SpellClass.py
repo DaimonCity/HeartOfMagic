@@ -26,12 +26,12 @@ class Vacous(Entity):
         self.move(map_move=map_move, center=center, board=board)
 
 
+
 class Spell(Entity):
     def __init__(self, board, image='Bolt.png', logo='test_image.jpg'):
         super().__init__(image=image, board=board)
         self.spell_line = []
         self.logo = pygame.transform.scale(load_image(logo), (32 * 3, 32 * 3))
-        self.image = pygame.transform.scale(self.image, (16, 16))
         self.image = pygame.transform.scale(self.image, (32, 32))
         self.rect = self.image.get_rect(center=(0, 0))
         self.speed = 4
@@ -47,7 +47,25 @@ class Spell(Entity):
             self.vec = (-self.vec[0], -self.vec[1])
             self.summon(map_move=map_move, board=board)
             self.kill()
-
+    def update(self, board, center=None, map_move=(0, 0), anim=None):
+        super().update(board, center, map_move, anim)
+        # if self.__class__.__name__ == 'Unstable':
+        #     for x in range(self.image.get_width()):
+        #         for y in range(self.image.get_height()):
+        #             if self.image.get_at((x, y))[3] != 0:
+        #                 self.image.set_at((x, y), pygame.Color(random.randrange(255), random.randrange(255),
+        #                                                        random.randrange(255)))
+        # if self.__class__.__name__ == 'Bolt':
+        #     for x in range(self.image.get_width()):
+        #         for y in range(self.image.get_height()):
+        #             if self.image.get_at((x, y))[3] != 0:
+        #                 self.image.set_at((x, y), pygame.Color(random.randrange(127, 255), random.randrange(255),
+        #                                                        random.randrange(127, 255)))
+        # if self.__class__.__name__ == 'Sin':
+        #     for x in range(self.image.get_width()):
+        #         for y in range(self.image.get_height()):
+        #             if self.image.get_at((x, y))[3] != 0:
+        #                 self.image.set_at((x, y), pygame.Color(random.randrange(255), 0, 0))
 
 class Bolt(Spell):
     def __init__(self, board, image='Bolt.png', logo='Bolt_icon.png'):

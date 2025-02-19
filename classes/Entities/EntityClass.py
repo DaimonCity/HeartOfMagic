@@ -2,7 +2,6 @@ import pygame.sprite
 from scripts.image_scripts import *
 from time import time
 
-
 class Entity(pygame.sprite.Sprite):
     def __init__(self, board, image='entity.png'):
         super().__init__()

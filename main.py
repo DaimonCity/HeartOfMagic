@@ -30,5 +30,4 @@ for _ in range(num_floor, len_of_floors + 1):
                  [5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7]]
     new_floor = test(*const, EMPTY_MAP)
     print(new_floor)
-
 menu(_end=True)
