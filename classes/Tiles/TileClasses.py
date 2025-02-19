@@ -1,4 +1,3 @@
-import pygame
 from scripts.image_scripts import *
 
 
@@ -124,7 +123,3 @@ class Exit(Tile):
     def __init__(self):
         super().__init__()
         self.image = load_image('Exit.png')
-        exit_group.add(self)
-
-
-exit_group = pygame.sprite.Group()

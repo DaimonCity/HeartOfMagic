@@ -1,7 +1,4 @@
 import random
-from pprint import pprint
-
-# SEED = "9 1 2 0 3 9 2 1 0 9 4 1 2"
 
 # Пусто поле
 EMPTY_MAP = [[4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6],
@@ -21,21 +18,8 @@ EMPTY_MAP = [[4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 6],
              [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11],
              [5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 7]]
 
-# Объекты на карте
-objects = {0: "floor",
-           1: "wall",
-           2: "door"}
-
-
-# # Мои тесты
-# pprint(EMPTY_MAP)
-# print()
-# EMPTY_MAP[0][1] = 1
-# pprint(EMPTY_MAP)
-
 
 # Класс для создания (генерации) карты
-
 
 def choice_cord(xy1, xy2):
     if xy1 > xy2:
@@ -234,10 +218,3 @@ class Map:
     def get_map(self):
         return self.map
 
-# Тесты класса
-# game = Map(EMPTY_MAP)
-# print()
-# _y = choice_cord(1, len(game.map) - 1)
-# game.draw_line((1, _y), 'x', 'right')
-# pprint(game.get_map())
-# pprint(game.spawn_player_and_exit())

@@ -55,7 +55,14 @@ button_rects = [
 
 button_texts = ["Продолжить", "Новая игра", "Настройки", "Выйти"]
 path = os.path.abspath('.../test.py')
-def menu():
+
+
+def menu(_end=False):
+    if _end is True:
+        _clock = pygame.time.Clock()
+        _window_size = (1280, 720)
+        _screen = pygame.display.set_mode(window_size)
+        pygame.display.set_caption('Pygame Кликабельная кнопка')
     while True:
         clock.tick(60)
         fon = pygame.transform.scale(load_image('fon.jpg'), window_size)
@@ -80,4 +87,3 @@ def menu():
             draw_button(button_rect, button_texts[i], hover)
 
         pygame.display.update()
-

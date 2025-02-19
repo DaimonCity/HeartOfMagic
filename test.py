@@ -1,10 +1,12 @@
+from pprint import pprint
+
 from classes.Animations.AnimationsClasses import AnimatedSprite
 from classes.Entities.EntityClass import HpBar
 from classes.Tiles.TileClasses import *
 from classes.Boards.BoardClass import *
 from classes.Entities.PlayerClass import Hero
 from classes.Entities.EnemyClass import *
-from classes.Generation.generation_floor import Map, EMPTY_MAP, choice_cord
+from classes.Generation.generation_floor import Map, choice_cord
 import pygame
 
 FPS = 60
@@ -13,7 +15,7 @@ FPS = 60
 def start_params():
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  #
     width, height = screen.get_size()
     tiles_dict = {0: FloorTile, 1: WallTile, 2: DoorTile, 3: UpperLeftCornerTile, 4: UpperLeftCornerTile,
                   5: DownerLeftCornerTile, 6: UpperRightCornerTile, 7: DownerRightCornerTile,
@@ -23,7 +25,6 @@ def start_params():
     frame = 0
     pygame.init()
     pygame.display.set_caption('HeartOfMagic')
-    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  #
     wizard = AnimatedSprite(load_image("ToDownMag-Sheet.png"), 8, 1, 32 * 8, 32)
     bolt = AnimatedSprite(load_image("Bolt-Sheet.png"), 9, 1, 32 * 8, 32)
     clock = pygame.time.Clock()
@@ -38,7 +39,8 @@ def start_params():
     return screen, width, height, tiles_dict, frame, wizard, bolt, clock, wand_ui, inventory_ui, keyboard, keys, player
 
 
-def test(screen, width, height, tiles_dict, frame, wizard, bolt, clock, wand_ui, inventory_ui, keyboard, keys, player):
+def test(screen, width, height, tiles_dict, frame, wizard, bolt, clock, wand_ui, inventory_ui, keyboard, keys, player,
+         empty_map):
     inventory_chose = None
     wand_chose = None
     next_floor = False
@@ -47,19 +49,17 @@ def test(screen, width, height, tiles_dict, frame, wizard, bolt, clock, wand_ui,
     left = width / 2
     zoom = 3
 
-    floor = Map(EMPTY_MAP)
+    floor = Map(empty_map)
     _y = choice_cord(1, len(floor.map) - 1)
     floor.set_one_sprite(0, _y, 14)
     floor.draw_line((1, _y), 'x', 'right')
     c_left, c_top = floor.add_exit()
     _map = floor.get_map()
 
-
     board = Board(screen=screen, any_map=_map, tiles_dict=tiles_dict, cell_size=64)
     player.board = board
     inventory_ui.board = [[Triple(board), Bolt(board), Unstable(board), Sin(board), Vacous(board), Vacous(board)]]
 
-    # left, top = left + board.cell_size * c_left, top + board.cell_size * c_top
     left, top = left - board.cell_size * c_top, top - board.cell_size * c_left
     print(left, top)
 
@@ -79,7 +79,7 @@ def test(screen, width, height, tiles_dict, frame, wizard, bolt, clock, wand_ui,
         frame = frame % 60 + 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                return False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if (inventory_ui.get_click(event.pos) is not None) or (wand_ui.get_click(event.pos) is not None):
                     inventory_chose = inventory_ui.get_click(event.pos) if inventory_ui.get_click(
@@ -113,7 +113,7 @@ def test(screen, width, height, tiles_dict, frame, wizard, bolt, clock, wand_ui,
                     if pygame.display.is_fullscreen():
                         screen = pygame.display.set_mode((width, height))
                     else:
-                        screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
+                        screen = pygame.display.set_mode((width, width), pygame.FULLSCREEN)
                     width, height = screen.get_size()
 
         if any([keys[i] for i in (pygame.K_w, pygame.K_a, pygame.K_s, pygame.K_d)]):
@@ -130,7 +130,7 @@ def test(screen, width, height, tiles_dict, frame, wizard, bolt, clock, wand_ui,
                 player.cast((left, top), spell_group=spell_group, vec=vec, board=board)
                 cooldown_time = time()
 
-        if pygame.sprite.spritecollideany(player, exit_group):
+        if pygame.sprite.spritecollideany(player, board.exit_group):
             next_floor = True
             running = False
 

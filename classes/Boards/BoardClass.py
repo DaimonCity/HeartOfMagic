@@ -14,6 +14,7 @@ class Board:
         self.parent = parent
         self.child = child
         self.sprite_group = pygame.sprite.Group()
+        self.exit_group = pygame.sprite.Group()
         if parent != 0:
             self.left = parent.left
             self.top = parent.top
@@ -37,6 +38,8 @@ class Board:
                 if not (self.board[i][j].__class__ in (
                         self.tiles_dict[20], self.tiles_dict[0], self.tiles_dict[2], self.tiles_dict[17])):
                     self.collide_group.add(self.board[i][j])
+                elif self.board[i][j].__class__ is self.tiles_dict[20]:
+                    self.exit_group.add(self.board[i][j])
 
     def render(self, screen, parent_x=0, parent_y=0, parent=0):
         self.sprite_group = pygame.sprite.Group()
