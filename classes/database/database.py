@@ -1,7 +1,7 @@
 import sqlite3
 
 # создаем соединение с нашей базой данных
-conn = sqlite3.connect('example.db')
+conn = sqlite3.connect('stats.db')
 cursor = conn.cursor()
 
 # получаем метаданные для таблицы

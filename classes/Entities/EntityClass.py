@@ -1,6 +1,13 @@
 import pygame.sprite
+import sqlite3
 from scripts.image_scripts import *
 from time import time
+
+conn = sqlite3.connect('stats.db')
+cursor = conn.cursor()
+cursor.execute('''CREATE TABLE IF NOT EXISTS users
+            	(id INTEGER PRIMARY KEY, name TEXT, amount INTEGER)''')
+sqlite_connection = sqlite3.connect('stats.db')
 
 class Entity(pygame.sprite.Sprite):
     def __init__(self, board, image='entity.png'):
@@ -35,6 +42,14 @@ class Entity(pygame.sprite.Sprite):
                     if kill:
                         colizer.summon(map_move=map_move, board=board)
                         colizer.kill()
+                        cursor.execute('''CREATE TABLE IF NOT EXISTS users
+                                    	(id INTEGER PRIMARY KEY, name TEXT, amount INTEGER)''')  # <- вот здесь менять что добавлять
+                        conn.commit()
+                        cursor.execute("SELECT * FROM users")
+                        rows = cursor.fetchall()
+                        for row in rows:
+                            print(row)
+
 
     def summon(self, map_move, board):
         if len(self.spell_line) != 0:
